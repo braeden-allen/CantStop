@@ -1,9 +1,9 @@
-//
-// Created by braeden on 1/23/25.
-//
+//----------------------------------------
+//File: Dice.h
+//Authors: Braeden and Mateusz
+//----------------------------------------
 
-#ifndef CANTSTOP_DICE_H
-#define CANTSTOP_DICE_H
+#pragma once
 
 #include <iostream>
 #include <cstdlib>
@@ -14,7 +14,7 @@ using namespace std;
 class Dice {
     private:
         int nDice;
-        int* diceValues;
+        int* dieValues;
     public:
         Dice(int n){};
         ~Dice();
@@ -23,5 +23,3 @@ class Dice {
 };
 
 inline ostream& operator << ( ostream&, Dice& );
-
-#endif //CANTSTOP_DICE_H

@@ -1,5 +1,6 @@
-//
-// Created by braeden on 1/23/25.
-//
+//----------------------------------------
+//File: Dice.cpp
+//Authors: Braeden and Mateusz
+//----------------------------------------
 
 #include "Dice.h"
