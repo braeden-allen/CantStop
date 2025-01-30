@@ -12,23 +12,24 @@ void UnitTest::unitDice() {
 
     //initial message
     outFile << "START OF DICE TEST" << endl;
-    Dice d1(6); //roll 6 different die first go
+    Dice d1(6); //roll different numbers of dice each time
 
     //test the roll function
     outFile << "TEST FOR ACCURATE ROLL" << endl;
     const int* dieValues = d1.roll();
     outFile << "Values from roll: ";
 
-    for (int k = 0; k < 6; k++) {
+    for (int k = 0; k < d1.getnDice(); k++) {
         outFile << dieValues[k] << " ";
 
-        if (dieValues[k] < 1 || dieValues[k] > 6){outFile << "Values are out of range(1-6)" << endl;}
+        if (dieValues[k] < 1 || dieValues[k] > 6){outFile << "n\nValues are out of range(1-6)" << endl;}
     }
 
     //test the print function
     outFile << "\nTest for accurate PRINTING of Dice values" << endl;
     outFile << "Die Values: ";
     d1.print(outFile);
+    outFile << endl;
 
     //test the destructor for memory leaks
     outFile << "DESTRUCTOR TEST" << endl;

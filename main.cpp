@@ -13,7 +13,7 @@ int main(int argc , char* argv[]) {
 
     UnitTest test;
 
-    test.unitDice();
+    test.unitDice(); //used to test out dice class
 
     bye();
     return 0;

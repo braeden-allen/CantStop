@@ -19,6 +19,7 @@ class Dice {
         ~Dice();
         ostream& print(ostream& outfile);
         const int* roll();
+        int getnDice();
 };
 
 inline ostream& operator << ( ostream& outfile, Dice& dice){
