@@ -16,10 +16,8 @@ Dice::~Dice(){
 }
 
 ostream& Dice::print(ostream& outfile){
-
-    outfile << "Die Values: ";
     for (int k = 0; k < nDice; k++) {
-        outfile << dieValues[k] << " ";
+        outfile << dieValues[k] << " "; //print each die value seperated by a space
     }
     outfile << endl;
     return outfile;

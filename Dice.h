@@ -15,7 +15,7 @@ class Dice {
         int nDice;
         int* dieValues;
     public:
-        Dice(int n = 4);
+        Dice(int n);
         ~Dice();
         ostream& print(ostream& outfile);
         const int* roll();

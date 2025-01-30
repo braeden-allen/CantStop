@@ -4,23 +4,17 @@
 //Authors: Braeden and Mateusz
 //----------------------------------------
 #include "Dice.h"
+#include "UnitTest.h"
 #include "tools.hpp"
 //----------------------------------------
 
 int main(int argc , char* argv[]) {
     banner();
 
+    UnitTest test;
+
+    test.unitDice();
+
     bye();
     return 0;
-}
-
-void unitDice(){
-    ofstream unitTests("UnitTests" , ios::app);
-
-    if (unitTests.is_open()){
-
-        unitTests.close();
-    }else{
-        cerr << "Unable to open file" << endl;
-    }
 }

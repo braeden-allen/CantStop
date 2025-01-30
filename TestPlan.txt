@@ -1,0 +1,13 @@
+TEST PLAN - MODULE 1 (DICE)
+
+To meet the expectations for this module, we aim to extensively test all possible outcomes of our code.
+1. We must make sure that the dice will produce pseudo random values in the range of 1..6 upon each roll
+    To do this, we will use the unitDice() function from the UnitTest class to output into a .txt file and
+    ensure that all values that are produced fall within the range of 1..6
+2. We must make sure that the destructor will work for the Die values
+    To do ensure successful run of the destructor, we will make sure that 0 errors are produced upon calling
+    and instance of the class, which will prove success
+
+----------------------------------------------------------------------------------------------------------------------
+
+TEST PLAN - MODULE 2 (PLAYER)
