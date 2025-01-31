@@ -7,6 +7,4 @@ add_executable(CantStop main.cpp
         Dice.cpp
         Dice.h
         tools.cpp
-        tools.hpp
-        UnitTest.cpp
-        UnitTest.h)
+        tools.hpp)
