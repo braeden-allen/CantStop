@@ -31,7 +31,7 @@ void unitDice() {
     const int* dieValues = d1.roll();
     outFile << "Values from roll: ";
 
-    for (int k = 0; k < d1.getnDice(); k++) {
+    for (int k = 0; k < 6; k++) {
         outFile << dieValues[k] << " ";
 
         if (dieValues[k] < 1 || dieValues[k] > 6){outFile << "n\nValues are out of range(1-6)" << endl;}

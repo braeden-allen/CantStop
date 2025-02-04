@@ -3,9 +3,7 @@
 //Authors: Braeden and Mateusz
 //----------------------------------------
 #pragma once
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
+#include "tools.hpp"
 //----------------------------------------
 
 using namespace std;
@@ -19,9 +17,6 @@ class Dice {
         ~Dice();
         ostream& print(ostream& outfile);
         const int* roll();
-        int getnDice();
 };
 
-inline ostream& operator << ( ostream& outfile, Dice& dice){
-    return dice.print(outfile);
-}
+inline ostream& operator << ( ostream& outfile, Dice& dice){return dice.print(outfile);}
