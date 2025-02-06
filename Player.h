@@ -10,27 +10,26 @@
 
 using namespace std;
 
-
 class Player{
+
     private:
         string name;
         ECcolor color;
         int score;
         int scoreboard[3];
-    public:
-    //consturctor
-        Player(string playerName, ECcolor playerColor);
-        ~Player();
-        ECcolor getColor() const;
+        int columnCount;
 
-        int score() const;
+    public:
+        //constructor
+        Player(string& playerName, ECcolor playerColor);
+        ~Player();
+
+        //accessors
+        ECcolor getColor() const;
         int getScore() const;
 
         //store colmn num in next available spot
-        bool wonColumn( int colNum);
-
+        bool wonColumn(int colNum);
         void print() const;
-        
-        friend ostream& operator << (ostream& os, const Player& player);
-
+        friend ostream& operator << (ostream& os, const Player& player);\
 };

@@ -6,12 +6,4 @@
 #include "tools.hpp"
 #include "enums.hpp"
 
-const char* colorNames[] = {
-    "White",
-    "Orange",
-    "Yellow",
-    "Green",
-    "Blue"
-};
-
-
+const char* colorNames[] = {"White","Orange","Yellow","Green","Blue"};

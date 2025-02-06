@@ -4,6 +4,7 @@
 //Authors: Braeden and Mateusz
 //----------------------------------------
 #include "Dice.h"
+#include "Player.h"
 #include "tools.hpp"
 //----------------------------------------
 
@@ -48,4 +49,8 @@ void unitDice() {
     Dice d2(4);
     outFile << "Class destructed without error or memory leak\n" << endl;
     outFile.close();
+}
+
+void unitPlayer(){
+
 }
