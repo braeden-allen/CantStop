@@ -9,8 +9,7 @@
 //----------------------------------------
 
 Player::Player(string& playerName, ECcolor color)
-    //initializer list
-    : name(playerName), color(color), score(0), columnCount(0) {}
+: name(playerName), color(color), score(0), columnCount(0) {}//initializer list
 
 Player::~Player(){}
 
