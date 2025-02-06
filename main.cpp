@@ -12,8 +12,11 @@ void unitDice();
 void unitPlayer();
 
 int main(int argc , char* argv[]) {
+    srand(time(NULL)); //initialized random number generator
+
     banner();
 
+    unitDice();
     unitPlayer();
 
     bye();
@@ -26,6 +29,7 @@ void unitDice() {
 
     //initial message
     outFile << "START OF DICE TEST" << endl;
+    outFile << "-------------------------------" << endl;
     Dice d1(6); //roll different numbers of dice each time
 
     //test the roll function
@@ -48,7 +52,10 @@ void unitDice() {
     //test the destructor for memory leaks
     outFile << "DESTRUCTOR TEST" << endl;
     Dice d2(4);
-    outFile << "Class destructed without error or memory leak\n" << endl;
+    outFile << "Class destructed without error or memory leak";
+    outFile << "\nEND OF DICE TEST" << endl;
+    outFile << "-------------------------------\n" << endl;
+
     outFile.close();
 }
 
@@ -58,15 +65,16 @@ void unitPlayer(){
     if (!outFile){cerr << "Error Opening Output.txt File"; return;}
 
     outFile << "START OF PLAYER TEST" << endl;
-    Player player1("Braeden", ECcolor::Yellow);
-    Player player2("Mateusz", ECcolor::Green);
+    outFile << "-------------------------------" << endl;
 
-    outFile << player1 << "\n";
-    outFile << player2 << "\n";
+    Player player1("Test Player", ECcolor::Yellow);
+    outFile << player1;
 
     outFile << "TESTING wonColumn()" << endl;
     for (int k = 0; k < 3; k++) {
-        outFile << player1.wonColumn(1) << endl;
+        outFile << player1.wonColumn(1) << " ";
     }
+    outFile << "\nEND OF PLAYER TEST" << endl;
+    outFile << "-------------------------------\n" << endl;
     outFile.close();
 }

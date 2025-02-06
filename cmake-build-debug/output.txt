@@ -1,24 +1,63 @@
 START OF DICE TEST
+-------------------------------
 TEST FOR ACCURATE ROLL
-Values from roll: 6 3 5 1 4 5 
+Values from roll: 1 3 1 4 1 4 
 Test for accurate PRINTING of Dice values
-Die Values: 6 3 5 1 4 5 
+Die Values: 1 3 1 4 1 4 
 DESTRUCTOR TEST
 Class destructed without error or memory leak
+END OF DICE TEST
+-------------------------------
+
+START OF PLAYER TEST
+-------------------------------
+Player: Test Player
+Color: Yellow
+Score: 0
+TESTING wonColumn()
+0 0 1 
+END OF PLAYER TEST
+-------------------------------
 
 START OF DICE TEST
+-------------------------------
 TEST FOR ACCURATE ROLL
-Values from roll: 3 1 6 4 1 1 
+Values from roll: 5 2 6 4 2 1 
 Test for accurate PRINTING of Dice values
-Die Values: 3 1 6 4 1 1 
+Die Values: 5 2 6 4 2 1 
 DESTRUCTOR TEST
 Class destructed without error or memory leak
+END OF DICE TEST
+-------------------------------
+
+START OF PLAYER TEST
+-------------------------------
+Player: Test Player
+Color: Yellow
+Score: 0
+TESTING wonColumn()
+0 0 1 
+END OF PLAYER TEST
+-------------------------------
 
 START OF DICE TEST
+-------------------------------
 TEST FOR ACCURATE ROLL
-Values from roll: 4 5 3 6 4 6 
+Values from roll: 2 5 3 3 2 5 
 Test for accurate PRINTING of Dice values
-Die Values: 4 5 3 6 4 6 
+Die Values: 2 5 3 3 2 5 
 DESTRUCTOR TEST
 Class destructed without error or memory leak
+END OF DICE TEST
+-------------------------------
+
+START OF PLAYER TEST
+-------------------------------
+Player: Test Player
+Color: Yellow
+Score: 0
+TESTING wonColumn()
+0 0 1 
+END OF PLAYER TEST
+-------------------------------
 

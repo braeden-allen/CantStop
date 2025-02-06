@@ -8,7 +8,6 @@
 Dice::Dice(int n){
     nDice = n;
     dieValues = new int[nDice]; //new array for Die Values
-    srand(time(NULL)); //initialized random number generator
 }
 
 Dice::~Dice(){

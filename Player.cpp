@@ -17,10 +17,10 @@ ECcolor Player::getColor() const {return playerColor;}
 int Player::getScore() const {return score;}
 
 bool Player::wonColumn(int colNum){
-    if (columnCount < 3) {
-        scoreboard[columnCount++] = colNum;
-        score++;
-        return columnCount == 3;//check if player has won 3 columns
+    if (score < 3) {
+        scoreboard[score] = colNum;
+        ++score;
+        return score == 3;//check if player has 3 columns
     }
     return false;
 }
@@ -30,7 +30,7 @@ ostream& Player::print(ostream& os) const {
     os << "Color: " << colorNames[(int)playerColor] << endl;
     os << "Score: " << score << endl;
 
-    for (int k = 0; k < 3; ++k) {
+    for (int k = 0; k < score; ++k) {
         os << scoreboard[k] << " ";
     }
     return os;
