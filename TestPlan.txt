@@ -11,3 +11,13 @@ To meet the expectations for this module, we aim to extensively test all possibl
 ----------------------------------------------------------------------------------------------------------------------
 
 TEST PLAN - MODULE 2 (PLAYER)
+
+To meet the expectations of this module, we aim to test all possibilities of our code.
+1. To ensure that the proper player information will be printed upon creation
+    To achieve this, we will use the unitPlayer() function at the bottom of the main.cpp file to output
+    information regarding the characteristics of each individual player, to ensure that different types of
+    ENum colors successfully work.
+2. To ensure that the boolean function, womColumn() works effectively.
+    To achieve this aspect of testsing, we will print an output 3 times, and on the third time, we should
+    see an output that will print a sequence of numbers, being 0, 0, 1. The one will represent that the game
+    has been won

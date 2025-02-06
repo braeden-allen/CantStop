@@ -8,13 +8,12 @@
 #include <ostream>
 //----------------------------------------
 
-Player::Player(string& playerName, ECcolor color)
-: name(playerName), color(color), score(0), columnCount(0) {}//initializer list
+Player::Player(const string Name, ECcolor color)
+        : playerName(Name), playerColor(color), score(0), scoreboard() {}
 
-Player::~Player(){}
+Player::~Player() = default;
 
-ECcolor Player::getColor() const {return color;}
-
+ECcolor Player::getColor() const {return playerColor;}
 int Player::getScore() const {return score;}
 
 bool Player::wonColumn(int colNum){
@@ -26,16 +25,16 @@ bool Player::wonColumn(int colNum){
     return false;
 }
 
-void Player::print() const {
-    cout << "Player: " << name << endl;
-    cout << "Color: " << colorNames[(int)color] << endl;
-    cout << "Score: " << score << endl;
+ostream& Player::print(ostream& os) const {
+    os << "Player: " << playerName << endl;
+    os << "Color: " << colorNames[(int)playerColor] << endl;
+    os << "Score: " << score << endl;
+
+    for (int k = 0; k < 3; ++k) {
+        os << scoreboard[k] << " ";
+    }
+    return os;
 }
 
 //overload
-ostream& operator << (ostream& os, const Player& player){
-    os << "Player: " << player.name << "\n" 
-    << "Color: " << colorNames[(int)player.color] << "\n"
-    << "Score: " << player.score << "\n";
-    return os;
-}
+ostream& operator << (ostream& os, const Player& player){return player.print(os);}

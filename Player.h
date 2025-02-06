@@ -13,15 +13,15 @@ using namespace std;
 class Player{
 
     private:
-        string name;
-        ECcolor color;
+        string playerName;
+        ECcolor playerColor;
         int score;
         int scoreboard[3];
         int columnCount;
 
     public:
         //constructor
-        Player(string& playerName, ECcolor playerColor);
+        explicit Player(const string Name, ECcolor color);
         ~Player();
 
         //accessors
@@ -30,6 +30,6 @@ class Player{
 
         //store colmn num in next available spot
         bool wonColumn(int colNum);
-        void print() const;
-        friend ostream& operator << (ostream& os, const Player& player);\
+        ostream& print(ostream& os) const;
 };
+ostream& operator << (ostream&, const Player&);

@@ -7,4 +7,4 @@
 
 enum class ECcolor {White, Orange, Yellow, Green, Blue};
 
-extern const char* colorNames[];
+extern const string colorNames[];

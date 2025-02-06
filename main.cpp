@@ -9,11 +9,12 @@
 //----------------------------------------
 
 void unitDice();
+void unitPlayer();
 
 int main(int argc , char* argv[]) {
     banner();
 
-    unitDice(); //used to test out dice class
+    unitPlayer();
 
     bye();
     return 0;
@@ -53,4 +54,19 @@ void unitDice() {
 
 void unitPlayer(){
 
+    ofstream outFile("output.txt" , ios::app);
+    if (!outFile){cerr << "Error Opening Output.txt File"; return;}
+
+    outFile << "START OF PLAYER TEST" << endl;
+    Player player1("Braeden", ECcolor::Yellow);
+    Player player2("Mateusz", ECcolor::Green);
+
+    outFile << player1 << "\n";
+    outFile << player2 << "\n";
+
+    outFile << "TESTING wonColumn()" << endl;
+    for (int k = 0; k < 3; k++) {
+        outFile << player1.wonColumn(1) << endl;
+    }
+    outFile.close();
 }
