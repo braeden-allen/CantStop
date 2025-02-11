@@ -9,9 +9,7 @@
 //----------------------------------------
 
 Player::Player(const string Name, ECcolor color)
-        : playerName(Name), playerColor(color), /*score(0),*/ scoreboard() {}
-
-Player::~Player() = default;
+        : playerName(Name), playerColor(color), scoreboard() {}
 
 ECcolor Player::getColor() const {return playerColor;}
 int Player::getScore() const {return score;}
@@ -26,9 +24,9 @@ bool Player::wonColumn(int colNum){
 }
 
 ostream& Player::print(ostream& os) const {
-    os << "Player: " << playerName << "\n";
-    os << "Color: " << colorNames[(int)playerColor] << "\n";
-    os << "Score: " << score << endl;
+    os << "Player: " << playerName << " Color: " 
+    << colorNames[(int)playerColor] 
+    << " Score: " << score << endl;
 
     for (int k = 0; k < score; ++k) {
         os << scoreboard[k] << " ";
