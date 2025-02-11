@@ -11,4 +11,6 @@ add_executable(CantStop main.cpp
         enums.hpp
         enums.cpp
         tools.cpp
-        tools.hpp)
+        tools.hpp
+        Column.cpp
+        Column.hpp)
