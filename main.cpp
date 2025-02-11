@@ -3,8 +3,8 @@
 //File: Main.cpp
 //Authors: Braeden and Mateusz
 //----------------------------------------
-#include "Dice.h"
-#include "Player.h"
+#include "Dice.hpp"
+#include "Player.hpp"
 #include "tools.hpp"
 //----------------------------------------
 
@@ -16,7 +16,7 @@ int main(int argc , char* argv[]) {
 
     banner();
 
-    unitDice();
+    // unitDice();
     unitPlayer();
 
     bye();
