@@ -5,7 +5,7 @@
 #pragma once
 #include "tools.hpp"
 #include "enums.hpp"
-#include "Player.h"
+#include "Player.hpp"
 #include <array>
 
 class Column {
