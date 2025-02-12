@@ -17,7 +17,19 @@ To meet the expectations of this module, we aim to test all possibilities of our
     To achieve this, we will use the unitPlayer() function at the bottom of the main.cpp file to output
     information regarding the characteristics of each individual player, to ensure that different types of
     ENum colors successfully work.
-2. To ensure that the boolean function, womColumn() works effectively.
+2. To ensure that the boolean function, wonColumn() works effectively.
     To achieve this aspect of testsing, we will print an output 3 times, and on the third time, we should
     see an output that will print a sequence of numbers, being 0, 0, 1. The one will represent that the game
     has been won
+
+----------------------------------------------------------------------------------------------------------------------
+
+TEST PLAN - MODULE 3 (COLUMN)
+
+To meet the expectations of this module, we aim to test all possibilities of our code, column.cpp
+1. To ensure that column information will be printed upon creation.
+    To achieve this, we used a unitColumn() function in the main.cpp file to output information about columns,
+    which includes, a constructor to accurately create and initialize a column, a columnState() function that will
+    return the state of the column, a startTower() function that will place a tower in a given column, a move()
+    function that will advance the tower one square in the column, and potentially capture it, a stop() function to
+    allow for the payer to end his or her game, and a print() function to print the status of each column of the game.

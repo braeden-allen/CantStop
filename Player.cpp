@@ -2,14 +2,15 @@
 //File: Player.cpp
 //Authors: Braeden and Mateusz
 //----------------------------------------
-
-// need to keep Player.hpp since it is calling the Player class within it
-#include "Player.hpp"
+#include "Player.h"
 #include "enums.hpp"
+#include "tools.hpp"
 //----------------------------------------
 
 Player::Player(const string Name, ECcolor color)
-        : playerName(Name), playerColor(color), scoreboard() {}
+        : playerName(Name), playerColor(color), score(0), scoreboard() {}
+
+Player::~Player() = default;
 
 ECcolor Player::getColor() const {return playerColor;}
 int Player::getScore() const {return score;}
@@ -24,9 +25,9 @@ bool Player::wonColumn(int colNum){
 }
 
 ostream& Player::print(ostream& os) const {
-    os << "Player: " << playerName << " Color: " 
-    << colorNames[(int)playerColor] 
-    << " Score: " << score << endl;
+    os << "Player: " << playerName << endl;
+    os << "Color: " << colorNames[(int)playerColor] << endl;
+    os << "Score: " << score << endl;
 
     for (int k = 0; k < score; ++k) {
         os << scoreboard[k] << " ";

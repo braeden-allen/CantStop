@@ -6,6 +6,7 @@
 #include "Dice.hpp"
 #include "Player.hpp"
 #include "tools.hpp"
+#include "Column.hpp"
 //----------------------------------------
 
 void unitDice();
