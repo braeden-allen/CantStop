@@ -2,15 +2,13 @@
 //File: Player.cpp
 //Authors: Braeden and Mateusz
 //----------------------------------------
-#include "Player.h"
+#include "Player.hpp"
 #include "enums.hpp"
 #include "tools.hpp"
 //----------------------------------------
 
 Player::Player(const string Name, ECcolor color)
         : playerName(Name), playerColor(color), score(0), scoreboard() {}
-
-Player::~Player() = default;
 
 ECcolor Player::getColor() const {return playerColor;}
 int Player::getScore() const {return score;}

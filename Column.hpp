@@ -18,6 +18,7 @@ class Column {
         Column(int colNum);
         ~Column();
         EColStatus columnState() const;
+        string colStateToString(EColStatus status);
         bool startTower(Player* player);
         bool move();
         void stop(Player* player);

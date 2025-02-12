@@ -17,7 +17,7 @@ class Player{
 
     public:
         //constructor
-        explicit Player(const string Name, ECcolor color);
+        Player(const string Name, ECcolor color);
 
         //better spot for defaulting for player
         ~Player() = default;

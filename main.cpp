@@ -3,7 +3,7 @@
 //File: Main.cpp
 //Authors: Braeden and Mateusz
 //----------------------------------------
-#include "Dice.hpp"
+#include "Dice.h"
 #include "Player.hpp"
 #include "tools.hpp"
 #include "Column.hpp"
@@ -11,6 +11,7 @@
 
 void unitDice();
 void unitPlayer();
+void unitColumn();
 
 int main(int argc , char* argv[]) {
     srand(time(NULL)); //initialized random number generator
@@ -18,7 +19,8 @@ int main(int argc , char* argv[]) {
     banner();
 
     // unitDice();
-    unitPlayer();
+    // unitPlayer();
+    unitColumn();
 
     bye();
     return 0;
@@ -78,4 +80,27 @@ void unitPlayer(){
     outFile << "\nEND OF PLAYER TEST" << endl;
     outFile << "-------------------------------\n" << endl;
     outFile.close();
+}
+
+void unitColumn(){
+    ofstream outFile("output.txt" , ios::app);
+    if (!outFile){cerr << "Error Opening Output.txt File"; return;}
+
+    outFile << "START OF COLUMN TEST" << endl;
+    outFile << "-------------------------------" << endl;
+
+    Column column(7); //testing column availability
+    outFile << "State of column: " << column.colStateToString(column.columnState()) << endl;
+
+    Player testPlayer("Mateusz" , ECcolor::Green); //testing a tower start
+    outFile << "Test Tower start on Col. 7: ";
+    if (column.startTower(&testPlayer) == 1){outFile << "Tower Started" << endl;}
+
+    outFile << "Testing move on Col. 7: "; //test move()
+    if(column.move() == 1){outFile << "Successful Move" << endl;}
+
+    outFile << "Stopping marker and returning position: "; //showing marker has moved
+    column.stop(&testPlayer);
+
+
 }

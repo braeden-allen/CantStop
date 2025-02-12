@@ -14,6 +14,14 @@ Column::~Column() = default;
 
 EColStatus Column::columnState() const{return colState;}
 
+string Column::colStateToString(EColStatus status){
+    switch (status) {
+        case EColStatus::captured: return "captured";
+        case EColStatus::pending: return "pending";
+        case EColStatus::available: return "available";
+    }
+}
+
 bool Column::startTower(Player* player){
     if (colState != EColStatus::available) {return false;} //Can't start if unavailable
 
