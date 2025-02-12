@@ -8,7 +8,6 @@
 //----------------------------------------
 
 class Player{
-
     private:
         string playerName;
         ECcolor playerColor;
@@ -19,7 +18,9 @@ class Player{
     public:
         //constructor
         explicit Player(const string Name, ECcolor color);
-        ~Player();
+
+        //better spot for defaulting for player
+        ~Player() = default;
 
         // Special functions
         ECcolor getColor() const;
