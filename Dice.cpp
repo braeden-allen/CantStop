@@ -2,7 +2,7 @@
 //File: Dice.cpp
 //Authors: Braeden and Mateusz
 //----------------------------------------
-#include "Dice.h"
+#include "Dice.hpp"
 //----------------------------------------
 
 Dice::Dice(int n){
