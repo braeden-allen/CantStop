@@ -16,87 +16,96 @@ Column::~Column() = default;
 
 EColStatus Column::columnState() const{return colState;}
 
-string Column::colStateToString(EColStatus status){
+string Column::colStateToString(EColStatus status)const{
     switch (status) {
         case EColStatus::captured: return "captured";
         case EColStatus::pending: return "pending";
         case EColStatus::available: return "available";
+        default: "unknown";
     }
 }
 
 bool Column::startTower(Player* player) {
-    if (colState == EColStatus::captured || colState == EColStatus::pending) {return false;}    // Cannot start a tower if not avilable
+    if (colState == EColStatus::captured) {return false;}//can't start a tower on captured column
 
     int colorIdx = static_cast<int>(player->getColor());
     int currentPos = markerPositions[colorIdx];
     int maxPos = colLength[colNumber];
 
-    if (currentPos == 0) {markerPositions[colorIdx] = 1;}    //place the tower at position 1 if empty
-    else if (currentPos < maxPos) {markerPositions[colorIdx]++;} // If the player already has a tile, move the tower forward
-    else {return false;} //if the tower is @ max, illegal to start new tower
+    if (currentPos == 0) {markerPositions[colorIdx] = 1;} //place the tower at position 1 if empty
+    else if (currentPos < maxPos) {markerPositions[colorIdx]++;} //move tower if available
+    else {return false;} //can't start tower if @max position
 
-    if (markerPositions[colorIdx] == maxPos) {colState = EColStatus::pending;}    // If the tower reaches max, pending
+
+    int towerIdx = static_cast<int>(ECcolor::White);//set tower marker for the White (Tower)
+    if (markerPositions[towerIdx] == 0) {markerPositions[towerIdx] = 1;}//place the tower at position 1
+
+    if (markerPositions[colorIdx] == maxPos) {colState = EColStatus::pending;}//column is pending capture
 
     return true;
 }
 
 bool Column::move() {
+    if (colState == EColStatus::captured || colState == EColStatus::pending) {return false;} //can't move if unavailable
 
-    if (colState == EColStatus::captured || colState == EColStatus::pending) {return false;}//can't move if the column is captured or pending
-    int maxPos = colLength[colNumber];//maximum position for column
+    int maxPos = colLength[colNumber];
+    bool moved = false;
 
     for (int colorIdx = 0; colorIdx < 5; ++colorIdx) {
-        if (markerPositions[colorIdx] > 0 && markerPositions[colorIdx] < maxPos) {markerPositions[colorIdx]++;
-            if (markerPositions[colorIdx] == maxPos) {colState = EColStatus::pending;}//column is pending capture
-            return true;
+        if (markerPositions[colorIdx] > 0 && markerPositions[colorIdx] < maxPos) {markerPositions[colorIdx]++; //move the marker forward
+            if (markerPositions[colorIdx] == maxPos) {colState = EColStatus::pending;} //column is pending capture
+            moved = true;
         }
     }
-    return false; //no tower to move
+    return moved; //return true if moved
 }
 
 void Column::stop(Player* player) {
     int colorIdx = static_cast<int>(player->getColor());
-    int currentPos = markerPositions[colorIdx];
-    int maxPos = colLength[colNumber]; //max position for column
+    int maxPos = colLength[colNumber];
 
-
-    if (currentPos == maxPos) {//check if marker is at end
+    if (markerPositions[colorIdx] == maxPos) {
         colState = EColStatus::captured;
-        player->wonColumn(colNumber); // Notify player of column win
+        player->wonColumn(colNumber); //notify of column win
     }
-    markerPositions[colorIdx] = 0; //reset the marker position
+    else {markerPositions[colorIdx] = 0;} //reset marker to 0 (no progress saved)
+
+    bool hasMarkers = false;
+    for (int k = 0; k < 5; ++k) {if (markerPositions[k] > 0) {hasMarkers = true; break;}}
+    if (!hasMarkers) {colState = EColStatus::available;} //set state to available if no markers
 }
 
 void Column::bust(){
     //placeholder function until implemented
 }
 
-ostream& Column::print(ostream& os)const {
+ostream& Column::print(ostream& os) const {
+    os << "\nColumn " << colNumber << ": ";
+    os << "State: " << colStateToString(colState) << endl;
 
-    string state;
-    switch (colState) {
-        case EColStatus::captured: state = "captured"; break;
-        case EColStatus::pending: state = "pending"; break;
-        case EColStatus::available: state = "available"; break;
-    }
+    int maxPos = colLength[colNumber];
+    for (int k = 1; k <= maxPos; ++k) {
+        os << "Square " << k << ": ";
+        string square = "-----"; //5 characters for tiles (TOYGB)
 
-    os << "\n\nColumn " << colNumber << ": " << endl;
-    os << "State: " << state << endl;
-
-    int maxPos = colLength[colNumber];//print each square in the column
-
-    for (int i = 1; i <= maxPos; ++i) {
-        os << "Square " << i << ": ";
-        string square = "-----";//default empty square
-
-        for (int colorIdx = 0; colorIdx < 5; ++colorIdx) {//check for markers in space
-            if (markerPositions[colorIdx] == i) {
-                if (colorIdx == static_cast<int>(ECcolor::White)) {square[0] = 'T';} // Tower
-                else {square[colorIdx + 1] = colorNames[colorIdx][0];} // Player marker
+        for (int colorIdx = 0; colorIdx < 5; ++colorIdx) { //check markers in square
+            if (markerPositions[colorIdx] == k) {
+                if (colorIdx == static_cast<int>(ECcolor::White)) {square[0] = 'T';} //tower
+                else {
+                    switch (static_cast<ECcolor>(colorIdx)) { //player markers (O, Y, G, B)
+                        case ECcolor::Orange: square[1] = 'O'; break;
+                        case ECcolor::Yellow: square[2] = 'Y'; break;
+                        case ECcolor::Green: square[3] = 'G'; break;
+                        case ECcolor::Blue: square[4] = 'B'; break;
+                        default: break;
+                    }
+                }
             }
         }
-        os << square << endl;
+        for (char &c : square) {if (c == '\0') c = '-';}
+        os << square << " | ";
     }
+
     os << endl;
     return os;
 }

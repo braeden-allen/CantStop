@@ -18,8 +18,6 @@ int main(int argc , char* argv[]) {
 
     banner();
 
-    // unitDice();
-    // unitPlayer();
     unitColumn();
 
     bye();
@@ -89,40 +87,45 @@ void unitColumn(){
     outFile << "START OF COLUMN TEST" << endl;
     outFile << "-------------------------------" << endl;
 
-    Column column(7); //testing column availability
-    outFile << "State of column: " << column.colStateToString(column.columnState()) << endl;
+    Column column(4); //testing column availability
+    Player testPlayer("Mateusz" , ECcolor::Green);
+    outFile << "\nInitial state of column 4: " << column.colStateToString(column.columnState());
+    outFile << "\n-----------------------------------------";
+    column.print(outFile);
 
-    Player testPlayer("Mateusz" , ECcolor::Green); //testing a tower start
-    outFile << "Test Tower start on Col. 7: ";
-    if (column.startTower(&testPlayer) == 1){outFile << "Tower Started" << endl;}
+    outFile << "\nStarting a tower for player (Green): ";
+    if (column.startTower(&testPlayer)) {outFile << "Tower started at position 1.";}
+    else {outFile << "Failed to start tower.";}
+    outFile << "\n------------------------------------------------------------------";
+    column.print(outFile); // Print column state after starting the tower
 
-    outFile << "Testing move on Col. 7: "; //test move()
-    if(column.move() == 1){outFile << "Successful Move" << endl;}
 
-    outFile << "Stopping marker and returning position: "; //showing marker has moved
+    outFile << "\nAttempting to move the tower: "; //move the tower
+    if (column.move()) {outFile << "Tower moved.";}
+    else {outFile << "Failed to move tower.";}
+    outFile << "\n----------------------------------------------";
+    column.print(outFile); //print column state after moving the tower
+
+    outFile << "\nAttempting to move the tower to end: "; //move the tower
+    for (int k = 0; k < 6; ++k) {column.move();}
+    if (column.move()) {outFile << "Tower moved.";}
+    else {outFile << "Failed to move tower.";}
+    outFile << "\n----------------------------------------------";
+    column.print(outFile); //print column state after moving the tower
+
+    outFile << "\nStopping the marker and capturing column: ";
     column.stop(&testPlayer);
-    outFile << "Marker stopped and position reset." << endl;
+    if (column.columnState() == EColStatus::captured) {outFile << "Column captured (expected behavior).";}
+    else {outFile << "Column not captured (unexpected behavior).";}
+    outFile << "\n------------------------------------------------------------------------------";
+    column.print(outFile); //print column state after stopping
 
-    //test column state after stopping
-    outFile << "State of column after stopping: " << column.colStateToString(column.columnState()) << endl;
+    outFile << "\nStarting a tower on a captured column: ";
+    if (!column.startTower(&testPlayer)) {outFile << "Failed to start tower on captured column.";}
+    else {outFile << "Unexpected success in starting tower on captured column.";}
+    outFile << "\n----------------------------------------------------------------------------------";
+    column.print(outFile); // Print column state after attempting to start a tower
 
-    //test moving the tower
-    outFile << "Testing move on Col. 7: ";
-    if (column.move()) {outFile << "Tower Moved to position 2" << endl;}
-    else {outFile << "Failed to move tower" << endl;}
-
-    outFile << "Stopping marker and capturing column: ";
-    column.stop(&testPlayer);
-    if (column.columnState() == EColStatus::captured) {outFile << "Column captured (expected behavior)." << endl;}
-    else {outFile << "Column not captured (unexpected behavior)." << endl;}
-
-    //test starting a tower on a captured column
-    outFile << "Attempting to start a tower on a captured column: ";
-    if (!column.startTower(&testPlayer)) {outFile << "Failed to start tower on captured column (expected behavior)." << endl;}
-    else {outFile << "Unexpected success in starting tower on captured column." << endl;}
-
-    column.print(outFile);//test printing the column state
-
-    outFile << "END OF COLUMN TEST" << endl;
+    outFile << "\nEND OF COLUMN TEST" << endl;
     outFile << "-------------------------------\n" << endl;
 }
