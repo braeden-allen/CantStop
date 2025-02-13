@@ -101,6 +101,26 @@ void unitColumn(){
 
     outFile << "Stopping marker and returning position: "; //showing marker has moved
     column.stop(&testPlayer);
+    outFile << "Marker stopped and position reset." << endl;
 
+    //test column state after stopping
+    outFile << "State of column after stopping: " << column.colStateToString(column.columnState()) << endl;
 
+    outFile << "Attempting to start a tower on a captured column: ";
+    column.startTower(&testPlayer); // Start tower again
+    column.move(); // Move to pending state
+    column.stop(&testPlayer); // Capture the column
+    if (!column.startTower(&testPlayer)) {
+        outFile << "Failed to start tower on captured column (expected behavior)." << endl;
+    }
+
+    outFile << "\nAttempting to move on a captured column: ";
+    if (!column.move()) {
+        outFile << "Failed to move on captured column (expected behavior).\n" << endl;
+    }
+
+    column.print(outFile);//test printing the column state
+
+    outFile << "END OF COLUMN TEST" << endl;
+    outFile << "-------------------------------\n" << endl;
 }

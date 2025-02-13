@@ -24,6 +24,6 @@ class Column {
         void stop(Player* player);
         void bust();
         ostream& print(ostream& os) const;
-
 };
+
 ostream& operator << (ostream&, const Column&);
