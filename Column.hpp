@@ -6,14 +6,13 @@
 #include "tools.hpp"
 #include "enums.hpp"
 #include "Player.hpp"
-#include <array>
 
 class Column {
     private:
         static const int colLength[13];
         const int colNumber;
         EColStatus colState;
-        array<int, 5> markerPositions;
+        int markerPositions[5];
     public:
         Column(int colNum);
         ~Column();
