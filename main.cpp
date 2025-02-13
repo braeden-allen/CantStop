@@ -106,18 +106,20 @@ void unitColumn(){
     //test column state after stopping
     outFile << "State of column after stopping: " << column.colStateToString(column.columnState()) << endl;
 
-    outFile << "Attempting to start a tower on a captured column: ";
-    column.startTower(&testPlayer); // Start tower again
-    column.move(); // Move to pending state
-    column.stop(&testPlayer); // Capture the column
-    if (!column.startTower(&testPlayer)) {
-        outFile << "Failed to start tower on captured column (expected behavior)." << endl;
-    }
+    //test moving the tower
+    outFile << "Testing move on Col. 7: ";
+    if (column.move()) {outFile << "Tower Moved to position 2" << endl;}
+    else {outFile << "Failed to move tower" << endl;}
 
-    outFile << "\nAttempting to move on a captured column: ";
-    if (!column.move()) {
-        outFile << "Failed to move on captured column (expected behavior).\n" << endl;
-    }
+    outFile << "Stopping marker and capturing column: ";
+    column.stop(&testPlayer);
+    if (column.columnState() == EColStatus::captured) {outFile << "Column captured (expected behavior)." << endl;}
+    else {outFile << "Column not captured (unexpected behavior)." << endl;}
+
+    //test starting a tower on a captured column
+    outFile << "Attempting to start a tower on a captured column: ";
+    if (!column.startTower(&testPlayer)) {outFile << "Failed to start tower on captured column (expected behavior)." << endl;}
+    else {outFile << "Unexpected success in starting tower on captured column." << endl;}
 
     column.print(outFile);//test printing the column state
 
