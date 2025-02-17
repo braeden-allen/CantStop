@@ -14,7 +14,7 @@ void unitPlayer();
 void unitColumn();
 
 int main(int argc , char* argv[]) {
-    srand(time(NULL)); //initialized random number generator
+    srand(time(nullptr)); //initialized random number generator
 
     banner();
 
@@ -40,7 +40,6 @@ void unitDice() {
 
     for (int k = 0; k < 6; k++) {
         outFile << dieValues[k] << " ";
-
         if (dieValues[k] < 1 || dieValues[k] > 6){outFile << "n\nValues are out of range(1-6)" << endl;}
     }
 
@@ -99,7 +98,6 @@ void unitColumn(){
     outFile << "\n------------------------------------------------------------------";
     column.print(outFile); // Print column state after starting the tower
 
-
     outFile << "\nAttempting to move the tower: "; //move the tower
     if (column.move()) {outFile << "Tower moved.";}
     else {outFile << "Failed to move tower.";}
@@ -124,7 +122,7 @@ void unitColumn(){
     if (!column.startTower(&testPlayer)) {outFile << "Failed to start tower on captured column.";}
     else {outFile << "Unexpected success in starting tower on captured column.";}
     outFile << "\n----------------------------------------------------------------------------------";
-    column.print(outFile); // Print column state after attempting to start a tower
+    column.print(outFile); //print after starting tower on captured col.
 
     outFile << "\nEND OF COLUMN TEST" << endl;
     outFile << "-------------------------------\n" << endl;

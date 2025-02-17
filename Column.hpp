@@ -15,7 +15,7 @@ class Column {
         int markerPositions[5];
     public:
         Column(int colNum);
-        ~Column();
+        ~Column() = default;
         [[nodiscard]] EColStatus columnState() const;
         [[nodiscard]] string colStateToString(EColStatus status)const;
         bool startTower(Player* player);

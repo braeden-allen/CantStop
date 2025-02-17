@@ -8,7 +8,7 @@
 //----------------------------------------
 
 Player::Player(const string Name, ECcolor color)
-        : playerName(Name), playerColor(color), score(0), scoreboard() {}
+        : playerName(Name), playerColor(color), scoreboard(), score(0) {}
 
 ECcolor Player::getColor() const {return playerColor;}
 int Player::getScore() const {return score;}

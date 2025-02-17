@@ -34,3 +34,327 @@ Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5
 END OF COLUMN TEST
 -------------------------------
 
+START OF COLUMN TEST
+-------------------------------
+
+Initial state of column 4: available
+-----------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Starting a tower for player (Green): Tower started at position 1.
+------------------------------------------------------------------
+Column 4: State: available
+Square 1: T--G- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower: Tower moved.
+----------------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: T--G- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower to end: Failed to move tower.
+----------------------------------------------
+Column 4: State: pending
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Stopping the marker and capturing column: Column captured (expected behavior).
+------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Starting a tower on a captured column: Failed to start tower on captured column.
+----------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+END OF COLUMN TEST
+-------------------------------
+
+START OF COLUMN TEST
+-------------------------------
+
+Initial state of column 4: available
+-----------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Starting a tower for player (Green): Tower started at position 1.
+------------------------------------------------------------------
+Column 4: State: available
+Square 1: T--G- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower: Tower moved.
+----------------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: T--G- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower to end: Failed to move tower.
+----------------------------------------------
+Column 4: State: pending
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Stopping the marker and capturing column: Column captured (expected behavior).
+------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Starting a tower on a captured column: Failed to start tower on captured column.
+----------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+END OF COLUMN TEST
+-------------------------------
+
+START OF COLUMN TEST
+-------------------------------
+
+Initial state of column 4: available
+-----------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Starting a tower for player (Green): Tower started at position 1.
+------------------------------------------------------------------
+Column 4: State: available
+Square 1: T--G- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower: Tower moved.
+----------------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: T--G- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower to end: Failed to move tower.
+----------------------------------------------
+Column 4: State: pending
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Stopping the marker and capturing column: Column captured (expected behavior).
+------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Starting a tower on a captured column: Failed to start tower on captured column.
+----------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+END OF COLUMN TEST
+-------------------------------
+
+START OF COLUMN TEST
+-------------------------------
+
+Initial state of column 4: available
+-----------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Starting a tower for player (Green): Tower started at position 1.
+------------------------------------------------------------------
+Column 4: State: available
+Square 1: T--G- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower: Tower moved.
+----------------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: T--G- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower to end: Failed to move tower.
+----------------------------------------------
+Column 4: State: pending
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Stopping the marker and capturing column: Column captured (expected behavior).
+------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Starting a tower on a captured column: Failed to start tower on captured column.
+----------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+END OF COLUMN TEST
+-------------------------------
+
+START OF COLUMN TEST
+-------------------------------
+
+Initial state of column 4: available
+-----------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Starting a tower for player (Green): Tower started at position 1.
+------------------------------------------------------------------
+Column 4: State: available
+Square 1: T--G- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower: Tower moved.
+----------------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: T--G- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower to end: Failed to move tower.
+----------------------------------------------
+Column 4: State: pending
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Stopping the marker and capturing column: Column captured (expected behavior).
+------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Starting a tower on a captured column: Failed to start tower on captured column.
+----------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+END OF COLUMN TEST
+-------------------------------
+
+START OF COLUMN TEST
+-------------------------------
+
+Initial state of column 4: available
+-----------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Starting a tower for player (Green): Tower started at position 1.
+------------------------------------------------------------------
+Column 4: State: available
+Square 1: T--G- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower: Tower moved.
+----------------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: T--G- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower to end: Failed to move tower.
+----------------------------------------------
+Column 4: State: pending
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Stopping the marker and capturing column: Column captured (expected behavior).
+------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Starting a tower on a captured column: Failed to start tower on captured column.
+----------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+END OF COLUMN TEST
+-------------------------------
+
+START OF COLUMN TEST
+-------------------------------
+
+Initial state of column 4: available
+-----------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Starting a tower for player (Green): Tower started at position 1.
+------------------------------------------------------------------
+Column 4: State: available
+Square 1: T--G- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower: Tower moved.
+----------------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: T--G- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower to end: Failed to move tower.
+----------------------------------------------
+Column 4: State: pending
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Stopping the marker and capturing column: Column captured (expected behavior).
+------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Starting a tower on a captured column: Failed to start tower on captured column.
+----------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+END OF COLUMN TEST
+-------------------------------
+
+START OF COLUMN TEST
+-------------------------------
+
+Initial state of column 4: available
+-----------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Starting a tower for player (Green): Tower started at position 1.
+------------------------------------------------------------------
+Column 4: State: available
+Square 1: T--G- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower: Tower moved.
+----------------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: T--G- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower to end: Failed to move tower.
+----------------------------------------------
+Column 4: State: pending
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Stopping the marker and capturing column: Column captured (expected behavior).
+------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Starting a tower on a captured column: Failed to start tower on captured column.
+----------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+END OF COLUMN TEST
+-------------------------------
+
+START OF COLUMN TEST
+-------------------------------
+
+Initial state of column 4: available
+-----------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Starting a tower for player (Green): Tower started at position 1.
+------------------------------------------------------------------
+Column 4: State: available
+Square 1: T--G- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower: Tower moved.
+----------------------------------------------
+Column 4: State: available
+Square 1: ----- | Square 2: T--G- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+
+Attempting to move the tower to end: Failed to move tower.
+----------------------------------------------
+Column 4: State: pending
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Stopping the marker and capturing column: Column captured (expected behavior).
+------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+Starting a tower on a captured column: Failed to start tower on captured column.
+----------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
+
+END OF COLUMN TEST
+-------------------------------
+

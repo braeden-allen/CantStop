@@ -32,4 +32,5 @@ To meet the expectations of this module, we aim to test all possibilities of our
     which includes, a constructor to accurately create and initialize a column, a columnState() function that will
     return the state of the column, a startTower() function that will place a tower in a given column, a move()
     function that will advance the tower one square in the column, and potentially capture it, a stop() function to
-    allow for the payer to end his or her game, and a print() function to print the status of each column of the game.
+    allow for the payer to end his or her game, and a print() function to print the status of the columns after each
+    function call.

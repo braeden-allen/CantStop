@@ -13,7 +13,7 @@ class Player{
         ECcolor playerColor;
         int scoreboard[3];
         int columnCount;
-        int score = 0;
+        int score;
 
     public:
         //constructor

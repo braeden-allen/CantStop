@@ -5,14 +5,12 @@
 
 #include "Column.hpp"
 
-const int Column::colLength[13] = {0,0,3,5,7,9,11,13,11,9,7,5,3}; //
+const int Column::colLength[13] = {0,0,3,5,7,9,11,13,11,9,7,5,3};
 
 Column::Column(int colNum) : colNumber(colNum), colState(EColStatus::available){
     if (colNum < 2 || colNum > 12) {throw invalid_argument("Column number must be between 2 and 12.");}
     for(int & markerPosition : markerPositions) {markerPosition = 0;}// Initialize markerPositions to 0
 }
-
-Column::~Column() = default;
 
 EColStatus Column::columnState() const{return colState;}
 
@@ -21,7 +19,7 @@ string Column::colStateToString(EColStatus status)const{
         case EColStatus::captured: return "captured";
         case EColStatus::pending: return "pending";
         case EColStatus::available: return "available";
-        default: "unknown";
+        default: return "unknown";
     }
 }
 
@@ -35,7 +33,6 @@ bool Column::startTower(Player* player) {
     if (currentPos == 0) {markerPositions[colorIdx] = 1;} //place the tower at position 1 if empty
     else if (currentPos < maxPos) {markerPositions[colorIdx]++;} //move tower if available
     else {return false;} //can't start tower if @max position
-
 
     int towerIdx = static_cast<int>(ECcolor::White);//set tower marker for the White (Tower)
     if (markerPositions[towerIdx] == 0) {markerPositions[towerIdx] = 1;}//place the tower at position 1
@@ -105,7 +102,6 @@ ostream& Column::print(ostream& os) const {
         for (char &c : square) {if (c == '\0') c = '-';}
         os << square << " | ";
     }
-
     os << endl;
     return os;
 }
