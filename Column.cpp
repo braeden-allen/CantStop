@@ -9,7 +9,7 @@ const int Column::colLength[13] = {0,0,3,5,7,9,11,13,11,9,7,5,3};
 
 Column::Column(int colNum) : colNumber(colNum), colState(EColStatus::available){
     if (colNum < 2 || colNum > 12) {throw invalid_argument("Column number must be between 2 and 12.");}
-    for(int & markerPosition : markerPositions) {markerPosition = 0;}// Initialize markerPositions to 0
+    for(int & markerPosition : markerPositions) {markerPosition = 0;} //init markerPositions to 0
 }
 
 EColStatus Column::columnState() const{return colState;}

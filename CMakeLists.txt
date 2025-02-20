@@ -6,7 +6,7 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 
 add_executable(CantStop main.cpp
         Dice.cpp
-        Dice.h
+        Dice.hpp
         Player.hpp
         Player.cpp
         enums.hpp
@@ -14,4 +14,6 @@ add_executable(CantStop main.cpp
         tools.cpp
         tools.hpp
         Column.cpp
-        Column.hpp)
+        Column.hpp
+        Game.hpp
+        Game.cpp)

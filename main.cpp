@@ -3,10 +3,7 @@
 //File: Main.cpp
 //Authors: Braeden and Mateusz
 //----------------------------------------
-#include "Dice.h"
-#include "Player.hpp"
-#include "tools.hpp"
-#include "Column.hpp"
+#include "Game.hpp"
 //----------------------------------------
 
 void unitDice();
