@@ -136,25 +136,21 @@ void unitGame(){
 
     Game game;
 
-    //create and roll the dice for the game
     outFile << "ROLLING 4 DICE" << endl;
     game.getDice()->roll();
     outFile << "Die results: " << endl;
     game.getDice()->print(outFile);
     outFile << endl;
 
-    //print out player details
     outFile << "\nPLAYER DETAILS\n" << endl;
     outFile << game.getP1() << endl;
     outFile << game.getP2() << endl;
 
-    //print out the column status
-    outFile << "COLUMN DETAILS" << endl;
+    outFile << "COLUMN DETAILS" << endl; //print out the column status
     game.getCol2().print(outFile);
     game.getCol7().print(outFile);
 
-    //place tower in col7
-    game.getCol7().startTower(&game.getP1());
+    game.getCol7().startTower(&game.getP1());//place tower in col7
 
     outFile << "\nCOLUMN AFTER COL7 TOWER START" << endl;
     game.getCol7().print(outFile);
@@ -168,9 +164,9 @@ void unitGame(){
     game.getCol2().print(outFile);
     game.getCol2().move();
     game.getCol2().print(outFile);//should print pending
-    game.getCol2().stop(&game.getP2()); //actual capturing of column
 
     outFile << "\nCOLUMN AFTER P2 STOPS" << endl;
+    game.getCol2().stop(&game.getP2()); //actual capturing of column
     game.getCol2().print(outFile); //should print captured
 
     outFile << "\nEND OF GAME TEST" << endl;
