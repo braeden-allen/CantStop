@@ -153,6 +153,26 @@ void unitGame(){
     game.getCol2().print(outFile);
     game.getCol7().print(outFile);
 
+    //place tower in col7
+    game.getCol7().startTower(&game.getP1());
+
+    outFile << "\nCOLUMN AFTER COL7 TOWER START" << endl;
+    game.getCol7().print(outFile);
+
+    outFile << "\nCOLUMN AFTER COL2 TOWER START" << endl;
+    game.getCol2().startTower(&game.getP2());
+    game.getCol2().print(outFile);
+
+    outFile << "\nCOLUMN DURING MOVES" << endl;
+    game.getCol2().move();
+    game.getCol2().print(outFile);
+    game.getCol2().move();
+    game.getCol2().print(outFile);//should print pending
+    game.getCol2().stop(&game.getP2()); //actual capturing of column
+
+    outFile << "\nCOLUMN AFTER P2 STOPS" << endl;
+    game.getCol2().print(outFile); //should print captured
+
     outFile << "\nEND OF GAME TEST" << endl;
     outFile << "-------------------------------\n" << endl;
 }
