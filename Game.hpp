@@ -19,4 +19,9 @@ class Game {
         Game();
         ~Game();
         void getNewPlayer(Player& player , const string& defaultColor);
+        [[nodiscard]] Dice* getDice() const {return dice;}
+        Player& getP1(){return player1;}
+        Player& getP2(){return player2;}
+        Column& getCol2(){return column2;}
+        Column& getCol7(){return column7;}
 };

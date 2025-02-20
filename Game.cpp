@@ -27,7 +27,7 @@ void Game::getNewPlayer(Player& player , const string& defaultName) {
     string name, colorInput;
     ECcolor color;
 
-    cout << "Enter " << defaultName << "'s name: ";
+    cout << "\nEnter " << defaultName << "'s name: ";
     getline(cin, name);
     cout << "Enter " << defaultName << "'s color (Orange, Yellow, Green, Blue): ";
     getline(cin, colorInput);

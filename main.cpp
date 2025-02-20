@@ -9,13 +9,14 @@
 void unitDice();
 void unitPlayer();
 void unitColumn();
+void unitGame();
 
 int main(int argc , char* argv[]) {
     srand(time(nullptr)); //initialized random number generator
 
     banner();
 
-    unitColumn();
+    unitGame();
 
     bye();
     return 0;
@@ -122,5 +123,36 @@ void unitColumn(){
     column.print(outFile); //print after starting tower on captured col.
 
     outFile << "\nEND OF COLUMN TEST" << endl;
+    outFile << "-------------------------------\n" << endl;
+}
+
+void unitGame(){
+
+    ofstream outFile("output.txt" , ios::app);
+    if (!outFile){cerr << "Error Opening Output.txt File"; return;}
+
+    outFile << "START OF GAME TEST" << endl;
+    outFile << "-------------------------------" << endl;
+
+    Game game;
+
+    //create and roll the dice for the game
+    outFile << "ROLLING 4 DICE" << endl;
+    game.getDice()->roll();
+    outFile << "Die results: " << endl;
+    game.getDice()->print(outFile);
+    outFile << endl;
+
+    //print out player details
+    outFile << "\nPLAYER DETAILS\n" << endl;
+    outFile << game.getP1() << endl;
+    outFile << game.getP2() << endl;
+
+    //print out the column status
+    outFile << "COLUMN DETAILS" << endl;
+    game.getCol2().print(outFile);
+    game.getCol7().print(outFile);
+
+    outFile << "\nEND OF GAME TEST" << endl;
     outFile << "-------------------------------\n" << endl;
 }
