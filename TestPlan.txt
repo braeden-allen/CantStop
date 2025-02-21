@@ -34,3 +34,14 @@ To meet the expectations of this module, we aim to test all possibilities of our
     function that will advance the tower one square in the column, and potentially capture it, a stop() function to
     allow for the payer to end his or her game, and a print() function to print the status of the columns after each
     function call.
+
+----------------------------------------------------------------------------------------------------------------------
+
+TEST PLAN - MODULE 4 (GAME)
+To meet the expectations of this module, we aim to test all possibilities of our code, game.cpp
+1. Create an instance of game, which constructs two players with a name and a color
+2. To allow for input for these fields, which will be entered by the user in the console
+3. To construct two columns, of different lengths, column 2, with has 3 squares, and column 7, which has the length
+   of 13 squares.
+4. To place towers in each column, and to make moves on each column
+5. Capture a single column, column 2.

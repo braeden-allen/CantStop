@@ -9,11 +9,11 @@
 using namespace std;
 
 Game::Game()
-        : dice(new Dice(4)), // Initialize dice
-          player1("Default1", ECcolor::Blue), // Initialize player1 with default values
-          player2("Default2", ECcolor::Green), // Initialize player2 with default values
-          column2(2), // Initialize column1 with column number 2
-          column7(7) // Initialize column2 with column number 12
+        : dice(new Dice(4)), //initialize dice
+          player1("Default1", ECcolor::Blue),
+          player2("Default2", ECcolor::Green),
+          column2(2), //col2
+          column7(7) //col7
 {
     // Get player names and colors
     getNewPlayer(player1, "Player1");
