@@ -13,7 +13,7 @@
 
 class Board {
 private:
-        int towerCounter;                         // T
+        int towerCounter;                         
         int towerColumns[3];                      
         Column* backBone[13];                     
         Player* currentPlayer;                    
@@ -22,7 +22,7 @@ private:
         Board();                                  
         ~Board();                                
         void print(std::ostream& os) const;      
-        void startTurn(Player* player);           /
+        void startTurn(Player* player);           
         bool move(int column);                  
         void stop();                             
         void bust();                           
