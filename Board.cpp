@@ -28,14 +28,13 @@ bool Board::move(int column) {
 
     if (targetColumn == nullptr) {cerr << "Column " + to_string(column) + " is not initialized.";}
 
-    // Attempt to start a tower or move markers
-    if (!targetColumn->startTower(currentPlayer)) {
+    if (!targetColumn->startTower(currentPlayer)) { //start tower or move markers
         if (!targetColumn->move()) {cout << "No valid moves in column " << column << ".\n";return false;}
     }
 
     if (targetColumn->columnState() == EColStatus::pending) {cout << "Column " << column << " is now pending capture!\n";} //is column pending
 
-    targetColumn->print(cout);// Print the updated column state
+    targetColumn->print(cout); //print the updated column state
     return true;
 }
 
@@ -44,7 +43,13 @@ void Board::stop() {
 }
 
 void Board::bust() {
+    if (currentPlayer == nullptr) {cout << "No current player to bust.\n";return;}
+    cout << currentPlayer->getName() << " has busted!\n";
 
+    for (int i = 2; i <= 12; ++i) {//reset columns where markers were
+        if (backBone[i] != nullptr && backBone[i]->columnState() != EColStatus::captured) {backBone[i]->bust();}
+    }
+    currentPlayer = nullptr; // End the player's turn
 }
 
 ostream& Board::print(std::ostream& os) const {

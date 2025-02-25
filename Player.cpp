@@ -10,6 +10,7 @@ Player::Player(const string Name, ECcolor color)
 
 ECcolor Player::getColor() const {return playerColor;}
 int Player::getScore() const {return score;}
+string Player::getName() const {return playerName;}
 
 bool Player::wonColumn(int colNum){
     if (score < 3) {

@@ -25,8 +25,10 @@ class Player{
         // Special functions
         ECcolor getColor() const;
         int getScore() const;
+        string getName() const;
 
-        //store column num in next available spot
+
+    //store column num in next available spot
         bool wonColumn(int colNum);
         ostream& print(ostream& os) const;
 };

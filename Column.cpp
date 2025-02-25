@@ -48,9 +48,9 @@ bool Column::move() {
     int maxPos = colLength[colNumber];
     bool moved = false;
 
-    for (int colorIdx = 0; colorIdx < 5; ++colorIdx) {
-        if (markerPositions[colorIdx] > 0 && markerPositions[colorIdx] < maxPos) {markerPositions[colorIdx]++; //move the marker forward
-            if (markerPositions[colorIdx] == maxPos) {colState = EColStatus::pending;} //column is pending capture
+    for (int &markerPosition : markerPositions) {
+        if (markerPosition > 0 && markerPosition < maxPos) {markerPosition++; //move the marker forward
+            if (markerPosition == maxPos) {colState = EColStatus::pending;} //column is pending capture
             moved = true;
         }
     }
@@ -68,12 +68,13 @@ void Column::stop(Player* player) {
     else {markerPositions[colorIdx] = 0;} //reset marker to 0 (no progress saved)
 
     bool hasMarkers = false;
-    for (int k = 0; k < 5; ++k) {if (markerPositions[k] > 0) {hasMarkers = true; break;}}
+    for (int markerPosition : markerPositions) {if (markerPosition > 0) {hasMarkers = true; break;}}
     if (!hasMarkers) {colState = EColStatus::available;} //set state to available if no markers
 }
 
 void Column::bust(){
-    //placeholder function until implemented
+    for (int & markerPosition : markerPositions) {markerPosition = 0;}
+    colState = EColStatus::available; //reset column to available
 }
 
 ostream& Column::print(ostream& os) const {

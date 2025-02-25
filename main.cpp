@@ -15,7 +15,7 @@ int main(int argc , char* argv[]) {
     srand(time(nullptr)); //initialized random number generator
 
     banner();
-    unitGame();
+    unitColumn();
     bye();
     return 0;
 }
