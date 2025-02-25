@@ -1,21 +1,20 @@
-
 //----------------------------------------
 //File: Board.hpp
 //Authors: Braeden and Mateusz
 //----------------------------------------
-
 #pragma once
 #include "tools.hpp"
 #include "Player.hpp"
 #include "enums.hpp"
 #include "Dice.hpp"
 #include "Game.hpp"
+//----------------------------------------
 
 class Board {
-private:
+    private:
         int towerCounter;                         
-        int towerColumns[3];                      
-        Column* backBone[13];                     
+        int towerColumns[3];
+        Column* backBone[13];
         Player* currentPlayer;                    
 
     public:
@@ -26,9 +25,5 @@ private:
         bool move(int column);                  
         void stop();                             
         void bust();                           
-        friend std::ostream& operator<<(std::ostream& os, const Board& board); 
-
-
-
-
-}
+};
+ostream& operator<<(std::ostream& os, const Board& board);

@@ -6,6 +6,7 @@
 #include "tools.hpp"
 #include "enums.hpp"
 #include "Player.hpp"
+//----------------------------------------
 
 class Column {
     private:

@@ -2,8 +2,8 @@
 //File: column.cpp
 //Authors: Braeden and Mateusz
 //----------------------------------------
-
 #include "Column.hpp"
+//----------------------------------------
 
 const int Column::colLength[13] = {0,0,3,5,7,9,11,13,11,9,7,5,3};
 

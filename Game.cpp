@@ -2,9 +2,9 @@
 //File: Game.cpp
 //Authors: Braeden and Mateusz
 //----------------------------------------
-
 #include "Game.hpp"
 #include "tools.hpp"
+//----------------------------------------
 
 using namespace std;
 
