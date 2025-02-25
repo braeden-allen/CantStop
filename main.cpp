@@ -15,9 +15,7 @@ int main(int argc , char* argv[]) {
     srand(time(nullptr)); //initialized random number generator
 
     banner();
-
     unitGame();
-
     bye();
     return 0;
 }
@@ -26,8 +24,10 @@ void unitDice() {
     ofstream outFile("output.txt" , ios::app);
     if (!outFile){cerr << "Error Opening Output.txt File"; return;}
 
+    fbanner(outFile);
+
     //initial message
-    outFile << "START OF DICE TEST" << endl;
+    outFile << "\nSTART OF DICE TEST" << endl;
     outFile << "-------------------------------" << endl;
     Dice d1(6); //roll different numbers of dice each time
 
@@ -62,7 +62,9 @@ void unitPlayer(){
     ofstream outFile("output.txt" , ios::app);
     if (!outFile){cerr << "Error Opening Output.txt File"; return;}
 
-    outFile << "START OF PLAYER TEST" << endl;
+    fbanner(outFile);
+
+    outFile << "\nSTART OF PLAYER TEST" << endl;
     outFile << "-------------------------------" << endl;
 
     Player player1("Test Player", ECcolor::Yellow);
@@ -81,7 +83,9 @@ void unitColumn(){
     ofstream outFile("output.txt" , ios::app);
     if (!outFile){cerr << "Error Opening Output.txt File"; return;}
 
-    outFile << "START OF COLUMN TEST" << endl;
+    fbanner(outFile);
+
+    outFile << "\nSTART OF COLUMN TEST" << endl;
     outFile << "-------------------------------" << endl;
 
     Column column(4); //testing column availability
@@ -131,7 +135,9 @@ void unitGame(){
     ofstream outFile("output.txt" , ios::app);
     if (!outFile){cerr << "Error Opening Output.txt File"; return;}
 
-    outFile << "START OF GAME TEST" << endl;
+    fbanner(outFile);
+
+    outFile << "\nSTART OF GAME TEST" << endl;
     outFile << "-------------------------------" << endl;
 
     Game game;

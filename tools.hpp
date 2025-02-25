@@ -8,7 +8,7 @@
 // -------------------------------------------------------------------
 #pragma once
 #define NAME    "Braeden A. and Mateusz W."
-#define CLASS   "CPSC 427/527"
+#define CLASS   "CSCI 4526"
 
 #include <iostream>
 #include <fstream>

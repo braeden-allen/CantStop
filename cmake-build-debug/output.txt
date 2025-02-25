@@ -1,8 +1,15 @@
+
+----------------------------------------------------------------
+	Braeden A. and Mateusz W.
+	CSCI 4526
+	Tue Feb 25 2025	11:25:50
+----------------------------------------------------------------
+
 START OF GAME TEST
 -------------------------------
 ROLLING 4 DICE
 Die results: 
-4 4 3 2 
+4 2 3 5 
 
 PLAYER DETAILS
 
@@ -11,7 +18,7 @@ Color: Blue
 Score: 0
 
 Player: p2
-Color: Green
+Color: Yellow
 Score: 0
 
 COLUMN DETAILS
@@ -30,20 +37,20 @@ Square 1: T---B | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5
 COLUMN AFTER COL2 TOWER START
 
 Column 2: State: available
-Square 1: T--G- | Square 2: ----- | Square 3: ----- | 
+Square 1: T-Y-- | Square 2: ----- | Square 3: ----- | 
 
 COLUMN DURING MOVES
 
 Column 2: State: available
-Square 1: ----- | Square 2: T--G- | Square 3: ----- | 
+Square 1: ----- | Square 2: T-Y-- | Square 3: ----- | 
 
 Column 2: State: pending
-Square 1: ----- | Square 2: ----- | Square 3: T--G- | 
+Square 1: ----- | Square 2: ----- | Square 3: T-Y-- | 
 
 COLUMN AFTER P2 STOPS
 
 Column 2: State: captured
-Square 1: ----- | Square 2: ----- | Square 3: T--G- | 
+Square 1: ----- | Square 2: ----- | Square 3: T-Y-- | 
 
 END OF GAME TEST
 -------------------------------
