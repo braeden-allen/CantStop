@@ -26,4 +26,5 @@ class Board {
         void stop();                             
         void bust();                           
 };
+
 ostream& operator<<(std::ostream& os, const Board& board);
