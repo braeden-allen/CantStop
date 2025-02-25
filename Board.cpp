@@ -22,7 +22,21 @@ void Board::startTurn(Player* player) {
 }
 
 bool Board::move(int column) {
+    if (column < 2 || column > 12) {cerr << "Invalid Column Number";}
 
+    Column* targetColumn = backBone[column];
+
+    if (targetColumn == nullptr) {cerr << "Column " + to_string(column) + " is not initialized.";}
+
+    // Attempt to start a tower or move markers
+    if (!targetColumn->startTower(currentPlayer)) {
+        if (!targetColumn->move()) {cout << "No valid moves in column " << column << ".\n";return false;}
+    }
+
+    if (targetColumn->columnState() == EColStatus::pending) {cout << "Column " << column << " is now pending capture!\n";} //is column pending
+
+    targetColumn->print(cout);// Print the updated column state
+    return true;
 }
 
 void Board::stop() {

@@ -3,8 +3,6 @@
 //Authors: Braeden and Mateusz
 //----------------------------------------
 #include "Player.hpp"
-#include "enums.hpp"
-#include "tools.hpp"
 //----------------------------------------
 
 Player::Player(const string Name, ECcolor color)
