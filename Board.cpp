@@ -33,8 +33,9 @@ void Board::bust() {
 
 }
 
-void Board::print(std::ostream& os) const {
-    for (int i = 2; i < 13; ++i) { os << *backBone[i]; }
+ostream& Board::print(std::ostream& os) const {
+    for (int i = 2; i < 13; ++i) {os << *backBone[i];}
+    return os;
 }
 
-ostream& operator << (ostream& os, const Board& board){return board.print(os);}
+ostream& operator << (ostream& os, Board& board){return board.print(os);}

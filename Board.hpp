@@ -20,11 +20,11 @@ class Board {
     public:
         Board();                                  
         ~Board();                                
-        void print(std::ostream& os) const;      
+        ostream& print(std::ostream& os) const;
         void startTurn(Player* player);           
         bool move(int column);                  
         void stop();                             
         void bust();                           
 };
 
-ostream& operator<<(std::ostream& os, const Board& board);
+ostream& operator << (ostream&, Board&);
