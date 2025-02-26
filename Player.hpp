@@ -12,20 +12,20 @@ class Player{
         string playerName;
         ECcolor playerColor;
         int scoreboard[3];
-        int columnCount;
+    [[maybe_unused]] int columnCount;
         int score;
 
     public:
         //constructor
-        Player(const string Name, ECcolor color);
+        Player(string Name, ECcolor color);
 
         //better spot for defaulting for player
         ~Player() = default;
 
         // Special functions
-        ECcolor getColor() const;
-        int getScore() const;
-        string getName() const;
+        [[nodiscard]] ECcolor getColor() const;
+        [[nodiscard]] int getScore() const;
+        [[nodiscard]] string getName() const;
 
 
     //store column num in next available spot

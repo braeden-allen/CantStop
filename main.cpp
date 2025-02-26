@@ -238,7 +238,6 @@ void unitBoard(){
     for (int k = 0; k < 5; ++k) {
         board.getColumn(3)->move(); //move to end and set pending
     }
-
     board.print(outFile);
 
     outFile << "\nP2 BUSTS" << endl;

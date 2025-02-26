@@ -38,6 +38,7 @@ To meet the expectations of this module, we aim to test all possibilities of our
 ----------------------------------------------------------------------------------------------------------------------
 
 TEST PLAN - MODULE 4 (GAME)
+
 To meet the expectations of this module, we aim to test all possibilities of our code, game.cpp
 1. Create an instance of game, which constructs two players with a name and a color
 2. To allow for input for these fields, which will be entered by the user in the console
@@ -45,3 +46,24 @@ To meet the expectations of this module, we aim to test all possibilities of our
    of 13 squares.
 4. To place towers in each column, and to make moves on each column
 5. Capture a single column, column 2.
+
+----------------------------------------------------------------------------------------------------------------------
+
+TEST PLAN - MODULE 5 (BOARD)
+
+To meet the expectations of this module, we aim to test all possibilities of our code, board.cpp
+1. To ensure a board and players can accurately be created and displayed initially. To achieve this, we used unitBoard()
+    to create an instance of two players, rolled die, and a sketch of the board before any start.
+2. To accurately place towers and make moves on the board. To achieve this, we would use the board.getTower, with the
+    column int as a parameter to place a tower and move on that column, and eventually print the board after stopping
+    the players turn, capturing teh columns.
+3. To ensure our logic and validation worked correctly, we made player2 attempt to start a tower on columns 2, 7, which
+    will present an error message saying that these cannot be started, as they will be captured.
+4. To ensure both players can have a go at a column. To do this, we will attempt to set a tower for P2 on a new column,
+    and move up and down that column.
+5. To ensure that the bust function works. This will be implemented by calling the bust on P2, then proceeding to print
+    the board, which now should say available instead of pending, when the player was in the column.
+6. To print the Scores of each player. To do this, at the end of the game, each player score will be displayed to show
+    that the logic behind keeping score works as required.
+
+----------------------------------------------------------------------------------------------------------------------
