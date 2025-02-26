@@ -86,7 +86,6 @@ ostream& Column::print(ostream& os) const {
         os << "Square " << k << ": ";
         char square[6] = "-----"; //5 characters (TOYGB)
 
-        //check for tower marker
         if (markerPositions[static_cast<int>(ECcolor::White)] == k) {square[0] = 'T';} //for tower
 
         for (int colorIdx = 1; colorIdx < 5; ++colorIdx) { //skip white (tower)

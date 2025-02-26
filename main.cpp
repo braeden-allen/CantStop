@@ -204,6 +204,54 @@ void unitBoard(){
 
     board.print(outFile);
 
+    outFile << "\nSTARTING TOWERS ON COLUMNS 7,2" << endl;
+    outFile << "-------------------------------" << endl;
+
+    board.startTurn(&game.getP1());
+    board.getColumn(7)->startTower(&game.getP1());
+    board.getColumn(2)->startTower(&game.getP1());
+
+    outFile << "\nBOARD AFTER COL7 AND COL2 TOWER START" << endl;
+    outFile << "-------------------------------" << endl;
+    board.print(outFile);
+
+    outFile << "\nCOLUMN AFTER CAPTURE (PENDING)" << endl;
+    outFile << "-------------------------------" << endl;
+    board.getColumn(2)->move();
+    board.getColumn(2)->move();
+    for (int k = 0; k < 12; ++k) {
+        board.getColumn(7)->move();
+    }
+    board.print(outFile);
+
+    outFile << "\nCOLUMN AFTER P1 STOPS" << endl;
+    outFile << "-------------------------------" << endl;
+    board.stop();
+    board.print(outFile);
+
+    outFile << "\nP2 STARTS AND MOVES (COL3 PENDING)" << endl; //look at col3 (pending)
+    outFile << "-------------------------------" << endl;
+    board.startTurn(&game.getP2());
+    board.getColumn(7)->startTower(&game.getP2()); //this will print an error message on the console
+    board.getColumn(2)->startTower(&game.getP2());
+    board.getColumn(3)->startTower(&game.getP2());
+    for (int k = 0; k < 5; ++k) {
+        board.getColumn(3)->move(); //move to end and set pending
+    }
+
+    board.print(outFile);
+
+    outFile << "\nP2 BUSTS" << endl;
+    outFile << "-------------------------------" << endl;
+    board.bust();
+    board.print(outFile);
+
+    outFile << "\nPLAYER SCORES" << endl;
+    outFile << "-------------------------------\n" << endl;
+
+    outFile << "PLAYER 1 SCORE: "<< game.getP1().getScore() << endl;
+    outFile << "PLAYER 2 SCORE: "<< game.getP2().getScore() << endl;
+
     outFile << "\nEND OF BOARD TEST" << endl;
     outFile << "-------------------------------\n" << endl;
 }

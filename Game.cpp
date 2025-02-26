@@ -6,31 +6,26 @@
 #include "tools.hpp"
 //----------------------------------------
 
-using namespace std;
-
 Game::Game()
         : dice(new Dice(4)), //initialize dice
-          player1("Default1", ECcolor::Blue),
-          player2("Default2", ECcolor::Green),
-          column2(2), //col2
-          column7(7) //col7
-{
-    // Get player names and colors
-    getNewPlayer(player1, "Player1");
-    getNewPlayer(player2, "Player2");
-}
+          player1(getNewPlayer()),
+          player2(getNewPlayer()),//col2 (not used in most recent test)
+          column2(2), //col7 (not used in most recent test)
+          column7(7)
+{}
 
 Game::~Game() {delete dice;}
 
-void Game::getNewPlayer(Player& player , const string& defaultName) {
+Player Game::getNewPlayer() {
 
     string name, colorInput;
     ECcolor color;
 
-    cout << "\nEnter " << defaultName << "'s name: ";
+    cout << "\nEnter player's name: ";
     getline(cin, name);
-    cout << "Enter " << defaultName << "'s color (Orange, Yellow, Green, Blue): ";
+    cout << "Enter " << name << "'s color (Orange, Yellow, Green, Blue): ";
     getline(cin, colorInput);
+    cout << "\n" << endl;
 
     for (char& c : colorInput) {c = tolower(c);} //used to make string comparable
 
@@ -40,5 +35,5 @@ void Game::getNewPlayer(Player& player , const string& defaultName) {
     else if (colorInput == "blue") color = ECcolor::Blue;
     else {cout << "Invalid color. Defaulting to Blue.\n";color = ECcolor::Blue;}
 
-    player = Player(name, color); //init player with input
+    return Player(name, color); //init player with input
 }
