@@ -73,7 +73,8 @@ ostream& Board::print(std::ostream& os) const {
     for (int k = 2; k < 13;  ++k ) {
         Column* column = backBone[k];
         if (column != nullptr) {
-            os << *column; // Use Column's print function
+            column->print(os); //use Column's print function
         }
     }
+    return os;
 }
