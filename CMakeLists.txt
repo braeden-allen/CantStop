@@ -16,4 +16,6 @@ add_executable(CantStop main.cpp
         Column.cpp
         Column.hpp
         Game.hpp
-        Game.cpp)
+        Game.cpp
+        Board.hpp
+        Board.cpp)

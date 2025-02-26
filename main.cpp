@@ -3,19 +3,20 @@
 //File: Main.cpp
 //Authors: Braeden and Mateusz
 //----------------------------------------
-#include "Game.hpp"
+#include "Board.hpp"
 //----------------------------------------
 
 void unitDice();
 void unitPlayer();
 void unitColumn();
 void unitGame();
+void unitBoard();
 
 int main(int argc , char* argv[]) {
     srand(time(nullptr)); //initialized random number generator
 
     banner();
-    unitColumn();
+    unitBoard();
     bye();
     return 0;
 }
@@ -176,5 +177,33 @@ void unitGame(){
     game.getCol2().print(outFile); //should print captured
 
     outFile << "\nEND OF GAME TEST" << endl;
+    outFile << "-------------------------------\n" << endl;
+}
+
+void unitBoard(){
+    ofstream outFile("output.txt" , ios::app);
+    if (!outFile){cerr << "Error Opening Output.txt File"; return;}
+
+    fbanner(outFile);
+
+    outFile << "\nSTART OF BOARD TEST" << endl;
+    outFile << "-------------------------------" << endl;
+
+    Board board;
+    Game game;
+
+    outFile << "ROLLING 4 DICE" << endl;
+    game.getDice()->roll();
+    outFile << "Die results: " << endl;
+    game.getDice()->print(outFile);
+    outFile << endl;
+
+    outFile << "\nPLAYER DETAILS\n" << endl;
+    outFile << game.getP1() << endl;
+    outFile << game.getP2() << endl;
+
+    board.print(outFile);
+
+    outFile << "\nEND OF BOARD TEST" << endl;
     outFile << "-------------------------------\n" << endl;
 }

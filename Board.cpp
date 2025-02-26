@@ -8,17 +8,22 @@
 
 Board::Board() : towerCounter(0), currentPlayer(nullptr) {
     backBone[0] = backBone[1] = nullptr;
-    for (int i = 2; i < 13; ++i) {backBone[i] = new Column(i);} //create each column
+    for (int k = 2; k < 13;  ++k ) {backBone[k] = new Column(k);} //create each column
 }
 
 Board::~Board() {
-    for (int i = 2; i < 13; ++i) { delete backBone[i]; }//delocate each column
+    for (int k = 2; k < 13;  ++k ) { delete backBone[k]; } //delocate each column
+}
+
+Column* Board::getColumn(int colNum) {
+    if (colNum < 2 || colNum > 12) return nullptr; //check validity
+    return backBone[colNum];
 }
 
 void Board::startTurn(Player* player) {
     currentPlayer = player;
     towerCounter = 0;
-    for (int i = 0; i < 3; ++i) { towerColumns[i] = 0; }
+    for (int k = 0; k < 3;  ++k ) {towerColumns[k] = 0;}
 }
 
 bool Board::move(int column) {
@@ -39,22 +44,36 @@ bool Board::move(int column) {
 }
 
 void Board::stop() {
+    if (currentPlayer == nullptr) {cout << "No current player to stop.\n";return;}
 
+    //attempt to capture pending cols
+    for (int k= 2; k <= 12; ++k) {
+        Column* column = backBone[k];
+        if (column != nullptr && column->columnState() == EColStatus::pending) {
+            column->stop(currentPlayer);
+            if (column->columnState() == EColStatus::captured) {
+                cout << currentPlayer->getName() << " has captured column " << k << "!\n";
+            }
+        }
+    }
+    currentPlayer = nullptr; //end turn
 }
 
 void Board::bust() {
     if (currentPlayer == nullptr) {cout << "No current player to bust.\n";return;}
     cout << currentPlayer->getName() << " has busted!\n";
 
-    for (int i = 2; i <= 12; ++i) {//reset columns where markers were
-        if (backBone[i] != nullptr && backBone[i]->columnState() != EColStatus::captured) {backBone[i]->bust();}
+    for (int k = 2; k <= 12;  ++k ) {//reset columns where markers were
+        if (backBone[k] != nullptr && backBone[k]->columnState() != EColStatus::captured) {backBone[k]->bust();}
     }
-    currentPlayer = nullptr; // End the player's turn
+    currentPlayer = nullptr; //end player turn
 }
 
 ostream& Board::print(std::ostream& os) const {
-    for (int i = 2; i < 13; ++i) {os << *backBone[i];}
-    return os;
+    for (int k = 2; k < 13;  ++k ) {
+        Column* column = backBone[k];
+        if (column != nullptr) {
+            os << *column; // Use Column's print function
+        }
+    }
 }
-
-ostream& operator << (ostream& os, Board& board){return board.print(os);}

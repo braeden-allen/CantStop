@@ -19,12 +19,12 @@ class Board {
 
     public:
         Board();                                  
-        ~Board();                                
+        ~Board();
+        Column* getColumn(int column);
         ostream& print(std::ostream& os) const;
         void startTurn(Player* player);           
         bool move(int column);                  
         void stop();                             
-        void bust();                           
+        void bust();
 };
-
 ostream& operator << (ostream&, Board&);

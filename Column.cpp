@@ -84,23 +84,22 @@ ostream& Column::print(ostream& os) const {
     int maxPos = colLength[colNumber];
     for (int k = 1; k <= maxPos; ++k) {
         os << "Square " << k << ": ";
-        string square = "-----"; //5 characters for tiles (TOYGB)
+        char square[6] = "-----"; //5 characters (TOYGB)
 
-        for (int colorIdx = 0; colorIdx < 5; ++colorIdx) { //check markers in square
+        //check for tower marker
+        if (markerPositions[static_cast<int>(ECcolor::White)] == k) {square[0] = 'T';} //for tower
+
+        for (int colorIdx = 1; colorIdx < 5; ++colorIdx) { //skip white (tower)
             if (markerPositions[colorIdx] == k) {
-                if (colorIdx == static_cast<int>(ECcolor::White)) {square[0] = 'T';} //tower
-                else {
-                    switch (static_cast<ECcolor>(colorIdx)) { //player markers (O, Y, G, B)
-                        case ECcolor::Orange: square[1] = 'O'; break;
-                        case ECcolor::Yellow: square[2] = 'Y'; break;
-                        case ECcolor::Green: square[3] = 'G'; break;
-                        case ECcolor::Blue: square[4] = 'B'; break;
-                        default: break;
-                    }
+                switch (static_cast<ECcolor>(colorIdx)) {
+                    case ECcolor::Orange: square[1] = 'O'; break;
+                    case ECcolor::Yellow: square[2] = 'Y'; break;
+                    case ECcolor::Green: square[3] = 'G'; break;
+                    case ECcolor::Blue: square[4] = 'B'; break;
+                    default: break;
                 }
             }
         }
-        for (char &c : square) {if (c == '\0') c = '-';}
         os << square << " | ";
     }
     os << endl;
