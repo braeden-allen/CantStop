@@ -16,7 +16,7 @@ int main(int argc , char* argv[]) {
     srand(time(nullptr)); //initialized random number generator
 
     banner();
-    unitBoard();
+    unitColumn();
     bye();
     return 0;
 }
@@ -91,7 +91,7 @@ void unitColumn(){
 
     Column column(4); //testing column availability
     Player testPlayer("Mateusz" , ECcolor::Green);
-    outFile << "\nInitial state of column 4: " << column.colStateToString(column.columnState());
+    outFile << "\nInitial state of column 4: " << column.colStateToString(column.getState());
     outFile << "\n-----------------------------------------";
     column.print(outFile);
 
@@ -116,7 +116,7 @@ void unitColumn(){
 
     outFile << "\nStopping the marker and capturing column: ";
     column.stop(&testPlayer);
-    if (column.columnState() == EColStatus::captured) {outFile << "Column captured (expected behavior).";}
+    if (column.getState() == EColStatus::captured) {outFile << "Column captured (expected behavior).";}
     else {outFile << "Column not captured (unexpected behavior).";}
     outFile << "\n------------------------------------------------------------------------------";
     column.print(outFile); //print column state after stopping

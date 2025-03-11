@@ -37,7 +37,7 @@ bool Board::move(int column) {
         if (!targetColumn->move()) {cout << "No valid moves in column " << column << ".\n";return false;}
     }
 
-    if (targetColumn->columnState() == EColStatus::pending) {cout << "Column " << column << " is now pending capture!\n";} //is column pending
+    if (targetColumn->getState() == EColStatus::pending) {cout << "Column " << column << " is now pending capture!\n";} //is column pending
 
     targetColumn->print(cout); //print the updated column state
     return true;
@@ -49,9 +49,9 @@ void Board::stop() {
     //attempt to capture pending cols
     for (int k= 2; k <= 12; ++k) {
         Column* column = backBone[k];
-        if (column != nullptr && column->columnState() == EColStatus::pending) {
+        if (column != nullptr && column->getState() == EColStatus::pending) {
             column->stop(currentPlayer);
-            if (column->columnState() == EColStatus::captured) {
+            if (column->getState() == EColStatus::captured) {
                 cout << currentPlayer->getName() << " has captured column " << k << "!\n";
             }
         }
@@ -64,7 +64,7 @@ void Board::bust() {
     cout << currentPlayer->getName() << " has busted!\n";
 
     for (int k = 2; k <= 12;  ++k ) {//reset columns where markers were
-        if (backBone[k] != nullptr && backBone[k]->columnState() != EColStatus::captured) {backBone[k]->bust();}
+        if (backBone[k] != nullptr && backBone[k]->getState() != EColStatus::captured) {backBone[k]->bust();}
     }
     currentPlayer = nullptr; //end player turn
 }

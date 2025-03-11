@@ -12,7 +12,7 @@ class Player{
         string playerName;
         ECcolor playerColor;
         int scoreboard[3];
-    [[maybe_unused]] int columnCount;
+        int columnCount;
         int score;
 
     public:

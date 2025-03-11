@@ -2,257 +2,42 @@
 ----------------------------------------------------------------
 	Braeden A. and Mateusz W.
 	CSCI 4526
-	Wed Feb 26 2025	18:09:41
+	Tue Mar 11 2025	13:06:51
 ----------------------------------------------------------------
 
-START OF BOARD TEST
+START OF COLUMN TEST
 -------------------------------
-ROLLING 4 DICE
-Die results: 
-4 2 2 6 
 
-PLAYER DETAILS
-
-Player: P1
-Color: Blue
-Score: 0
-
-Player: P2
-Color: Green
-Score: 0
-
-
-Column 2: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | 
-
-Column 3: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | 
-
+Initial state of column 4: available
+-----------------------------------------
 Column 4: State: available
 Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
 
-Column 5: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | 
-
-Column 6: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | 
-
-Column 7: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | Square 12: ----- | Square 13: ----- | 
-
-Column 8: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | 
-
-Column 9: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | 
-
-Column 10: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
-
-Column 11: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | 
-
-Column 12: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | 
-
-STARTING TOWERS ON COLUMNS 7,2
--------------------------------
-
-BOARD AFTER COL7 AND COL2 TOWER START
--------------------------------
-
-Column 2: State: available
-Square 1: T---B | Square 2: ----- | Square 3: ----- | 
-
-Column 3: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | 
-
+Starting a tower for player (Green): Tower started at position 1.
+------------------------------------------------------------------
 Column 4: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+Square 1: T--G- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
 
-Column 5: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | 
-
-Column 6: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | 
-
-Column 7: State: available
-Square 1: T---B | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | Square 12: ----- | Square 13: ----- | 
-
-Column 8: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | 
-
-Column 9: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | 
-
-Column 10: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
-
-Column 11: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | 
-
-Column 12: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | 
-
-COLUMN AFTER CAPTURE (PENDING)
--------------------------------
-
-Column 2: State: pending
-Square 1: ----- | Square 2: ----- | Square 3: T---B | 
-
-Column 3: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | 
-
+Attempting to move the tower: Tower moved.
+----------------------------------------------
 Column 4: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
+Square 1: ----- | Square 2: T--G- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
 
-Column 5: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | 
+Attempting to move the tower to end: Failed to move tower.
+----------------------------------------------
+Column 4: State: pending
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
 
-Column 6: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | 
+Stopping the marker and capturing column: Column captured (expected behavior).
+------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
 
-Column 7: State: pending
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | Square 12: ----- | Square 13: T---B | 
+Starting a tower on a captured column: Failed to start tower on captured column.
+----------------------------------------------------------------------------------
+Column 4: State: captured
+Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: T--G- | 
 
-Column 8: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | 
-
-Column 9: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | 
-
-Column 10: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
-
-Column 11: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | 
-
-Column 12: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | 
-
-COLUMN AFTER P1 STOPS
+END OF COLUMN TEST
 -------------------------------
 
-Column 2: State: captured
-Square 1: ----- | Square 2: ----- | Square 3: T---B | 
-
-Column 3: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | 
-
-Column 4: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
-
-Column 5: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | 
-
-Column 6: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | 
-
-Column 7: State: captured
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | Square 12: ----- | Square 13: T---B | 
-
-Column 8: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | 
-
-Column 9: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | 
-
-Column 10: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
-
-Column 11: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | 
-
-Column 12: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | 
-
-P2 STARTS AND MOVES (COL3 PENDING)
--------------------------------
-
-Column 2: State: captured
-Square 1: ----- | Square 2: ----- | Square 3: T---B | 
-
-Column 3: State: pending
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: T--G- | 
-
-Column 4: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
-
-Column 5: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | 
-
-Column 6: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | 
-
-Column 7: State: captured
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | Square 12: ----- | Square 13: T---B | 
-
-Column 8: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | 
-
-Column 9: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | 
-
-Column 10: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
-
-Column 11: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | 
-
-Column 12: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | 
-
-P2 BUSTS
--------------------------------
-
-Column 2: State: captured
-Square 1: ----- | Square 2: ----- | Square 3: T---B | 
-
-Column 3: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | 
-
-Column 4: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
-
-Column 5: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | 
-
-Column 6: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | 
-
-Column 7: State: captured
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | Square 12: ----- | Square 13: T---B | 
-
-Column 8: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | Square 10: ----- | Square 11: ----- | 
-
-Column 9: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | Square 8: ----- | Square 9: ----- | 
-
-Column 10: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | Square 6: ----- | Square 7: ----- | 
-
-Column 11: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | Square 4: ----- | Square 5: ----- | 
-
-Column 12: State: available
-Square 1: ----- | Square 2: ----- | Square 3: ----- | 
-
-PLAYER SCORES
--------------------------------
-
-PLAYER 1 SCORE: 2
-PLAYER 2 SCORE: 0
-
-END OF BOARD TEST
--------------------------------
-
-
-----------------------------------------------------------------
-	Braeden A. and Mateusz W.
-	CSCI 4526
-	Wed Feb 26 2025	18:20:37
-----------------------------------------------------------------
-
-START OF BOARD TEST
--------------------------------
