@@ -1,30 +1,31 @@
 //----------------------------------------
-//File: Board.hpp
-//Authors: Braeden and Mateusz
+// File: Board.hpp
+// Authors: Braeden
 //----------------------------------------
 #pragma once
-#include "tools.hpp"
-#include "Player.hpp"
-#include "enums.hpp"
-#include "Dice.hpp"
-#include "Game.hpp"
+#include "Column.hpp" //only include necessary dependencies
+#include "Player.hpp" //needed for Player pointer
 //----------------------------------------
 
 class Board {
-    private:
-        int towerCounter;                         
-        int towerColumns[3];
-        Column* backBone[13];
-        Player* currentPlayer;                    
+private:
+    int towerCounter; //counter for towers
+    int towerColumns[3]; //array to track tower columns
+    Column* backBone[13]; //array of Column pointers
+    Player* currentPlayer; //pointer to current player
 
-    public:
-        Board();                                  
-        ~Board();
-        Column* getColumn(int column);
-        ostream& print(std::ostream& os) const;
-        void startTurn(Player* player);           
-        bool move(int column);                  
-        void stop();                             
-        void bust();
+public:
+
+    Board();
+    ~Board();
+
+    Column* getColumn(int column);
+    ostream& print(ostream& os) const;
+
+    //gameplay methods
+    void startTurn(Player* player);
+    bool move(int column);
+    void stop();
+    void bust();
 };
-ostream& operator << (ostream&, Board&);
+ostream& operator << (std::ostream& os, const Board& board);

@@ -67,3 +67,16 @@ To meet the expectations of this module, we aim to test all possibilities of our
     that the logic behind keeping score works as required.
 
 ----------------------------------------------------------------------------------------------------------------------
+
+TEST PLAN - MODULE 6 (ONE TURN)
+
+To meet the expectations of this module, I aim to fully test outcomes of the new function game.oneTurn(Player)
+1. To accurately print a menu and take input from the user, while validating and ensuring that the input is valid
+2. To allow for a player to roll the dice, and to move pawns as desired given the two die pairs that they choose
+3. To allow for a player to stop their turn if they desire
+4. To tie other functions from modules like board and player into a working turn of the player, like .stop(), .bust()
+    and .move()
+5. To calculate CORRECT pairs of dice, being that of when there are only one tower left.
+6. To accurately test the board (at least one column captured, one pending at the end, and one not touched)
+
+----------------------------------------------------------------------------------------------------------------------

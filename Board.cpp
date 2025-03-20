@@ -1,13 +1,15 @@
 //----------------------------------------
 //File: Board.cpp
-//Authors: Braeden and Mateusz
+//Authors: Braeden
 //----------------------------------------
 #include "Board.hpp"
-#include "Player.hpp"
 //----------------------------------------
 
-Board::Board() : towerCounter(0), currentPlayer(nullptr) {
+Board::Board() : currentPlayer(nullptr) {
+    towerCounter = 0;
+    for (int k = 0; k < 3; ++k) {towerColumns[k] = -1;}
     backBone[0] = backBone[1] = nullptr;
+
     for (int k = 2; k < 13;  ++k ) {backBone[k] = new Column(k);} //create each column
 }
 
@@ -27,11 +29,11 @@ void Board::startTurn(Player* player) {
 }
 
 bool Board::move(int column) {
-    if (column < 2 || column > 12) {cerr << "Invalid Column Number";}
+    if (column < 2 || column > 12) {cerr << "Invalid Column Number"; return false;}
 
     Column* targetColumn = backBone[column];
 
-    if (targetColumn == nullptr) {cerr << "Column " + to_string(column) + " is not initialized.";}
+    if (targetColumn == nullptr) {cerr << "Column " + to_string(column) + " is not initialized."; return false;}
 
     if (!targetColumn->startTower(currentPlayer)) { //start tower or move markers
         if (!targetColumn->move()) {cout << "No valid moves in column " << column << ".\n";return false;}

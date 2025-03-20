@@ -86,6 +86,8 @@ void Column::printColors(ostream& os, int k) const {
                 case ECcolor::Yellow: square[2] = 'Y'; break;
                 case ECcolor::Green: square[3] = 'G'; break;
                 case ECcolor::Blue: square[4] = 'B'; break;
+                case ECcolor::White:
+                    break;
             }
         }
     }

@@ -1,9 +1,9 @@
 //----------------------------------------
 //Project: Can't Stop Board Game
 //File: Main.cpp
-//Authors: Braeden and Mateusz
+//Authors: Braeden
 //----------------------------------------
-#include "Board.hpp"
+#include "Game.hpp"
 //----------------------------------------
 
 void unitDice();
@@ -14,9 +14,10 @@ void unitBoard();
 
 int main(int argc , char* argv[]) {
     srand(time(nullptr)); //initialized random number generator
+    Game game;
 
     banner();
-    unitColumn();
+    game.oneTurn(&game.players[0]);
     bye();
     return 0;
 }
@@ -144,37 +145,37 @@ void unitGame(){
     Game game;
 
     outFile << "ROLLING 4 DICE" << endl;
-    game.getDice()->roll();
+    game.dice->roll();
     outFile << "Die results: " << endl;
-    game.getDice()->print(outFile);
+    game.dice->print(outFile);
     outFile << endl;
 
     outFile << "\nPLAYER DETAILS\n" << endl;
-    outFile << game.getP1() << endl;
-    outFile << game.getP2() << endl;
+    outFile << game.players[0] << endl;
+    outFile << game.players[1] << endl;
 
     outFile << "COLUMN DETAILS" << endl; //print out the column status
-    game.getCol2().print(outFile);
-    game.getCol7().print(outFile);
 
-    game.getCol7().startTower(&game.getP1());//place tower in col7
+    game.board.getColumn(2)->print(outFile);
+    game.board.getColumn(7)->print(outFile);
 
     outFile << "\nCOLUMN AFTER COL7 TOWER START" << endl;
-    game.getCol7().print(outFile);
+    game.board.getColumn(7)->startTower(&game.players[0]);
+    game.board.getColumn(7)->print(outFile);
 
     outFile << "\nCOLUMN AFTER COL2 TOWER START" << endl;
-    game.getCol2().startTower(&game.getP2());
-    game.getCol2().print(outFile);
+    game.board.getColumn(2)->startTower(&game.players[1]);
+    game.board.getColumn(2)->print(outFile);
 
     outFile << "\nCOLUMN DURING MOVES" << endl;
-    game.getCol2().move();
-    game.getCol2().print(outFile);
-    game.getCol2().move();
-    game.getCol2().print(outFile);//should print pending
+    game.board.getColumn(2)->move();
+    game.board.getColumn(2)->print(outFile);
+    game.board.getColumn(2)->move();
+    game.board.getColumn(2)->print(outFile);//should print pending
 
     outFile << "\nCOLUMN AFTER P2 STOPS" << endl;
-    game.getCol2().stop(&game.getP2()); //actual capturing of column
-    game.getCol2().print(outFile); //should print captured
+    game.board.getColumn(2)->stop(&game.players[1]); //actual capturing of column
+    game.board.getColumn(2)->print(outFile); //should print captured
 
     outFile << "\nEND OF GAME TEST" << endl;
     outFile << "-------------------------------\n" << endl;
@@ -193,23 +194,23 @@ void unitBoard(){
     Game game;
 
     outFile << "ROLLING 4 DICE" << endl;
-    game.getDice()->roll();
+    game.dice->roll();
     outFile << "Die results: " << endl;
-    game.getDice()->print(outFile);
+    game.dice->print(outFile);
     outFile << endl;
 
     outFile << "\nPLAYER DETAILS\n" << endl;
-    outFile << game.getP1() << endl;
-    outFile << game.getP2() << endl;
+    outFile << game.players[0] << endl;
+    outFile << game.players[1] << endl;
 
     board.print(outFile);
 
     outFile << "\nSTARTING TOWERS ON COLUMNS 7,2" << endl;
     outFile << "-------------------------------" << endl;
 
-    board.startTurn(&game.getP1());
-    board.getColumn(7)->startTower(&game.getP1());
-    board.getColumn(2)->startTower(&game.getP1());
+    board.startTurn(&game.players[0]);
+    board.getColumn(7)->startTower(&game.players[0]);
+    board.getColumn(2)->startTower(&game.players[0]);
 
     outFile << "\nBOARD AFTER COL7 AND COL2 TOWER START" << endl;
     outFile << "-------------------------------" << endl;
@@ -231,10 +232,10 @@ void unitBoard(){
 
     outFile << "\nP2 STARTS AND MOVES (COL3 PENDING)" << endl; //look at col3 (pending)
     outFile << "-------------------------------" << endl;
-    board.startTurn(&game.getP2());
-    board.getColumn(7)->startTower(&game.getP2()); //this will print an error message on the console
-    board.getColumn(2)->startTower(&game.getP2());
-    board.getColumn(3)->startTower(&game.getP2());
+    board.startTurn(&game.players[1]);
+    board.getColumn(7)->startTower(&game.players[1]); //this will print an error message on the console
+    board.getColumn(2)->startTower(&game.players[1]);
+    board.getColumn(3)->startTower(&game.players[1]);
     for (int k = 0; k < 5; ++k) {
         board.getColumn(3)->move(); //move to end and set pending
     }
@@ -248,8 +249,8 @@ void unitBoard(){
     outFile << "\nPLAYER SCORES" << endl;
     outFile << "-------------------------------\n" << endl;
 
-    outFile << "PLAYER 1 SCORE: "<< game.getP1().getScore() << endl;
-    outFile << "PLAYER 2 SCORE: "<< game.getP2().getScore() << endl;
+    outFile << "PLAYER 1 SCORE: "<< game.players[0].getScore() << endl;
+    outFile << "PLAYER 2 SCORE: "<< game.players[1].getScore() << endl;
 
     outFile << "\nEND OF BOARD TEST" << endl;
     outFile << "-------------------------------\n" << endl;
