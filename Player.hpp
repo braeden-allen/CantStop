@@ -22,7 +22,7 @@ class Player{
         //better spot for defaulting for player
         ~Player() = default;
 
-        // Special functions
+        //special functions
         [[nodiscard]] ECcolor getColor() const;
         [[nodiscard]] int getScore() const;
         [[nodiscard]] string getName() const;

@@ -6,252 +6,155 @@
 #include "Game.hpp"
 //----------------------------------------
 
-void unitDice();
-void unitPlayer();
-void unitColumn();
-void unitGame();
-void unitBoard();
+void unitCList();
 
 int main(int argc , char* argv[]) {
     srand(time(nullptr)); //initialized random number generator
-    Game game;
+
+    //Game game(3);
+
+    unitCList();
 
     banner();
-    game.oneTurn(&game.players[0]);
     bye();
+
     return 0;
 }
 
-void unitDice() {
-    ofstream outFile("output.txt" , ios::app);
-    if (!outFile){cerr << "Error Opening Output.txt File"; return;}
+void unitCList() {
 
-    fbanner(outFile);
+    ofstream out("output.txt");
+    out << "----------------------------------------------" << endl;
+    out << "CLIST UNIT TEST" << endl;
+    out << "----------------------------------------------" << endl;
+    bool allTestsPassed = true;
 
-    //initial message
-    outFile << "\nSTART OF DICE TEST" << endl;
-    outFile << "-------------------------------" << endl;
-    Dice d1(6); //roll different numbers of dice each time
+    // Test 1: Empty list
+    {
+        CList list;
+        out << "Test 1: Empty List\n";
+        out << "Expected: size = 0, empty = true, output = 'No players'\n";
+        out << "Actual:   size = " << list.size();
+        out << ", empty=";
+        
+        if (list.empty()) out << "true";
+        else out << "false";
+        out << ", output:\n" << list << "\n";
 
-    //test the roll function
-    outFile << "TEST FOR ACCURATE ROLL" << endl;
-    const int* dieValues = d1.roll();
-    outFile << "Values from roll: ";
+        if (!list.empty()) {out << "-----> FAILED\n"; allTestsPassed = false;}
+        else out << "-----> PASSED\n";
+    }
+    
+    {
+        CList list;
+        out << "\nTest 2: Add Players\n";
 
-    for (int k = 0; k < 6; k++) {
-        outFile << dieValues[k] << " ";
-        if (dieValues[k] < 1 || dieValues[k] > 6){outFile << "n\nValues are out of range(1-6)" << endl;}
+        list.add(make_unique<Player>("Alice", ECcolor::Blue));
+        list.add(make_unique<Player>("Bob", ECcolor::Yellow));
+        list.add(make_unique<Player>("Charlie", ECcolor::Orange));
+        list.add(make_unique<Player>("Dana", ECcolor::Green));
+
+        out << "Added 4 players with valid colors (B,Y,O,G)\n";
+        out << "Expected: size=4\n";
+        out << "Actual:   size=" << list.size() << ", output:\n" << list << "\n";
+
+        if (list.size() != 4) {out << "-----> FAILED (wrong size)\n"; allTestsPassed = false;}
+        else out << "-----> PASSED\n";
+
     }
 
-    //test the print function
-    outFile << "\nTest for accurate PRINTING of Dice values" << endl;
-    outFile << "Die Values: ";
-    d1.print(outFile);
-    outFile << endl;
+    {
+        CList list;
+        list.add(make_unique<Player>("Eve", ECcolor::Blue));
+        list.add(make_unique<Player>("Frank", ECcolor::Yellow));
 
-    //test the destructor for memory leaks
-    outFile << "DESTRUCTOR TEST" << endl;
-    Dice d2(4);
-    outFile << "Class destructed without error or memory leak";
-    outFile << "\nEND OF DICE TEST" << endl;
-    outFile << "-------------------------------\n" << endl;
+        out << "\nTest 3: Circular Iteration\n";
+        list.init();
 
-    outFile.close();
-}
+        Player* first = list.next();
+        Player* current = first;
+        int count = 0;
+        bool circular = true;
 
-void unitPlayer(){
+        out << "Iteration: ";
+        do {
+            out << current->getName() << "(" << colorNames[(int)(current->getColor())] << ") ";
+            current = list.next();
+            count++;
+            if (count > 4) {
+                circular = false;
+                break;
+            }
+        } while (current != first);
 
-    ofstream outFile("output.txt" , ios::app);
-    if (!outFile){cerr << "Error Opening Output.txt File"; return;}
+        out << "\nExpected: Eve(Blue) Frank(Yellow) Eve (completes circle in 2 steps)\n";
+        out << "Actual:   ";
 
-    fbanner(outFile);
+        if (circular) out << "Completed circle in " << count << " steps\n";
+        else out << "Failed to complete circle\n";
 
-    outFile << "\nSTART OF PLAYER TEST" << endl;
-    outFile << "-------------------------------" << endl;
+        if (!circular || count != 2) {out << "-----> FAILED\n"; allTestsPassed = false;}
+        else out << "-----> PASSED\n";
 
-    Player player1("Test Player", ECcolor::Yellow);
-    outFile << player1;
-
-    outFile << "TESTING wonColumn()" << endl;
-    for (int k = 0; k < 3; k++) {
-        outFile << player1.wonColumn(1) << " ";
     }
-    outFile << "\nEND OF PLAYER TEST" << endl;
-    outFile << "-------------------------------\n" << endl;
-    outFile.close();
-}
 
-void unitColumn(){
-    ofstream outFile("output.txt" , ios::app);
-    if (!outFile){cerr << "Error Opening Output.txt File"; return;}
+    {
+        CList list;
+        list.add(make_unique<Player>("Grace", ECcolor::Green));
+        list.add(make_unique<Player>("Henry", ECcolor::Orange));
 
-    fbanner(outFile);
+        out << "\nTest 4: Remove Player\n";
+        list.init(); // current = Grace
+        Player* toRemove = list.getCurrent(); // Grace (no advancement)
+        out << "Removing: " << toRemove->getName() << endl; // Grace
+        list.remove(); // removes Grace (current)
 
-    outFile << "\nSTART OF COLUMN TEST" << endl;
-    outFile << "-------------------------------" << endl;
+        out << "Expected: size = 1, remaining player is Henry(Orange)\n";
+        out << "Actual:   size = " << list.size() << ", remaining:\n" << list << "\n";
 
-    Column column(4); //testing column availability
-    Player testPlayer("Mateusz" , ECcolor::Green);
-    outFile << "\nInitial state of column 4: " << column.colStateToString(column.getState());
-    outFile << "\n-----------------------------------------";
-    column.print(outFile);
+        bool sizeCorrect = (list.size() == 1);
+        bool playerCorrect = false;
 
-    outFile << "\nStarting a tower for player (Green): ";
-    if (column.startTower(&testPlayer)) {outFile << "Tower started at position 1.";}
-    else {outFile << "Failed to start tower.";}
-    outFile << "\n------------------------------------------------------------------";
-    column.print(outFile); // Print column state after starting the tower
+        if (sizeCorrect) {
+            list.init(); // Reset to Henry (new head)
+            Player* remaining = list.getCurrent(); // Henry
+            playerCorrect = (remaining->getName() == "Henry");
+        }
 
-    outFile << "\nAttempting to move the tower: "; //move the tower
-    if (column.move()) {outFile << "Tower moved.";}
-    else {outFile << "Failed to move tower.";}
-    outFile << "\n----------------------------------------------";
-    column.print(outFile); //print column state after moving the tower
-
-    outFile << "\nAttempting to move the tower to end: "; //move the tower
-    for (int k = 0; k < 6; ++k) {column.move();}
-    if (column.move()) {outFile << "Tower moved.";}
-    else {outFile << "Failed to move tower.";}
-    outFile << "\n----------------------------------------------";
-    column.print(outFile); //print column state after moving the tower
-
-    outFile << "\nStopping the marker and capturing column: ";
-    column.stop(&testPlayer);
-    if (column.getState() == EColStatus::captured) {outFile << "Column captured (expected behavior).";}
-    else {outFile << "Column not captured (unexpected behavior).";}
-    outFile << "\n------------------------------------------------------------------------------";
-    column.print(outFile); //print column state after stopping
-
-    outFile << "\nStarting a tower on a captured column: ";
-    if (!column.startTower(&testPlayer)) {outFile << "Failed to start tower on captured column.";}
-    else {outFile << "Unexpected success in starting tower on captured column.";}
-    outFile << "\n----------------------------------------------------------------------------------";
-    column.print(outFile); //print after starting tower on captured col.
-
-    outFile << "\nEND OF COLUMN TEST" << endl;
-    outFile << "-------------------------------\n" << endl;
-}
-
-void unitGame(){
-
-    ofstream outFile("output.txt" , ios::app);
-    if (!outFile){cerr << "Error Opening Output.txt File"; return;}
-
-    fbanner(outFile);
-
-    outFile << "\nSTART OF GAME TEST" << endl;
-    outFile << "-------------------------------" << endl;
-
-    Game game;
-
-    outFile << "ROLLING 4 DICE" << endl;
-    game.dice->roll();
-    outFile << "Die results: " << endl;
-    game.dice->print(outFile);
-    outFile << endl;
-
-    outFile << "\nPLAYER DETAILS\n" << endl;
-    outFile << game.players[0] << endl;
-    outFile << game.players[1] << endl;
-
-    outFile << "COLUMN DETAILS" << endl; //print out the column status
-
-    game.board.getColumn(2)->print(outFile);
-    game.board.getColumn(7)->print(outFile);
-
-    outFile << "\nCOLUMN AFTER COL7 TOWER START" << endl;
-    game.board.getColumn(7)->startTower(&game.players[0]);
-    game.board.getColumn(7)->print(outFile);
-
-    outFile << "\nCOLUMN AFTER COL2 TOWER START" << endl;
-    game.board.getColumn(2)->startTower(&game.players[1]);
-    game.board.getColumn(2)->print(outFile);
-
-    outFile << "\nCOLUMN DURING MOVES" << endl;
-    game.board.getColumn(2)->move();
-    game.board.getColumn(2)->print(outFile);
-    game.board.getColumn(2)->move();
-    game.board.getColumn(2)->print(outFile);//should print pending
-
-    outFile << "\nCOLUMN AFTER P2 STOPS" << endl;
-    game.board.getColumn(2)->stop(&game.players[1]); //actual capturing of column
-    game.board.getColumn(2)->print(outFile); //should print captured
-
-    outFile << "\nEND OF GAME TEST" << endl;
-    outFile << "-------------------------------\n" << endl;
-}
-
-void unitBoard(){
-    ofstream outFile("output.txt" , ios::app);
-    if (!outFile){cerr << "Error Opening Output.txt File"; return;}
-
-    fbanner(outFile);
-
-    outFile << "\nSTART OF BOARD TEST" << endl;
-    outFile << "-------------------------------" << endl;
-
-    Board board;
-    Game game;
-
-    outFile << "ROLLING 4 DICE" << endl;
-    game.dice->roll();
-    outFile << "Die results: " << endl;
-    game.dice->print(outFile);
-    outFile << endl;
-
-    outFile << "\nPLAYER DETAILS\n" << endl;
-    outFile << game.players[0] << endl;
-    outFile << game.players[1] << endl;
-
-    board.print(outFile);
-
-    outFile << "\nSTARTING TOWERS ON COLUMNS 7,2" << endl;
-    outFile << "-------------------------------" << endl;
-
-    board.startTurn(&game.players[0]);
-    board.getColumn(7)->startTower(&game.players[0]);
-    board.getColumn(2)->startTower(&game.players[0]);
-
-    outFile << "\nBOARD AFTER COL7 AND COL2 TOWER START" << endl;
-    outFile << "-------------------------------" << endl;
-    board.print(outFile);
-
-    outFile << "\nCOLUMN AFTER CAPTURE (PENDING)" << endl;
-    outFile << "-------------------------------" << endl;
-    board.getColumn(2)->move();
-    board.getColumn(2)->move();
-    for (int k = 0; k < 12; ++k) {
-        board.getColumn(7)->move();
+        if (!sizeCorrect || !playerCorrect) {
+            out << "-----> FAILED\n";
+            allTestsPassed = false;
+        } else {
+            out << "-----> PASSED\n";
+        }
     }
-    board.print(outFile);
 
-    outFile << "\nCOLUMN AFTER P1 STOPS" << endl;
-    outFile << "-------------------------------" << endl;
-    board.stop();
-    board.print(outFile);
 
-    outFile << "\nP2 STARTS AND MOVES (COL3 PENDING)" << endl; //look at col3 (pending)
-    outFile << "-------------------------------" << endl;
-    board.startTurn(&game.players[1]);
-    board.getColumn(7)->startTower(&game.players[1]); //this will print an error message on the console
-    board.getColumn(2)->startTower(&game.players[1]);
-    board.getColumn(3)->startTower(&game.players[1]);
-    for (int k = 0; k < 5; ++k) {
-        board.getColumn(3)->move(); //move to end and set pending
+    {
+        CList list;
+        out << "\nTest 5: Empty and Refill\n";
+
+        list.add(make_unique<Player>("Ivy", ECcolor::Yellow));
+        while (!list.empty()) list.remove();
+
+        out << "After clear: size =" << list.size() << "\n";
+        list.add(make_unique<Player>("Jack", ECcolor::Blue));
+        out << "After refill: size =" << list.size()
+            << ", player: " << list.next()->getName()
+            << "(" << colorNames[(int)(list.next()->getColor())] << ")\n";
+
+        if (list.size() != 1 || list.next()->getName() != "Jack") {out << "-----> FAILED\n"; allTestsPassed = false;}
+        else out << "-----> PASSED\n";
     }
-    board.print(outFile);
 
-    outFile << "\nP2 BUSTS" << endl;
-    outFile << "-------------------------------" << endl;
-    board.bust();
-    board.print(outFile);
+    out << "----------------------------------------------" << endl;
 
-    outFile << "\nPLAYER SCORES" << endl;
-    outFile << "-------------------------------\n" << endl;
+    out << "FINAL RESULTS" << endl;
+    out << "All tests ";
+    if (allTestsPassed) out << "PASSED\n";
+    else out << "FAILED\n";
+    out << "----------------------------------------------" << endl;
 
-    outFile << "PLAYER 1 SCORE: "<< game.players[0].getScore() << endl;
-    outFile << "PLAYER 2 SCORE: "<< game.players[1].getScore() << endl;
 
-    outFile << "\nEND OF BOARD TEST" << endl;
-    outFile << "-------------------------------\n" << endl;
+    out.close();
 }

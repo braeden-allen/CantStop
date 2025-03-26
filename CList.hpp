@@ -7,17 +7,22 @@
 #include "Player.hpp"
 //----------------------------------------
 
+class CList;
+
+class Cell {
+private:
+    unique_ptr<Player> upp;
+    Cell* next;
+    friend class CList;
+
+public:
+    Cell(unique_ptr<Player>&& p, Cell* n = nullptr) : upp(std::move(p)), next(n) {}
+    ~Cell() = default;
+};
+
 class CList {
 
 private:
-    class Cell {
-        unique_ptr<Player> upp;
-        Cell* next;
-        Cell(unique_ptr<Player>&& p, Cell* n = nullptr) : upp(std::move(p)), next(n) {}
-        ~Cell() = default;
-        friend class CList;
-    };
-
     Cell* head = nullptr;
     Cell* tail = nullptr;
     Cell* current = nullptr;
@@ -34,8 +39,8 @@ public:
     void remove();
     void print(ostream& os) const;
     Player* next();
-    void init() { current = head; }
+    Player* getCurrent() const;
+    inline void init() { current = head; }
     friend class Cell;
 
-    friend ostream& operator << (ostream& os, const CList& clist);
-};
+}; ostream& operator << (ostream& os, const CList& clist);

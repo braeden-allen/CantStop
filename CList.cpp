@@ -16,11 +16,11 @@ CList::~CList() { //destructor deletes all cells in list
     } while (curr != head);
 }
 
-void CList::add(unique_ptr<Player>&& p) { //adds new player to the list
+void CList::add(unique_ptr<Player>&& p) { //adds new player to the list with move constructor
     Cell* newCell = new Cell(std::move(p));
 
     if (empty()) {
-        head = tail = newCell;
+        head = tail = current = newCell;
         newCell->next = head;  //points to itself
     } else {
         tail->next = newCell;
@@ -30,23 +30,28 @@ void CList::add(unique_ptr<Player>&& p) { //adds new player to the list
     count++;
 }
 
-void CList::remove() { //removes the current cell
-    if (empty()) return;
+void CList::remove() {
+    if (empty() || !current) return;
 
     Cell* toRemove = current;
+    Cell* prev = head;
 
-    if (count == 1) head = tail = current = nullptr;
-    else {
-        Cell* prev = head; //find previous cell to update list
-        while (prev->next != current) prev = prev->next;
-
-        prev->next = current->next;
-        if (current == head) head = current->next;
-        if (current == tail) tail = prev;
-        current = current->next;  //walk the list
+    // Find the node before `toRemove`
+    while (prev->next != toRemove && prev->next != head) {
+        prev = prev->next;
     }
-    delete toRemove;  //unique_ptr<Player> auto-deletes
+
+    // Update links
+    prev->next = toRemove->next;
+    if (toRemove == head) head = toRemove->next;
+    if (toRemove == tail) tail = (head == tail) ? nullptr : prev;
+
+    // Update current (move to next node before deletion)
+    current = toRemove->next;
+    delete toRemove;
     count--;
+
+    if (empty()) current = head = tail = nullptr;
 }
 
 void CList::print(ostream& os) const {
@@ -54,19 +59,25 @@ void CList::print(ostream& os) const {
 
     Cell* curr = head;
     do {
-        os << *curr->upp << "\n---\n";
+        os << *curr->upp << "\n-----\n";
         curr = curr->next;
     } while (curr != head);
 }
 
 Player* CList::next() { // advances to the next cell and returns the Player*
     if (empty()) return nullptr;
-
     if (!current) current = head;  // initialize if needed
+
     Player* player = current->upp.get();
     current = current->next;
     return player;
 }
+
+Player* CList::getCurrent() const {
+    if (empty() || !current) return nullptr;
+    return current->upp.get(); // Return the current player's pointer
+}
+
 
 ostream& operator<<(ostream& os, const CList& clist) {
     clist.print(os);
