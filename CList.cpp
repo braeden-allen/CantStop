@@ -59,7 +59,7 @@ void CList::print(ostream& os) const {
 
     Cell* curr = head;
     do {
-        os << *curr->upp << "\n-----\n";
+        os << *curr->upp << "\n---------------\n";
         curr = curr->next;
     } while (curr != head);
 }
@@ -72,12 +72,6 @@ Player* CList::next() { // advances to the next cell and returns the Player*
     current = current->next;
     return player;
 }
-
-Player* CList::getCurrent() const {
-    if (empty() || !current) return nullptr;
-    return current->upp.get(); // Return the current player's pointer
-}
-
 
 ostream& operator<<(ostream& os, const CList& clist) {
     clist.print(os);

@@ -1,63 +1,82 @@
-----------------------------------------------
-CLIST UNIT TEST
-----------------------------------------------
-Test 1: Empty List
-Expected: size = 0, empty = true, output = 'No players'
-Actual:   size = 0, empty=true, output:
-No players in the list.
 
------> PASSED
+----------------------------------------------------------------
+	Braeden A. and Mateusz W.
+	CSCI 4526
+	Wed Mar 26 2025	21:25:46
+----------------------------------------------------------------
 
-Test 2: Add Players
-Added 4 players with valid colors (B,Y,O,G)
-Expected: size=4
-Actual:   size=4, output:
-Player: Alice
+
+----------------------------------------------
+                CLIST UNIT TEST              
+----------------------------------------------
+
+********** Test 1: Adding Players **********
+Player: Player1
 Color: Blue
 Score: 0
 
------
-Player: Bob
-Color: Yellow
-Score: 0
-
------
-Player: Charlie
-Color: Orange
-Score: 0
-
------
-Player: Dana
+---------------
+Player: Player2
 Color: Green
 Score: 0
 
------
-
------> PASSED
-
-Test 3: Circular Iteration
-Iteration: Eve(Blue) Frank(Yellow) 
-Expected: Eve(Blue) Frank(Yellow) Eve (completes circle in 2 steps)
-Actual:   Completed circle in 2 steps
------> PASSED
-
-Test 4: Remove Player
-Removing: Grace
-Expected: size = 1, remaining player is Henry(Orange)
-Actual:   size = 1, remaining:
-Player: Henry
+---------------
+Player: Player3
 Color: Orange
 Score: 0
 
------
+---------------
+Player: Player4
+Color: Yellow
+Score: 0
 
------> PASSED
-
-Test 5: Empty and Refill
-After clear: size =0
-After refill: size =1, player: Jack(Blue)
------> PASSED
+---------------
+Number of players: 4
 ----------------------------------------------
-FINAL RESULTS
-All tests PASSED
+
+********** Test 2: Removing a Player **********
+Player: Player1
+Color: Blue
+Score: 0
+
+---------------
+Player: Player3
+Color: Orange
+Score: 0
+
+---------------
+Player: Player4
+Color: Yellow
+Score: 0
+
+---------------
+Number of players: 3
+----------------------------------------------
+
+********** Test 3: Removing All Players **********
+Number of players: 0
+----------------------------------------------
+
+********** Test 4: Adding Players Again **********
+Player: New Player A
+Color: Blue
+Score: 0
+
+---------------
+Player: New Player B
+Color: Orange
+Score: 0
+
+---------------
+Number of players: 2
+----------------------------------------------
+
+********** Test 5: Traverse the List **********
+Current Player: New Player A
+Current Player: New Player B
+----------------------------------------------
+
+********** Test 6: Print an Empty List **********
+No players in the list.
+Number of players: 0
 ----------------------------------------------

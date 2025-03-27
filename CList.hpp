@@ -39,8 +39,8 @@ public:
     void remove();
     void print(ostream& os) const;
     Player* next();
-    Player* getCurrent() const;
     inline void init() { current = head; }
+    [[nodiscard]] int getCount() const {return count;}
     friend class Cell;
 
 }; ostream& operator << (ostream& os, const CList& clist);
