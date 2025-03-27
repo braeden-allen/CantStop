@@ -1,6 +1,6 @@
 //----------------------------------------
 // File: Board.hpp
-// Authors: Braeden
+// Authors: Braeden & Mateusz
 //----------------------------------------
 #pragma once
 #include "Column.hpp" //only include necessary dependencies
