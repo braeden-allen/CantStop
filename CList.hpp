@@ -1,6 +1,6 @@
 //----------------------------------------
 // File: CList.hpp
-// Authors: Braeden
+// Authors: Braeden & Mateusz
 //----------------------------------------
 #pragma once
 #include <memory>
