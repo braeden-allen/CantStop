@@ -80,3 +80,14 @@ To meet the expectations of this module, I aim to fully test outcomes of the new
 6. To accurately test the board (at least one column captured, one pending at the end, and one not touched)
 
 ----------------------------------------------------------------------------------------------------------------------
+
+TEST PLAN - MODULE 7 (PLAYER LIST)
+
+To meet the expectations of this module, outlined in the instructions, I aim to fully test the functions in the CList class
+1. To accurate add players to an empty list, ensuring that the players are accurately added and a list is populated
+2. To accurately remove players from a list such that the list is still functional and circular
+3. Upon having an emptied list, players can be added to the list again
+4. Fully accurate testing of the CList.next() function allows for a traversal of the list
+5. Print an accurate list of anywhere between 0->4 players
+
+----------------------------------------------------------------------------------------------------------------------
