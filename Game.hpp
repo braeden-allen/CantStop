@@ -1,6 +1,6 @@
 //----------------------------------------
 //File: Game.hpp
-//Authors: Braeden
+//Authors: Braeden & Mateusz
 //----------------------------------------
 #pragma once
 #include "Board.hpp"
