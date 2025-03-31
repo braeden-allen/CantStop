@@ -5,13 +5,7 @@
 #include "Game.hpp"
 //----------------------------------------
 
-Game::Game(int numPlayers)
-        : dice(new Dice(4)) { //initialize 4 dice
-    for (int i = 0; i < numPlayers; ++i) {
-        players.add(make_unique<Player>(getNewPlayer()));
-    }
-    players.init(); //initialize circular iteration
-}
+Game::Game() : dice(new Dice(4)) {}//initialize 4 dice
 
 Player Game::getNewPlayer() {
     string name;
@@ -39,7 +33,7 @@ Player Game::getNewPlayer() {
     return {name, color}; //initialize and return the player
 }
 
-void Game::oneTurn(Player* pp){
+void Game::oneTurn(Player* pp) {
 
     board.startTurn(pp);
     int usedTowers = 0;
@@ -47,6 +41,7 @@ void Game::oneTurn(Player* pp){
     while (true) {
 
         int choice;
+        cout << "It is " << players.getCurrent()->getName() << "'s turn" << endl;
         cout << "Enter a Menu Option From Below:" << endl;
         cout << "\t1. Roll Dice\n\t2. Stop Turn\n\t3. Resign" << endl;
         cout << "Enter Choice: ";
@@ -57,14 +52,13 @@ void Game::oneTurn(Player* pp){
             cin >> choice;
         }//validate input
 
-        //handle player's choice
         if (choice == 1) {
-            if (usedTowers >= 3){
+            if (usedTowers >= 3) {
                 cout << "You cannot use more than 3 towers per turn. Resign or Stop turn" << endl;
                 continue;
             }
 
-            const int* diceValues = dice->roll();
+            const int *diceValues = dice->roll();
             cout << "Dice rolled: ";
             for (int k = 0; k < 4; ++k) {
                 cout << diceValues[k] << " ";
@@ -88,7 +82,7 @@ void Game::oneTurn(Player* pp){
             int pair1 = diceValues[index1] + diceValues[index2]; //calculate die pairs
             int pair2 = 0;
             for (int k = 0; k < 4; ++k) {
-                if (k != index1 && k != index2) {pair2 += diceValues[k];}
+                if (k != index1 && k != index2) { pair2 += diceValues[k]; }
             }
 
             cout << "Pair 1: " << pair1 << " (Dice " << die1 << " and " << die2 << ")\n";
@@ -98,8 +92,8 @@ void Game::oneTurn(Player* pp){
             bool move1Success = board.move(pair1);
             bool move2Success = board.move(pair2);
 
-            if (move1Success) {usedTowers++;}
-            if (move2Success) {usedTowers++;}
+            if (move1Success) { usedTowers++; }
+            if (move2Success) { usedTowers++; }
 
             board.print(cout); //display the board after the moves
 
@@ -123,8 +117,74 @@ void Game::oneTurn(Player* pp){
                 cout << "Player " << pp->getName() << " has won the game!" << endl;
                 return;
             }//check if the player has won
+        }
+        else if (choice == 2) {board.stop(); break;} //player chooses to stop
+        else if (choice == 3) { // Resign
+            cout << "\n" << pp->getName() << " resigns.\n";
 
-        } else if (choice == 2) {board.stop(); break;} //Player chooses to stop
-        else if (choice == 3) {cout << "Resignation is not yet implemented.\n";}//(deferred implementation)
+            // 1. Store resigning player's name before removal
+            string resignName = pp->getName();
+
+            // 2. Clean up game state
+            board.bust();
+
+            // 3. Remove player
+            players.init();
+            players.remove();
+
+            cout << "Number of players left: " << players.getCount() << "\n\n";
+
+            // 4. Check win conditions
+            if (players.getCount() == 1) {
+                Player* winner = players.next();
+                cout << "Default win for " << winner->getName() << endl;
+                bye();
+                exit(0);
+            }
+
+            // 5. Only continue if enough players remain
+            if (players.getCount() >= 2) {
+                Player* nextPlayer = players.next();
+                if (nextPlayer) {
+                    oneTurn(nextPlayer); // Start new turn
+                }
+            }
+            return; // Always exit current turn
+        }
+        break;
+    }
+}
+
+bool Game::addPlayer() {
+    if (players.getCount() >= 4) { // Max 4 players
+        cout << "Maximum players reached (4)\n";
+        return false;
+    }
+
+    players.add(make_unique<Player>(getNewPlayer()));
+    if (players.getCount() == 1) {
+        players.init(); //initialize iteration for first player
+    }
+    return true;
+}
+
+void Game::playGame() {
+    if (players.getCount() < 2) {
+        cout << "Need at least 2 players to start!\n";
+        return;
+    }
+
+    cout << "\n=== GAME START ===\n";
+    while (true) {
+        Player* current = players.getCurrent();
+        while (current && players.getCount() >= 2) {
+            oneTurn(current);
+        }
+
+        // Check win conditions
+        if (current->getScore() >= 3) {
+            cout << current->getName() << " wins the game!\n";
+            break;
+        }
     }
 }

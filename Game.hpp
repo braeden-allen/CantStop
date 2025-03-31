@@ -17,8 +17,10 @@ private:
     CList players;
 
 public:
-        Game(int numPlayers = 2); //make it a 2 person game by default
+        Game();
         ~Game() = default;
         Player getNewPlayer();
         void oneTurn(Player* pp);
+        bool addPlayer();
+        void playGame();
 };

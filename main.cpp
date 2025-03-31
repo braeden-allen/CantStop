@@ -10,55 +10,31 @@ void unitCList();
 
 int main() {
 
-    banner(); // Show game header
+    banner();
 
-    // Initialize with 2 players (using your Game constructor)
-    Game game(2);
+    Game game; //starts with 0 players
+
+    //add mandatory 2 players
     cout << "=== PLAYER SETUP ===\n";
+    for (int i = 0; i < 2; i++) {
+        cout << "Player " << i+1 << ":\n";
+        game.addPlayer();
+    }
 
-    // Option to add more players (by creating a new Game instance)
+    //optional additional players
     char choice;
     do {
         cout << "\nAdd another player? (Y/N): ";
         cin >> choice;
         choice = toupper(choice);
-        cin >> cleanline;
 
         if (choice == 'Y') {
-            // Since Game doesn't have addPlayer(), we'd need to:
-            cout << "\nPlease restart with total player count.\n";
-            bye();
-            return 0;
+            if (!game.addPlayer()) {break;} //stop if max players reached
         }
-        else if (choice != 'N') {
-            cout << "Please enter Y or N.\n";
-        }
+        else if (choice != 'N') {cout << "Invalid choice. Please enter Y or N.\n";}
     } while (choice != 'N');
 
-    // Start game loop
-    cout << "\n=== GAME START ===\n";
-    while (true) {
-        // Access players list directly (since no nextPlayer() wrapper exists)
-        Player* current = game.players.next();
-        if (!current) {
-            cout << "No players remaining!\n";
-            break;
-        }
-
-        game.oneTurn(current);
-
-        // Win condition (3 columns)
-        if (current->getScore() >= 3) {
-            cout << current->getName() << " wins the game!\n";
-            break;
-        }
-
-        // Check if only one player left (if others resigned)
-        if (game.players.getCount() == 1) {
-            cout << current->getName() << " wins by default!\n";
-            break;
-        }
-    }
+    game.playGame(); //start game - all logic encapsulated
 
     bye();
     return 0;

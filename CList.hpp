@@ -41,6 +41,8 @@ public:
     Player* next();
     inline void init() { current = head; }
     [[nodiscard]] int getCount() const {return count;}
+    [[nodiscard]] Player* getCurrent() const;
+    void clear() {while (!empty()) {remove();}} //used to clear the list
     friend class Cell;
 
 }; ostream& operator << (ostream& os, const CList& clist);

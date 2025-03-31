@@ -14,10 +14,6 @@ Column::Column(int colNum)
     for (int& pos : markerPositions) {pos = 0;}//Initialize markerPositions to 0
 }
 
-EColStatus Column::getState() const {
-    return colState;
-}
-
 string Column::colStateToString(EColStatus status) const {
     switch (status) {
         case EColStatus::captured: return "captured";
@@ -28,7 +24,7 @@ string Column::colStateToString(EColStatus status) const {
 }
 
 bool Column::startTower(Player* player) {
-    if (colState == EColStatus::captured) {return false;}//can't start tower on captured column
+    if (colState == EColStatus::captured) {return false;} //can't start tower on captured column
 
     int colorIdx = (int)(player->getColor());
     int currentPos = markerPositions[colorIdx];

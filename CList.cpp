@@ -31,27 +31,39 @@ void CList::add(unique_ptr<Player>&& p) { //adds new player to the list with mov
 }
 
 void CList::remove() {
-    if (empty() || !current) return;
+    if (empty()) {cout << "List is empty" << endl;return;}
 
-    Cell* toRemove = current;
-    Cell* prev = head;
+    Cell* temp = current;
 
-    // Find the node before `toRemove`
-    while (prev->next != toRemove && prev->next != head) {
-        prev = prev->next;
+    if (current == head) {
+        if (head == tail) { //only one node in list
+            head = nullptr;
+            tail = nullptr;
+        } else {
+            head = head->next;
+            tail->next = head; //keep circularity
+        }
+    } else if (current == tail) { //remove tail
+        Cell* temp = head;
+        while (temp->next != tail) {temp = temp->next;} //walk the list
+        tail = temp;
+        tail->next = head; // Update tail's next to point to the head
+    } else { //remove middle node (most common)
+        Cell* prev = head;
+        while (prev->next != current) {prev = prev->next;} //walk the list
+        prev->next = current->next; //skip current node
     }
 
-    // Update links
-    prev->next = toRemove->next;
-    if (toRemove == head) head = toRemove->next;
-    if (toRemove == tail) tail = (head == tail) ? nullptr : prev;
+    current = current->next; //rearrange list to close any gaps
 
-    // Update current (move to next node before deletion)
-    current = toRemove->next;
-    delete toRemove;
-    count--;
+    delete temp; //delete current
+    count--; //update count
 
-    if (empty()) current = head = tail = nullptr;
+    if (empty()) {
+        head = nullptr;
+        tail = nullptr;
+        current = nullptr;
+    }
 }
 
 void CList::print(ostream& os) const {
@@ -64,13 +76,20 @@ void CList::print(ostream& os) const {
     } while (curr != head);
 }
 
-Player* CList::next() { // advances to the next cell and returns the Player*
+Player* CList::next() { //advances to the next cell and returns the Player*
     if (empty()) return nullptr;
-    if (!current) current = head;  // initialize if needed
+    if (!current) current = head;  //initialize if needed
 
     Player* player = current->upp.get();
     current = current->next;
     return player;
+}
+
+Player* CList::getCurrent() const {
+    if (current == nullptr) {
+        return nullptr;
+    }
+    return current->upp.get();
 }
 
 ostream& operator<<(ostream& os, const CList& clist) {

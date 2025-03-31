@@ -15,6 +15,7 @@ class Column {
         EColStatus colState = EColStatus::available;
         int markerPositions[5];
         int const maxPos;
+        ECcolor capturedColor;
     public:
         Column(int colNum);
         ~Column() = default;
@@ -25,8 +26,8 @@ class Column {
         void bust();
         void printColors(ostream& os, int k) const;
         ostream& print(ostream& os) const;
-
-    EColStatus getState() const;
+        [[nodiscard]] EColStatus getState() const{return colState;}
+        [[nodiscard]] ECcolor getCapturedColor() const {return capturedColor;}
 };
 
 ostream& operator << (ostream&, const Column&);
