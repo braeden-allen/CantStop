@@ -8,7 +8,7 @@
 Game::Game(int numPlayers)
         : dice(new Dice(4)) { //initialize 4 dice
     for (int i = 0; i < numPlayers; ++i) {
-        players.add(std::make_unique<Player>(getNewPlayer()));
+        players.add(make_unique<Player>(getNewPlayer()));
     }
     players.init(); //initialize circular iteration
 }

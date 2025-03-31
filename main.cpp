@@ -8,14 +8,59 @@
 
 void unitCList();
 
-int main(int argc , char* argv[]) {
-    srand(time(nullptr)); //initialized random number generator
+int main() {
 
-    unitCList();
+    banner(); // Show game header
 
-    banner();
+    // Initialize with 2 players (using your Game constructor)
+    Game game(2);
+    cout << "=== PLAYER SETUP ===\n";
+
+    // Option to add more players (by creating a new Game instance)
+    char choice;
+    do {
+        cout << "\nAdd another player? (Y/N): ";
+        cin >> choice;
+        choice = toupper(choice);
+        cin >> cleanline;
+
+        if (choice == 'Y') {
+            // Since Game doesn't have addPlayer(), we'd need to:
+            cout << "\nPlease restart with total player count.\n";
+            bye();
+            return 0;
+        }
+        else if (choice != 'N') {
+            cout << "Please enter Y or N.\n";
+        }
+    } while (choice != 'N');
+
+    // Start game loop
+    cout << "\n=== GAME START ===\n";
+    while (true) {
+        // Access players list directly (since no nextPlayer() wrapper exists)
+        Player* current = game.players.next();
+        if (!current) {
+            cout << "No players remaining!\n";
+            break;
+        }
+
+        game.oneTurn(current);
+
+        // Win condition (3 columns)
+        if (current->getScore() >= 3) {
+            cout << current->getName() << " wins the game!\n";
+            break;
+        }
+
+        // Check if only one player left (if others resigned)
+        if (game.players.getCount() == 1) {
+            cout << current->getName() << " wins by default!\n";
+            break;
+        }
+    }
+
     bye();
-
     return 0;
 }
 
