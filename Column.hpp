@@ -1,5 +1,5 @@
 //----------------------------------------
-//File: column.hpp
+//File: Column.hpp
 //Authors: Braeden and Mateusz
 //----------------------------------------
 #pragma once
@@ -19,7 +19,7 @@ class Column {
     public:
         Column(int colNum);
         ~Column() = default;
-        [[nodiscard]] string colStateToString(EColStatus status)const;
+        static string colStateToString(EColStatus status);
         static string colorToString(ECcolor color);
         bool startTower(Player* player);
         bool move();

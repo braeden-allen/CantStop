@@ -39,9 +39,6 @@ bool Board::move(int column) {
         if (!targetColumn->move()) {cout << "No valid moves in column " << column << ".\n";return false;}
     }
 
-    if (targetColumn->getState() == EColStatus::pending) {cout << "Column " << column << " is now pending capture!\n";} //is column pending
-
-    targetColumn->print(cout); //print the updated column state
     return true;
 }
 
