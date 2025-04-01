@@ -16,7 +16,6 @@ private:
     Player* currentPlayer; //pointer to current player
 
 public:
-
     Board();
     ~Board();
 

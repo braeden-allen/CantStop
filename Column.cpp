@@ -41,12 +41,10 @@ bool Column::startTower(Player* player) {
     ECcolor playerColor = player->getColor();
     int colorIdx = (int)playerColor;
 
-    // Check if player can start here (has existing marker or column is available)
-    if (markerPositions[colorIdx] == 0 && colState != EColStatus::available) {
-        return false;
-    }
+    //check if player has existing marker or column is available
+    if (markerPositions[colorIdx] == 0 && colState != EColStatus::available) {return false;}
 
-    // Set temporary tower (using White index)
+    //set temporary tower
     int towerIdx = (int)ECcolor::White;
     markerPositions[towerIdx] = max(markerPositions[colorIdx], 1);
     colState = EColStatus::pending;
@@ -93,10 +91,10 @@ void Column::bust() {
 }
 
 void Column::printColors(ostream& os, int k) const {
-    char square[6] = "-----"; // 5 chars (TOYGB)
+    char square[6] = "-----";
 
-    // Print permanent markers first
-    for (int colorIdx = 1; colorIdx < 5; ++colorIdx) { // Skip White (index 0)
+    //print permanent markers first
+    for (int colorIdx = 1; colorIdx < 5; ++colorIdx) { //skip White (index 0)
         if (markerPositions[colorIdx] >= k) {
             switch ((ECcolor)colorIdx) {
                 case ECcolor::Orange: square[1] = 'O'; break;
@@ -107,7 +105,6 @@ void Column::printColors(ostream& os, int k) const {
             }
         }
     }
-
     if (colState == EColStatus::pending && markerPositions[0] >= k) {square[0] = 'T';} //print temp (tower)
     os << square << " | ";
 }
@@ -121,7 +118,7 @@ ostream& Column::print(ostream& os) const {
     os << " | ";
 
     for (int k = 1; k <= maxPos; ++k) {printColors(os, k);os << " | ";}
-    os << endl;  // Extra spacing between columns
+    os << endl;
 
     return os;
 }

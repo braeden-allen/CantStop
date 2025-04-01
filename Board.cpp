@@ -25,7 +25,7 @@ Column* Board::getColumn(int colNum) {
 void Board::startTurn(Player* player) {
     currentPlayer = player;
     towerCounter = 0;
-    for (int k = 0; k < 3;  ++k ) {towerColumns[k] = 0;}
+    for (int & towerColumn : towerColumns) {towerColumn = 0;}
 }
 
 bool Board::move(int column) {
