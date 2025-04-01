@@ -106,7 +106,10 @@ Board::Board() : currentPlayer(nullptr), towerCounter(0) {
     towerColumns[1] = -1;
     towerColumns[2] = -1;
 
-    backBone[0] = backBone[1] = nullptr;.
+    // The first two positions of backBone are not used.
+    backBone[0] = backBone[1] = nullptr;
+    
+    // Create each column for column numbers 2 through 12.
     for (int k = 2; k < 13; ++k) {backBone[k] = new Column(k);}
 }
 
