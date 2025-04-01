@@ -3,15 +3,15 @@
 // Authors: Braeden and Mateusz
 //----------------------------------------
 #include "Column.hpp"
-#include "Player.hpp" // Assuming Player.hpp is needed for Player class
+#include "Player.hpp"
 //----------------------------------------
 
 const int Column::colLength[13] = {0, 0, 3, 5, 7, 9, 11, 13, 11, 9, 7, 5, 3};
 
 Column::Column(int colNum)
-        : colNumber(colNum), maxPos(colLength[colNum]) {
-    if (colNum < 2 || colNum > 12) {fatal("Column number must be between 2 and 12.");}
-    for (int& pos : markerPositions) {pos = 0;}//Initialize markerPositions to 0
+        : colNumber(colNum), maxPos(colLength[colNum]), capturedColor(ECcolor::White) {
+    if (colNum < 2 || colNum > 12) { fatal("Column number must be between 2 and 12."); }
+    for (int& pos : markerPositions) { pos = 0; } // Initialize all markers to 0
 }
 
 string Column::colStateToString(EColStatus status) const {
@@ -20,83 +20,119 @@ string Column::colStateToString(EColStatus status) const {
         case EColStatus::pending: return "pending";
         case EColStatus::available: return "available";
     }
-    return "unknown"; //fallback, though unreachable
+    return "unknown";
+}
+
+// Helper function for printing (add before Column::print)
+string Column::colorToString(ECcolor color) {
+    switch(color) {
+        case ECcolor::Orange: return "Orange";
+        case ECcolor::Yellow: return "Yellow";
+        case ECcolor::Green:  return "Green";
+        case ECcolor::Blue:   return "Blue";
+        case ECcolor::White:  return "White";
+        default: return "Unknown";
+    }
 }
 
 bool Column::startTower(Player* player) {
-    if (colState == EColStatus::captured) {return false;} //can't start tower on captured column
+    if (colState == EColStatus::captured) return false;
 
-    int colorIdx = (int)(player->getColor());
-    int currentPos = markerPositions[colorIdx];
+    ECcolor playerColor = player->getColor();
+    int colorIdx = static_cast<int>(playerColor);
 
-    if (currentPos == 0) {markerPositions[colorIdx] = 1;} //place tower at pos 1 if empty
-    else if (currentPos < maxPos) {markerPositions[colorIdx]++;} //move tower if available
-    else {return false;}//can't start tower if at max position
+    // Check if player can start here (has existing marker or column is available)
+    if (markerPositions[colorIdx] == 0 && colState != EColStatus::available) {
+        return false;
+    }
 
-    int towerIdx = (int)(ECcolor::White); //set tower marker for White
-    if (markerPositions[towerIdx] == 0) {markerPositions[towerIdx] = 1;}//place the tower at position 1
-
-    if (markerPositions[colorIdx] == maxPos) {colState = EColStatus::pending;}//column is pending
-
+    // Set temporary tower (using White index)
+    int towerIdx = static_cast<int>(ECcolor::White);
+    markerPositions[towerIdx] = max(markerPositions[colorIdx], 1);
+    colState = EColStatus::pending;
     return true;
 }
 
 bool Column::move() {
-    if (colState == EColStatus::captured || colState == EColStatus::pending) {return false;} //can't move if unavailable
+    if (colState != EColStatus::pending) return false;
 
-    bool moved = false;
-    for (int& pos : markerPositions) {
-        if (pos > 0 && pos < maxPos) {
-            pos++; //move the marker forward
-            if (pos == maxPos) {colState = EColStatus::pending;}//column is pending capture
-            moved = true;
-        }
+    int towerIdx = static_cast<int>(ECcolor::White);
+    if (markerPositions[towerIdx] < maxPos) {
+        markerPositions[towerIdx]++;
+        return true;
     }
-    return moved; //return true if marker moved
+    return false;
 }
 
 void Column::stop(Player* player) {
-    int colorIdx = (int)(player->getColor());
+    if (colState != EColStatus::pending) return;
+
+    ECcolor playerColor = player->getColor();
+    int colorIdx = static_cast<int>(playerColor);
+    int towerIdx = static_cast<int>(ECcolor::White);
+
+    // Convert temporary tower to permanent marker
+    markerPositions[colorIdx] = markerPositions[towerIdx];
+    markerPositions[towerIdx] = 0; // Clear temporary tower
+
+    // Check if column is captured
     if (markerPositions[colorIdx] == maxPos) {
         colState = EColStatus::captured;
-        player->wonColumn(colNumber); //notify player of col win
-    } else {markerPositions[colorIdx] = 0;}//reset marker to 0
+        capturedColor = playerColor;
+        player->wonColumn(colNumber);
+    } else {
+        colState = EColStatus::available;
+    }
 }
 
 void Column::bust() {
-    for (int& pos : markerPositions) {
-        pos = 0; //reset all markers to 0
+    if (colState == EColStatus::pending) {
+        // Only clear the temporary tower (White marker)
+        int towerIdx = static_cast<int>(ECcolor::White);
+        markerPositions[towerIdx] = 0;
+        colState = EColStatus::available;
     }
-    colState = EColStatus::available; //reset column to available
 }
 
 void Column::printColors(ostream& os, int k) const {
-    char square[6] = "-----"; //5 chars (TOYGB)
-    if (markerPositions[(int)(ECcolor::White)] == k) {
-        square[0] = 'T'; //tower
-    }
-    for (int colorIdx = 1; colorIdx < 5; ++colorIdx) { //skip white (tower)
-        if (markerPositions[colorIdx] == k) {
-            switch ((ECcolor)(colorIdx)) {
+    char square[6] = "-----"; // 5 chars (TOYGB)
+
+    // Print permanent markers first
+    for (int colorIdx = 1; colorIdx < 5; ++colorIdx) { // Skip White (index 0)
+        if (markerPositions[colorIdx] >= k) {
+            switch (static_cast<ECcolor>(colorIdx)) {
                 case ECcolor::Orange: square[1] = 'O'; break;
                 case ECcolor::Yellow: square[2] = 'Y'; break;
                 case ECcolor::Green: square[3] = 'G'; break;
                 case ECcolor::Blue: square[4] = 'B'; break;
-                case ECcolor::White:
-                    break;
+                default: break;
             }
         }
+    }
+
+    // Print temporary tower on top (White marker)
+    if (colState == EColStatus::pending && markerPositions[0] >= k) {
+        square[0] = 'T';
     }
     os << square << " | ";
 }
 
 ostream& Column::print(ostream& os) const {
-    os << "\nColumn " << colNumber << ": ";
-    os << "State: " << colStateToString(colState) << endl;
-    for (int k = 1; k <= maxPos; ++k) {
-        os << "Square " << k << ": ";
-        printColors(os, k);
+    if (colState == EColStatus::captured) {
+        os << " by " << colorToString(capturedColor);
     }
     os << endl;
+
+    // Print all squares in the column in one line
+    os << "Column " << colNumber << ": ";
+    os << "State: " << colStateToString(colState);
+    os << " | ";
+
+    for (int k = 1; k <= maxPos; ++k) {
+        printColors(os, k);
+        os << " | ";
+    }
+    os << endl;  // Extra spacing between columns
+
     return os;
 }

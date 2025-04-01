@@ -20,6 +20,7 @@ class Column {
         Column(int colNum);
         ~Column() = default;
         [[nodiscard]] string colStateToString(EColStatus status)const;
+        static string colorToString(ECcolor color);
         bool startTower(Player* player);
         bool move();
         void stop(Player* player);
