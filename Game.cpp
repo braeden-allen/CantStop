@@ -118,23 +118,17 @@ void Game::oneTurn(Player* pp) {
                 return;
             }//check if the player has won
         }
-        else if (choice == 2) {board.stop(); break;} //player chooses to stop
+        else if (choice == 2) {board.stop(); players.next(); break;} //player chooses to stop
         else if (choice == 3) { // Resign
             cout << "\n" << pp->getName() << " resigns.\n";
 
-            // 1. Store resigning player's name before removal
             string resignName = pp->getName();
-
-            // 2. Clean up game state
-            board.bust();
-
-            // 3. Remove player
+            board.bust(); //clean up state
             players.init();
             players.remove();
 
             cout << "Number of players left: " << players.getCount() << "\n\n";
 
-            // 4. Check win conditions
             if (players.getCount() == 1) {
                 Player* winner = players.next();
                 cout << "Default win for " << winner->getName() << endl;
@@ -142,17 +136,16 @@ void Game::oneTurn(Player* pp) {
                 exit(0);
             }
 
-            // 5. Only continue if enough players remain
-            if (players.getCount() >= 2) {
+            if (players.getCount() >= 2) { //ensure game is still playable
                 Player* nextPlayer = players.next();
                 if (nextPlayer) {
-                    oneTurn(nextPlayer); // Start new turn
+                    oneTurn(nextPlayer); //start new turn
                 }
             }
-            return; // Always exit current turn
+            return; //always exit current turn
         }
-        break;
     }
+    players.next();
 }
 
 bool Game::addPlayer() {
@@ -175,16 +168,9 @@ void Game::playGame() {
     }
 
     cout << "\n=== GAME START ===\n";
-    while (true) {
+    while (players.getCount() >= 2) {
         Player* current = players.getCurrent();
-        while (current && players.getCount() >= 2) {
-            oneTurn(current);
-        }
-
-        // Check win conditions
-        if (current->getScore() >= 3) {
-            cout << current->getName() << " wins the game!\n";
-            break;
-        }
+        oneTurn(current);
+        players.next(); // Critical addition
     }
 }

@@ -5,6 +5,7 @@
 #pragma once
 #include "Column.hpp" //only include necessary dependencies
 #include "Player.hpp" //needed for Player pointer
+#include "CList.hpp"
 //----------------------------------------
 
 class Board {

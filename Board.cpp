@@ -7,7 +7,7 @@
 
 Board::Board() : currentPlayer(nullptr) {
     towerCounter = 0;
-    for (int k = 0; k < 3; ++k) {towerColumns[k] = -1;}
+    for (int & towerColumn : towerColumns) {towerColumn = -1;}
     backBone[0] = backBone[1] = nullptr;
 
     for (int k = 2; k < 13;  ++k ) {backBone[k] = new Column(k);} //create each column
@@ -63,7 +63,6 @@ void Board::stop() {
 
 void Board::bust() {
     if (currentPlayer == nullptr) {cout << "No current player to bust.\n";return;}
-    cout << currentPlayer->getName() << " has busted!\n";
 
     for (int k = 2; k <= 12;  ++k ) {//reset columns where markers were
         if (backBone[k] != nullptr && backBone[k]->getState() != EColStatus::captured) {backBone[k]->bust();}
