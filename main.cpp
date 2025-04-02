@@ -8,6 +8,7 @@
 
 int main() {
 
+    srand(time(nullptr));
     banner();
 
     Game game; //starts with 0 players
@@ -32,7 +33,7 @@ int main() {
         else if (choice != 'N') {cout << "Invalid choice. Please enter Y or N.\n";}
     } while (choice != 'N');
 
-    game.playGame(); //start game - all logic encapsulated
+    game.playGame();
 
     bye();
     return 0;

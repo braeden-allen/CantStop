@@ -12,7 +12,8 @@ class Player{
         string playerName;
         ECcolor playerColor;
         int scoreboard[3];
-        int columnCount;
+        //clang++ gives error on columnCount not being use, but g++ doesnt
+        // int columnCount;
         int score;
 
     public:

@@ -10,7 +10,6 @@
 //----------------------------------------
 
 class Game {
-
 private:
     Board board;
     Dice* dice;
