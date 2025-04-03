@@ -25,46 +25,46 @@ Column* Board::getColumn(int colNum) {
 void Board::startTurn(Player* player) {
     currentPlayer = player;
     towerCounter = 0;
-    for (int & towerColumn : towerColumns) {towerColumn = 0;}
 }
 
 bool Board::move(int column) {
-    if (column < 2 || column > 12) {cerr << "Invalid Column Number"; return false;}
+    Column* col = getColumn(column);
+    if (!col) return false;
 
-    Column* targetColumn = backBone[column];
+    // First check if this column already has a tower
+    for (int i = 0; i < towerCounter; i++) {
+        if (towerColumns[i] == column) {
+            bool moved = col->move();
+            if (!moved) {
 
-    if (targetColumn == nullptr) {cerr << "Column " + to_string(column) + " is not initialized."; return false;}
-
-    if (!targetColumn->startTower(currentPlayer)) { //start tower or move markers
-        if (!targetColumn->move()) {cout << "No valid moves in column " << column << ".\n";return false;}
-    }
-
-    return true;
-}
-
-void Board::stop() {
-    if (currentPlayer == nullptr) {cout << "No current player to stop.\n";return;}
-
-    //attempt to capture pending cols
-    for (int k= 2; k <= 12; ++k) {
-        Column* column = backBone[k];
-        if (column != nullptr && column->getState() == EColStatus::pending) {
-            column->stop(currentPlayer);
-            if (column->getState() == EColStatus::captured) {
-                cout << currentPlayer->getName() << " has captured column " << k << "!\n";
+                bust(); //if move failed, treat it as a bust
             }
+            return moved;
         }
     }
-    currentPlayer = nullptr; //end turn
+
+    if (towerCounter >= 3) return false; //new tower case
+
+    if (col->startTower(currentPlayer)) {
+        towerColumns[towerCounter++] = column;
+        return true;
+    }
+    return false;
+}
+
+
+void Board::stop() {
+    for (int i = 0; i < towerCounter; i++) {
+        backBone[towerColumns[i]]->stop(currentPlayer);  // Convert towers to permanent
+    }
+    towerCounter = 0;  // Reset counter
 }
 
 void Board::bust() {
-    if (currentPlayer == nullptr) {cout << "No current player to bust.\n";return;}
-
-    for (int k = 2; k <= 12;  ++k ) {//reset columns where markers were
-        if (backBone[k] != nullptr && backBone[k]->getState() != EColStatus::captured) {backBone[k]->bust();}
+    for (int i = 0; i < towerCounter; i++) {
+        backBone[towerColumns[i]]->bust();  // Clear each active tower
     }
-    currentPlayer = nullptr; //end player turn
+    towerCounter = 0;  // Reset counter
 }
 
 ostream& Board::print(std::ostream& os) const {

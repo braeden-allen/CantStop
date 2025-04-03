@@ -54,12 +54,11 @@ bool Column::startTower(Player* player) {
 bool Column::move() {
     if (colState != EColStatus::pending) return false;
 
-    int towerIdx = (int)ECcolor::White;
-    if (markerPositions[towerIdx] < maxPos) {
-        markerPositions[towerIdx]++;
-        return true;
-    }
-    return false;
+    int& towerPos = markerPositions[(int)ECcolor::White];
+    if (towerPos >= maxPos) return false;
+
+    towerPos++; // Advance the tower
+    return true;
 }
 
 void Column::stop(Player* player) {
@@ -95,7 +94,7 @@ void Column::printColors(ostream& os, int k) const {
 
     //print permanent markers first
     for (int colorIdx = 1; colorIdx < 5; ++colorIdx) { //skip White (index 0)
-        if (markerPositions[colorIdx] >= k) {
+        if (markerPositions[colorIdx] == k) {
             switch ((ECcolor)colorIdx) {
                 case ECcolor::Orange: square[1] = 'O'; break;
                 case ECcolor::Yellow: square[2] = 'Y'; break;
@@ -105,7 +104,7 @@ void Column::printColors(ostream& os, int k) const {
             }
         }
     }
-    if (colState == EColStatus::pending && markerPositions[0] >= k) {square[0] = 'T';} //print temp (tower)
+    if (colState == EColStatus::pending && markerPositions[0] == k) {square[0] = 'T';} //print temp (tower)
     os << square << " | ";
 }
 
