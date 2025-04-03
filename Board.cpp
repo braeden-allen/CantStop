@@ -7,7 +7,9 @@
 
 Board::Board() : currentPlayer(nullptr) {
     towerCounter = 0;
-    for (int & towerColumn : towerColumns) {towerColumn = -1;}
+    towerColumns[0] = -1;
+    towerColumns[1] = -1;
+    towerColumns[2] = -1;
     backBone[0] = backBone[1] = nullptr;
 
     for (int k = 2; k < 13;  ++k ) {backBone[k] = new Column(k);} //create each column
@@ -32,13 +34,10 @@ bool Board::move(int column) {
     if (!col) return false;
 
     // First check if this column already has a tower
-    for (int i = 0; i < towerCounter; i++) {
-        if (towerColumns[i] == column) {
+    for (int k = 0; k < towerCounter; k++) {
+        if (towerColumns[k] == column) {
             bool moved = col->move();
-            if (!moved) {
-
-                bust(); //if move failed, treat it as a bust
-            }
+            if (!moved) bust(); //if move failed, treat it as a bust
             return moved;
         }
     }
@@ -52,17 +51,16 @@ bool Board::move(int column) {
     return false;
 }
 
-
 void Board::stop() {
-    for (int i = 0; i < towerCounter; i++) {
-        backBone[towerColumns[i]]->stop(currentPlayer);  // Convert towers to permanent
+    for (int k = 0; k < towerCounter; ++k) {
+        backBone[towerColumns[k]]->stop(currentPlayer);  //towers->tiles
     }
     towerCounter = 0;  // Reset counter
 }
 
 void Board::bust() {
-    for (int i = 0; i < towerCounter; i++) {
-        backBone[towerColumns[i]]->bust();  // Clear each active tower
+    for (int k = 0; k < towerCounter; ++k) {
+        backBone[towerColumns[k]]->bust();  //clear towers
     }
     towerCounter = 0;  // Reset counter
 }

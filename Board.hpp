@@ -11,8 +11,8 @@
 class Board {
 private:
     int towerCounter; //counter for towers
-    int towerColumns[3]; //array to track tower columns
-    Column* backBone[13]; //array of Column pointers
+    int towerColumns[3]{}; //array to track tower columns
+    Column* backBone[13]{}; //array of Column pointers
     Player* currentPlayer; //pointer to current player
 
 public:

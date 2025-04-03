@@ -17,7 +17,7 @@ class Column {
         int const maxPos;
         ECcolor capturedColor;
     public:
-        Column(int colNum);
+        explicit Column(int colNum);
         ~Column() = default;
         static string colStateToString(EColStatus status);
         static string colorToString(ECcolor color);
