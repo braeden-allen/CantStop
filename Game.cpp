@@ -5,7 +5,9 @@
 #include "Game.hpp"
 //----------------------------------------
 
-Game::Game() : dice(new Dice(4)) {}//initialize 4 dice
+Game::Game(){
+    dice = new CSDice();
+}
 
 Player Game::getNewPlayer() {
     string name;
@@ -58,59 +60,41 @@ void Game::oneTurn(Player* pp) {
                 continue;
             }
 
-            const int *diceValues = dice->roll();
-            cout << "Dice rolled: ";
-
-            for (int k = 0; k < 4; ++k) {cout << diceValues[k] << " ";}
-            cout << endl;
-
-            char die1, die2;
-            cout << "Choose two dice (enter their letters, e.g., AB or bc): ";
-            cin >> die1 >> die2;
-
-            //validate die input
-            while (toupper(die1) < 'A' || toupper(die1) > 'D' ||
-                   toupper(die2) < 'A' || toupper(die2) > 'D') {
-                cout << "Invalid dice selection. Please choose two letters between A and D: ";
-                cin >> die1 >> die2;
-            }
-
-            int index1 = toupper(die1) - 'A'; //convert input -> index
-            int index2 = toupper(die2) - 'A';
-
-            int pair1 = diceValues[index1] + diceValues[index2]; //calculate die pairs
-            int pair2 = 0;
-            for (int k = 0; k < 4; ++k) {
-                if (k != index1 && k != index2) pair2 += diceValues[k];
-            }
-
-            cout << "Pair 1: " << pair1 << " (Dice " << die1 << " and " << die2 << ")\n";
-            cout << "Pair 2: " << pair2 << " (Remaining dice)\n";
+            // Use polymorphic dice roll - returns pair totals directly
+            const int* pairs = dice->roll();  // This calls CSDice::roll() or FakeDice::roll()
+            int pair1 = pairs[0];
+            int pair2 = pairs[1];
 
             bool move1Success = false;
             bool move2Success = false;
             Column* col1 = board.getColumn(pair1);
             Column* col2 = (pair1 != pair2) ? board.getColumn(pair2) : nullptr;
 
-            //check if columns already had towers
-            bool hadTower1 = col1->getState() == EColStatus::pending;
-            bool hadTower2 = (col2) == nullptr || col2->getState() == EColStatus::pending;
+            // Check existing towers
+            bool hadTower1 = col1 && col1->getState() == EColStatus::pending;
+            bool hadTower2 = col2 && col2->getState() == EColStatus::pending;
 
-            if (pair1 == pair2) {//move twice if possible
+            if (pair1 == pair2) {
+                // Identical pairs - special handling
                 if (hadTower1) {
+                    // Existing tower - move twice if possible
                     move1Success = col1->move();
-                    move2Success = move1Success && col1->move();}
-                else { //New tower placement
+                    move2Success = move1Success && col1->move();
+                } else if (usedTowers < 3) {
+                    // New tower - place and move once
                     move1Success = col1->startTower(pp);
-                    usedTowers++;
-                    move2Success = col1->move();
+                    if (move1Success) {
+                        usedTowers++;
+                        move2Success = col1->move();
+                    }
                 }
-            }
-            else {
+            } else {
+                // Different pairs - normal handling
                 move1Success = board.move(pair1);
-                move2Success = board.move(pair2);//different pairs
+                move2Success = board.move(pair2);
             }
 
+            // Update tower count (only for new towers)
             if (move1Success && !hadTower1) usedTowers++;
             if (move2Success && !hadTower2 && pair1 != pair2) usedTowers++;
 

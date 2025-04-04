@@ -13,12 +13,12 @@ class Game {
 
 private:
     Board board;
-    Dice* dice;
     CList players;
+    CSDice* dice;
 
 public:
         Game();
-        ~Game() = default;
+        ~Game() {delete [] dice;};
         Player getNewPlayer();
         void oneTurn(Player* pp);
         bool addPlayer();
