@@ -9,6 +9,12 @@ Game::Game(){
     dice = new CSDice();
 }
 
+//for testing for fake_dice.txt
+// Game::Game(){
+//     dice = new FakeDice();
+// }
+
+
 Player Game::getNewPlayer() {
     string name;
     char colorChoice;

@@ -91,3 +91,17 @@ To meet the expectations of this module, outlined in the instructions, I aim to 
 5. Print an accurate list of anywhere between 0->4 players
 
 ----------------------------------------------------------------------------------------------------------------------
+
+TEST PLAN - MODULE 8 (POLYMORPHIC DICE)
+
+To meet the expectations of this module, we extend the functionality of our dice using three-level inheritance in the following classes
+1. Need to verify that the Dice base class needs to use virtual destructor and roll as well as CantStopDice and FakeDice correctly override
+	these methods to implement the unique role behavior in this program
+2. To test CantStopDice by creating an instance by invoking roll() to generate the four dice values, prompting for a valid user pair selection
+	so that way the computed pair totals are stored and confirmed
+3. To test FakeDice by ensuring that it successfully opens our fake_dice.txt file that was created for the purpose of this module
+4. To ensure fake_dice.txt reads four dice values per line then computes and returns the correct par totals.
+5. Verify the polymorphic behavior using the Dice* pointer referencing the CantStopDice and Fake Dice instances
+
+
+----------------------------------------------------------------------------------------------------------------------
