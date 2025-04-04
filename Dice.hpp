@@ -7,6 +7,7 @@
 #define FAKE_DICE_FILE "fake_dice.txt"
 //----------------------------------------
 
+
 using namespace std;
 
 class Dice {

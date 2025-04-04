@@ -24,6 +24,7 @@ ostream& Dice::print(ostream& outfile) {
     return outfile;
 }
 
+
 //------------------------------------------------------
 // Derived CSDice Class Implementation
 //------------------------------------------------------
