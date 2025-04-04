@@ -4,6 +4,7 @@
 //----------------------------------------
 #pragma once
 #include "tools.hpp"
+#define FAKE_DICE_FILE "fake_dice.txt"
 //----------------------------------------
 
 using namespace std;
@@ -13,31 +14,31 @@ class Dice {
         int nDice;
         int* dieValues;
     public:
+        Dice() : Dice(6){} //default constructor
         Dice(int n);
         //using virtual to ensure proper clean up after the derived class
         virtual ~Dice();
-        virtual ostream& print(ostream& outfile);
         virtual const int* roll();
+        ostream& print(ostream& outfile);
 };
-
-inline ostream& operator << ( ostream& outfile, Dice& dice){return dice.print(outfile);}
 
 class CSDice : public Dice {
-    protected: 
-        int pairTotals[2];
-    public:
-        CSDice();
-        //new virtual
-        virtual ~CSDice();
-        virtual const int* roll();
+protected:
+    int pairTotals[2]{};
+public:
+    CSDice();
+    virtual ~CSDice() = default;
+    const int* roll() override;
 };
 
-//new for the FakeDice
 class FakeDice : public CSDice {
 private:
-    ifstream file;  
+    ifstream file;
+    int pairSum[2]{};
+    bool readNextRoll(int* values);
 public:
-    FakeDice();                         
-    virtual ~FakeDice();                 
-    virtual const int* roll() override;  
+    FakeDice();
+    ~FakeDice() override { if (file.is_open()) fatal("File Can't Be Opened");}
+    const int* roll() override;
 };
+inline ostream& operator << ( ostream& outfile, Dice& dice){return dice.print(outfile);}
