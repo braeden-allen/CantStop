@@ -31,7 +31,6 @@ void Board::startTurn(Player* player) {
 
 bool Board::move(int column) {
     Column* col = getColumn(column);
-    if (!col) return false;
 
     // First check if this column already has a tower
     for (int k = 0; k < towerCounter; k++) {

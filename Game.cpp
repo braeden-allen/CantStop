@@ -61,7 +61,7 @@ void Game::oneTurn(Player* pp) {
             }
 
             // Use polymorphic dice roll - returns pair totals directly
-            const int* pairs = dice->roll();  // This calls CSDice::roll() or FakeDice::roll()
+            const int* pairs = dice->roll();  //This calls CSDice::roll()
             int pair1 = pairs[0];
             int pair2 = pairs[1];
 
@@ -70,19 +70,15 @@ void Game::oneTurn(Player* pp) {
             Column* col1 = board.getColumn(pair1);
             Column* col2 = (pair1 != pair2) ? board.getColumn(pair2) : nullptr;
 
-            // Check existing towers
-            bool hadTower1 = col1 && col1->getState() == EColStatus::pending;
+            bool hadTower1 = col1 && col1->getState() == EColStatus::pending; //check existing towers
             bool hadTower2 = col2 && col2->getState() == EColStatus::pending;
 
             if (pair1 == pair2) {
-                // Identical pairs - special handling
-                if (hadTower1) {
-                    // Existing tower - move twice if possible
+                if (hadTower1) {//Existing tower - move twice if possible
                     move1Success = col1->move();
                     move2Success = move1Success && col1->move();
-                } else if (usedTowers < 3) {
-                    // New tower - place and move once
-                    move1Success = col1->startTower(pp);
+                } else {
+                    move1Success = col1->startTower(pp); //New tower - place and move once
                     if (move1Success) {
                         usedTowers++;
                         move2Success = col1->move();
