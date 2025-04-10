@@ -2,56 +2,110 @@
 //File: exceptions.hpp
 //Authors: Mateusz & Braeden
 //----------------------------------------
-
-#ifndef EXCEPTIONS_HPP
-#define EXCEPTIONS_HPP
-
-#include <iostream>
+#pragma once
 #include <cstring>
-
-// Base exception for player input problems
+#include "tools.hpp"
+//----------------------------------------
+//----------------------------------------
+// Base Case BadPlayer
+//----------------------------------------
 class BadPlayer {
-public:
-    char* input;  // holds the offending input string
+protected:
+    char* name;
+    char* color;
 
-    BadPlayer(const char* inp = "") {
-        input = new char[strlen(inp) + 1];
-        strcpy(input, inp);
+public:
+    BadPlayer(const char* n = "", const char* c = "") {
+        name = new char[strlen(n) + 1];
+        strcpy(name, n);
+        color = new char[strlen(c) + 1];
+        strcpy(color, c);
     }
-    
-    virtual ~BadPlayer() { 
-        delete[] input; 
+
+    virtual ~BadPlayer() {
+        delete[] name;
+        delete[] color;
     }
-    
+
     virtual void print() const {
-        std::cout << "BadPlayer exception: invalid input -> " << input << "\n";
+        cout << "BadPlayer exception: Both name and color are invalid\n";
+        basePrint();
     }
-    
+
     virtual void basePrint() const {
-        std::cout << "Player data entered: " << input << "\n";
+        cout << "  Name entered: " << name << "\n";
+        cout << "  Color entered: " << color << "\n";
     }
 };
 
-// Thrown if a name is already in use
+//----------------------------------------
+// Derived class BadName
+//----------------------------------------
 class BadName : public BadPlayer {
 public:
-    BadName(const char* inp = "") : BadPlayer(inp) {}
-    
+    BadName(const char* n, const char* c) : BadPlayer(n, c) {}
+
     virtual void print() const override {
-        std::cout << "BadName exception: Name already in use.\n";
+        cout << "BadName exception: Name '" << name << "' is already in use\n";
         basePrint();
     }
 };
 
-// Thrown if a color is already in use
+//----------------------------------------
+// Derived class BadColor
+//----------------------------------------
 class BadColor : public BadPlayer {
 public:
-    BadColor(const char* inp = "") : BadPlayer(inp) {}
-    
+    BadColor(const char* n, const char* c) : BadPlayer(n, c) {}
+
     virtual void print() const override {
-        std::cout << "BadColor exception: Color already in use.\n";
+        cout << "ERROR: Color '";
+        switch(toupper(color[0])) {
+            case 'O': cout << "Orange"; break;
+            case 'Y': cout << "Yellow"; break;
+            case 'G': cout << "Green"; break;
+            case 'B': cout << "Blue"; break;
+            default: cout << color;
+        }
+        cout << "' is already in use.\n";
         basePrint();
     }
 };
 
-#endif // EXCEPTIONS_HPP
+//----------------------------------------
+// Derived class BadChoice
+//----------------------------------------
+class BadChoice : public std::exception {
+protected:
+    char choice;
+
+public:
+    BadChoice(char c) : choice(c) {}
+
+    virtual void print() const {
+        std::cerr << "Invalid choice: " << choice << std::endl;
+    }
+};
+
+//----------------------------------------
+// Derived class DuplicateSlot
+//----------------------------------------
+class DuplicateSlot : public BadChoice {
+public:
+    DuplicateSlot(char c) : BadChoice(c) {}
+
+    virtual void print() const override {
+        std::cerr << "Duplicate dice selection: " << choice << std::endl;
+        std::cerr << "You must select two different dice." << std::endl;
+    }
+};
+
+class BadSlot : public BadChoice {
+public:
+    BadSlot(char c) : BadChoice(c) {}
+
+    virtual void print() const override {
+        std::cerr << "Invalid dice selection: " << choice << std::endl;
+        std::cerr << "Please select from the available options." << std::endl;
+    }
+};

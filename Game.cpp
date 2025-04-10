@@ -16,54 +16,76 @@ Game::Game(){
 //     dice = new FakeDice();
 // }
 
-
 void Game::checkPlayerData(const string& newName, char newColor) {
+    bool nameExists = false;
+    bool colorExists = false;
     int count = players.getCount();
-    for (int i = 0; i < count; i++) {
-        Player* p = players.get(i);
-        // Check for duplicate name.
-        if (p->getName() == newName) {
-            throw BadName(newName.c_str());
-        }
-        //check for duplicate color
-        if (toupper(p->getColor()) == newColor) {
-            // Using a temporary string for conversion.
-            throw BadColor(std::string(1, newColor).c_str());
-        }
-    }
-}
-Player Game::getNewPlayer() {
-    string name;
-    char colorChoice;
+
+    // Convert color choice to ECcolor for proper comparison
     ECcolor color;
-
-    cout << "\nEnter player's name: ";
-    cin >> name;
-
-    cout << "Choose " << name << "'s color (O=Orange, Y=Yellow, G=Green, B=Blue): ";
-    cin >> colorChoice;
-    colorChoice = toupper(colorChoice); 
-
-    switch (colorChoice) {
+    switch(toupper(newColor)) {
         case 'O': color = ECcolor::Orange; break;
         case 'Y': color = ECcolor::Yellow; break;
         case 'G': color = ECcolor::Green; break;
         case 'B': color = ECcolor::Blue; break;
-        default:
-            cout << "Invalid color. Defaulting to Blue.\n";
-            color = ECcolor::Blue;
-            break;
+        default: color = ECcolor::Blue; // default case
     }
 
-    try {
-        checkPlayerData(name, colorChoice);
-    } catch (const BadPlayer& bp) {
-        bp.print();
-        return getNewPlayer();
+    for (int k = 0; k < count; k++) {
+        Player* p = players.getCurrent();
+        if (p->getName() == newName) nameExists = true;
+        if (p->getColor() == color) colorExists = true; // Compare ECcolor directly
+        players.next();
     }
-    
-    cout << endl;
-    return Player(name, color); 
+
+    if (nameExists && colorExists) {
+        throw BadPlayer(newName.c_str(), string(1, newColor).c_str());
+    }
+    else if (nameExists) {
+        throw BadName(newName.c_str(), string(1, newColor).c_str());
+    }
+    else if (colorExists) {
+        throw BadColor(newName.c_str(), string(1, newColor).c_str());
+    }
+}
+
+Player Game::getNewPlayer() {
+    while (true) {
+        string name;
+        char colorChoice;
+        ECcolor color;
+
+        cout << "\nEnter player's name: ";
+        cin >> name;
+
+        cout << "Choose color for " << name << ":\n"
+             << "(O)range, (Y)ellow, (G)reen, (B)lue: ";
+        cin >> colorChoice;
+        colorChoice = toupper(colorChoice);
+
+        // Validate color input
+        while (colorChoice != 'O' && colorChoice != 'Y' &&
+               colorChoice != 'G' && colorChoice != 'B') {
+            cout << "Invalid color. Please choose O, Y, G, or B: ";
+            cin >> colorChoice;
+            colorChoice = toupper(colorChoice);
+        }
+
+        try {
+            checkPlayerData(name, colorChoice);
+            switch(colorChoice) {// Convert to ECcolor
+                case 'O': color = ECcolor::Orange; break;
+                case 'Y': color = ECcolor::Yellow; break;
+                case 'G': color = ECcolor::Green; break;
+                case 'B': color = ECcolor::Blue; break;
+            }
+            return Player(name, color);
+        }
+        catch (const BadPlayer& e) {
+            e.print();
+            cout << "Please try again.\n";
+        }
+    }
 }
 
 void Game::oneTurn(Player* pp) {
@@ -108,7 +130,7 @@ void Game::oneTurn(Player* pp) {
                 if (hadTower1) {
                     move1Success = col1->move();
                     move2Success = move1Success && col1->move();
-                } else if (usedTowers < 3) {
+                } else {
                     move1Success = col1->startTower(pp);
                     if (move1Success) {
                         usedTowers++;
