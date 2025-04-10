@@ -15,7 +15,7 @@ using std::toupper;
 
 int main() {
     srand(static_cast<unsigned>(time(nullptr)));
-    banner();  // Ensure banner() is defined elsewhere.
+    banner();  
 
     Game game; 
 
@@ -42,7 +42,7 @@ int main() {
 
     game.playGame();
 
-    bye();  // Ensure bye() is defined elsewhere.
+    bye();  
     return 0;
 
 }
