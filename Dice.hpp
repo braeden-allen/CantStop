@@ -5,7 +5,9 @@
 #pragma once
 #include "tools.hpp"
 #include "exceptions.hpp"
-#define FAKE_DICE_FILE "fake_dice.txt"
+#define FAKE_DICE_FILE "/home/braeden/CSCI 4526/CantStop/fake_dice.txt"
+#define ROLL_ACTION "ROLL"
+#define STOP_ACTION "STOP"
 //----------------------------------------
 
 
@@ -37,10 +39,11 @@ class FakeDice : public CSDice {
 private:
     ifstream file;
     int pairSum[2]{};
-    bool readNextRoll(int* values);
+    bool readNextRoll(int* values, string& action);
 public:
     FakeDice();
     ~FakeDice() override { if (file.is_open()) fatal("File Can't Be Opened");}
     const int* roll() override;
+    string lastAction;
 };
 inline ostream& operator << ( ostream& outfile, Dice& dice){return dice.print(outfile);}

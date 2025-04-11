@@ -71,9 +71,9 @@ const int* CSDice::roll() {
         catch (const BadChoice& e) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "\n";  // Ensure error starts on new line
+            cout << "\n";
             e.print();
-            cout << endl;  // Add space after error
+            cout << endl;
         }
     }
 }
@@ -88,27 +88,47 @@ FakeDice::FakeDice(){
 
 const int* FakeDice::roll() {
     int rollValues[4];
-    if (!readNextRoll(rollValues)) {fatal("Failed to read from fake dice file");}
+    string action;
 
-    //copy to dieValues for print
-    for (int k = 0; k < 4; ++k) {dieValues[k] = rollValues[k];}
+    if (!readNextRoll(rollValues, action)) {
+        fatal("Failed to read from fake dice file or end of file reached");
+    }
 
-    //Pair Calculation
+    // Copy to dieValues for printing
+    for (int k = 0; k < 4; ++k) {
+        dieValues[k] = rollValues[k];
+    }
+
+    // Calculate pairs (first two and last two)
     pairSum[0] = rollValues[0] + rollValues[1];
     pairSum[1] = rollValues[2] + rollValues[3];
+    lastAction = action;
 
-    cout << "Fake dice: " << *this << endl;
-    cout << "First pair total: " << pairSum[0] << endl;
-    cout << "Second pair total: " << pairSum[1] << endl;
+    cout << "Fake dice roll: " << *this << endl;
+    cout << "Action: " << lastAction << endl;
 
+    if (lastAction == "BADSLOT"){
+        throw BadSlot('a');
+    }else if (lastAction == "DUPSLOT"){
+        throw DuplicateSlot('a');
+    }else if (lastAction == "BADCHOICE"){
+        throw BadSlot('x');
+    }else if (lastAction != ROLL_ACTION && lastAction != STOP_ACTION){
+        fatal("invalid command in fake_dice.txt");
+    }
     return pairSum;
 }
 
-bool FakeDice::readNextRoll(int *values) {
+bool FakeDice::readNextRoll(int* values, string& action) {
     string line;
-    if (!getline(file, line)) {return false;}
-
-    istringstream iss(line);
-    for (int k = 0; k < 4; ++k) {if (!(iss >> values[k])) return false;}
-    return true;
-};
+    if (!getline(file, line)) return false;
+        istringstream iss(line);
+        for (int k = 0; k < 4; ++k) {
+            if (!(iss >> values[k])) return false;
+        }
+        iss >> action;
+        if (action != ROLL_ACTION && action != STOP_ACTION) {
+            return false;
+        }
+        return true;
+}

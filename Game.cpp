@@ -7,14 +7,14 @@
 #include "exceptions.hpp"
 //----------------------------------------
 
-Game::Game(){
-    dice = new CSDice();
-}
+//Game::Game(){
+//    dice = new CSDice();
+//}
 
 //for testing for fake_dice.txt
-//Game::Game(){
-//     dice = new FakeDice();
-//}
+Game::Game(){
+     dice = new FakeDice();
+}
 
 void Game::checkPlayerData(const string& newName, char newColor) {
     bool nameExists = false;

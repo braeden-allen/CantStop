@@ -7,7 +7,6 @@
 #include "Dice.hpp"
 #include "CList.hpp"
 #include <memory> //for unique_ptr
-#include "exceptions.hpp"
 //----------------------------------------
 
 class Game {
@@ -16,9 +15,6 @@ private:
     Board board;
     CList players;
     CSDice* dice;
-    
-    //check the new players name and color against the existing players that were confirmed before
-    void checkPlayerData(const string& newName, char newColor);
 
 public:
         Game();
@@ -27,4 +23,6 @@ public:
         void oneTurn(Player* pp);
         bool addPlayer();
         void playGame();
+
+    void checkPlayerData(const string &newName, char newColor);
 };
