@@ -109,14 +109,15 @@ To meet the expectations of this module, we extend the functionality of our dice
 TEST PLAN - MODULE 9 (POLYMORPHIC EXCEPTIONS)
 
 To meet the expectations of this module, we add exception handling to CantStop
-1. When the payers enters duplicate information, (name/color) already in use, the system throws the corresponding exceptions 
+1. When the payers enters duplicate information, (name/color) already in use, the system throws the corresponding exceptions
 	BadColor, BadName, or BadPlayer
-2. Each exception prints a detaled error message using its overriden print and basePrint functions before the player can input again
-3. When a playermakes an illegal turn choin (ROLL, STOP, QUIT), which th systems throws a BadChoice exception and which forces the player
+2. Each exception prints a detailed error message using its override print and basePrint functions before the player can input again
+3. When a player makes an illegal turn choice (ROLL, STOP, QUIT), which th systems throws a BadChoice exception and which forces the player
 	to try again
-4. If an invalid selection is made for the dice-pair slots or if dupliate slots are chosen, the system throws a BadSlot or DuplicateSlot exception
+4. If an invalid selection is made for the dice-pair slots or if duplicate slots are chosen, the system throws a BadSlot or DuplicateSlot exception
 5. The getPlayers() method catches any BadPlayers exceptions and oneTurn(0 method handles in-turn exceptions which allow CantStop for flow normally
 
 
 ----------------------------------------------------------------------------------------------------------------------
+
 
