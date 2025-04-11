@@ -5,7 +5,7 @@
 #pragma once
 #include "tools.hpp"
 #include "exceptions.hpp"
-#define FAKE_DICE_FILE ""
+#define FAKE_DICE_FILE "fake_dice.txt"
 //----------------------------------------
 
 
