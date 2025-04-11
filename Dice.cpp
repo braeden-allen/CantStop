@@ -29,51 +29,55 @@ ostream& Dice::print(ostream& outfile) {
 //------------------------------------------------------
 CSDice::CSDice() : Dice(4){} //CS uses 4 dice
 
-const int* CSDice::roll(){
+const int* CSDice::roll() {
+    Dice::roll(); // Roll random values
 
-    Dice::roll(); //Roll random values
+    cout << "\nDice values:\n";
+    print(cout);
+    cout << endl;
 
-    cout << "Dice values:" << endl;
-    cout << "a: " << dieValues[0] << "  "
-         << "b: " << dieValues[1] << "  "
-         << "c: " << dieValues[2] << "  "
-         << "d: " << dieValues[3] << endl;
+    while (true) {
+        cout << "Choose two different dice (e.g., ab): ";
+        try {
+            char die1, die2;
+            cin >> die1;
 
-    char die1 , die2;
-    bool validInput = false;
-    do {
-        cout << "Choose first pair (e.g., ab): ";
-        cin >> die1 >> die2;
+            if (cin.peek() == '\n') {
+                die2 = die1; // Will trigger duplicate check
+            } else {
+                cin >> die2;
+            }
 
-        // Validate input
-        die1 = tolower(die1);
-        die2 = tolower(die2);
+            die1 = tolower(die1);
+            die2 = tolower(die2);
 
-        if (die1 < 'a' || die1 > 'd' ||
-            die2 < 'a' || die2 > 'd' ||
-            die1 == die2) {
-            cin.clear();
-            cin.ignore(1000, '\n');
-            cout << "Invalid input. Please choose two different letters a-d.\n";
-        } else {
-            validInput = true;
+            const char* validOptions = "abcd";
+
+            if (die1 == die2) throw DuplicateSlot(die1);
+            if (!strchr(validOptions, die1)) throw BadSlot(die1);
+            if (!strchr(validOptions, die2)) throw BadSlot(die2);
+
+            // Calculate pairs
+            pairTotals[0] = dieValues[die1-'a'] + dieValues[die2-'a'];
+            pairTotals[1] = 0;
+            for (int k = 0; k < nDice; ++k) {
+                if (k != (die1-'a') && k != (die2-'a')) {
+                    pairTotals[1] += dieValues[k];
+                }
+            }
+
+            cout << "\nFirst pair total: " << pairTotals[0]
+                 << "\nSecond pair total: " << pairTotals[1] << "\n" << endl;
+            return pairTotals;
         }
-    } while (!validInput);
-
-    int index1 = die1 - 'a';
-    int index2 = die2 - 'a';
-    pairTotals[0] = dieValues[index1] + dieValues[index2];
-
-    //second pair is sum of remaining two
-    pairTotals[1] = 0;
-    for (int k = 0; k < nDice; ++k) {
-        if (k != index1 && k != index2) {pairTotals[1] += dieValues[k];}
+        catch (const BadChoice& e) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "\n";  // Ensure error starts on new line
+            e.print();
+            cout << endl;  // Add space after error
+        }
     }
-
-    cout << "First pair total: " << pairTotals[0] << endl;
-    cout << "Second pair total: " << pairTotals[1] << endl;
-
-    return pairTotals;
 }
 
 //------------------------------------------------------

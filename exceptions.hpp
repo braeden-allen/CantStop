@@ -15,7 +15,7 @@ protected:
     char* color;
 
 public:
-    BadPlayer(const char* n = "", const char* c = "") {
+    explicit BadPlayer(const char* n = "", const char* c = "") {
         name = new char[strlen(n) + 1];
         strcpy(name, n);
         color = new char[strlen(c) + 1];
@@ -80,10 +80,10 @@ protected:
     char choice;
 
 public:
-    BadChoice(char c) : choice(c) {}
+    explicit BadChoice(char c) : choice(c) {}
 
     virtual void print() const {
-        std::cerr << "Invalid choice: " << choice << std::endl;
+        cerr << "Invalid choice: " << choice << endl;
     }
 };
 
@@ -94,9 +94,9 @@ class DuplicateSlot : public BadChoice {
 public:
     DuplicateSlot(char c) : BadChoice(c) {}
 
-    virtual void print() const override {
-        std::cerr << "Duplicate dice selection: " << choice << std::endl;
-        std::cerr << "You must select two different dice." << std::endl;
+    void print() const override {
+        cerr << "\nDuplicate dice selection: " << choice << endl;
+        cerr << "Select two different dice (e.g., ab): ";
     }
 };
 
@@ -104,8 +104,8 @@ class BadSlot : public BadChoice {
 public:
     BadSlot(char c) : BadChoice(c) {}
 
-    virtual void print() const override {
-        std::cerr << "Invalid dice selection: " << choice << std::endl;
-        std::cerr << "Please select from the available options." << std::endl;
+    void print() const override {
+        cerr << "Invalid dice selection: " << choice << endl;
+        cerr << "Please select from the available options." << endl;
     }
 };

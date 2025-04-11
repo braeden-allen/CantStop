@@ -12,9 +12,9 @@ Game::Game(){
 }
 
 //for testing for fake_dice.txt
-// Game::Game(){
+//Game::Game(){
 //     dice = new FakeDice();
-// }
+//}
 
 void Game::checkPlayerData(const string& newName, char newColor) {
     bool nameExists = false;
@@ -105,7 +105,7 @@ void Game::oneTurn(Player* pp) {
         while (choice < 1 || choice > 3) {
             cout << "Invalid choice. Please enter 1, 2, or 3: ";
             cin >> choice;
-        } 
+        }
 
         if (choice == 1) {
             if (usedTowers >= 3) {
@@ -113,7 +113,7 @@ void Game::oneTurn(Player* pp) {
                 continue;
             }
 
-            const int* pairs = dice->roll();  
+            const int* pairs = dice->roll();
             int pair1 = pairs[0];
             int pair2 = pairs[1];
 
@@ -151,7 +151,7 @@ void Game::oneTurn(Player* pp) {
                 cout << "Both moves failed! You busted." << std::endl;
                 board.bust();
                 //end turn
-                break; 
+                break;
             }
 
             if (move1Success && board.getColumn(pair1)->getState() == EColStatus::captured) {
@@ -167,17 +167,17 @@ void Game::oneTurn(Player* pp) {
             if (pp->getScore() >= 3) {
                 cout << "Player " << pp->getName() << " has won the game!" << std::endl;
                 return;
-            } 
+            }
         }
         else if (choice == 2) {
             board.stop();
             players.next();
-            break; 
+            break;
         }
-        else if (choice == 3) { 
+        else if (choice == 3) {
             cout << "\n" << pp->getName() << " resigns." << std::endl;
             std::string resignName = pp->getName();
-            board.bust(); 
+            board.bust();
             players.init();
             players.remove();
 
@@ -190,20 +190,20 @@ void Game::oneTurn(Player* pp) {
                 exit(0);
             }
 
-            if (players.getCount() >= 2) { 
+            if (players.getCount() >= 2) {
                 Player* nextPlayer = players.next();
                 if (nextPlayer) {
-                    oneTurn(nextPlayer); 
+                    oneTurn(nextPlayer);
                 }
             }
-            return; 
+            return;
         }
     }
     players.next();
 }
 
 bool Game::addPlayer() {
-    if (players.getCount() >= 4) { 
+    if (players.getCount() >= 4) {
         cout << "Maximum players reached (4)" << std::endl;
         return false;
     }
@@ -233,6 +233,6 @@ void Game::playGame() {
     while (players.getCount() >= 2) {
         Player* current = players.getCurrent();
         oneTurn(current);
-        players.next(); 
+        players.next();
     }
 }
