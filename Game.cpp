@@ -103,117 +103,120 @@ Player Game::getNewPlayer() {
     }
 }
 
-void Game::oneTurn(Player* pp) {
+int Game::printTurnMenu(Player* pp) {
+    cout << "It is " << pp->getName() << "'s turn\n";
+    cout << "Enter a Menu Option From Below:\n";
+    cout << "\t1. Roll Dice\n\t2. Stop Turn\n\t3. Resign\n";
+    int choice;
+    cout << "Enter Choice: ";
+    cin >> choice;
+    while (choice < 1 || choice > 3) {
+        cout << "Invalid choice. Please enter 1, 2, or 3: ";
+        cin >> choice;
+    }
+    return choice;
+}
 
+bool Game::handleRoll(Player* pp, int& usedTowers) {
+    if (usedTowers >= 3) {
+        cout << "You cannot use more than 3 towers per turn. Resign or Stop turn\n";
+        return true;
+    }
+
+    const int* pairs = dice->roll();
+    int pair1 = pairs[0], pair2 = pairs[1];
+    Column* col1 = board.getColumn(pair1);
+    Column* col2 = (pair1 != pair2) ? board.getColumn(pair2) : nullptr;
+
+    bool hadTower1 = col1 && col1->getState() == EColStatus::pending;
+    bool hadTower2 = col2 && col2->getState() == EColStatus::pending;
+
+    bool move1 = (pair1 == pair2) ? handleDoubleRoll(col1, pp, usedTowers, hadTower1) :
+                 board.move(pair1);
+    bool move2 = (pair1 == pair2) ? move1 && col1->move() :
+                 board.move(pair2);
+
+    if (move1 && !hadTower1) usedTowers++;
+    if (move2 && !hadTower2 && pair1 != pair2) usedTowers++;
+
+    board.print(cout);
+    return handlePostRoll(pair1, pair2, move1, move2, pp);
+}
+
+bool Game::handleDoubleRoll(Column* col, Player* pp, int& usedTowers, bool hadTower) {
+    if (hadTower) return col->move();
+    bool started = col->startTower(pp);
+    if (started) {
+        usedTowers++;
+        return col->move();
+    }
+    return false;
+}
+
+bool Game::handlePostRoll(int pair1, int pair2, bool move1, bool move2, Player* pp) {
+    if (!move1 && !move2) {
+        cout << "Both moves failed! You busted.\n";
+        board.bust();
+        return false;
+    }
+
+    if (move1 && board.getColumn(pair1)->getState() == EColStatus::captured) {
+        cout << "Column " << pair1 << " captured!\n";
+        pp->wonColumn(pair1);
+    }
+
+    if (move2 && pair1 != pair2 && board.getColumn(pair2)->getState() == EColStatus::captured) {
+        cout << "Column " << pair2 << " captured!\n";
+        pp->wonColumn(pair2);
+    }
+
+    if (pp->getScore() >= 3) {
+        cout << "Player " << pp->getName() << " has won the game!\n";
+        exit(0);
+    }
+
+    return true;
+}
+
+void Game::handleResign(Player* pp) {
+    cout << "\n" << pp->getName() << " resigns.\n";
+    board.bust();
+    players.init();
+    players.remove();
+
+    cout << "Number of players left: " << players.getCount() << "\n\n";
+
+    if (players.getCount() == 1) {
+        Player* winner = players.next();
+        cout << "Default win for " << winner->getName() << "\n";
+        bye();
+        exit(0);
+    }
+
+    if (players.getCount() >= 2) {
+        Player* nextPlayer = players.next();
+        if (nextPlayer) oneTurn(nextPlayer);
+    }
+}
+
+void Game::oneTurn(Player* pp) {
     board.startTurn(pp);
     int usedTowers = 0;
 
     while (true) {
-
-        int choice;
-        cout << "It is " << players.getCurrent()->getName() << "'s turn" << endl;
-        cout << "Enter a Menu Option From Below:" << endl;
-        cout << "\t1. Roll Dice\n\t2. Stop Turn\n\t3. Resign" << endl;
-        cout << "Enter Choice: ";
-        cin >> choice;
-
-        while (choice < 1 || choice > 3) {
-            cout << "Invalid choice. Please enter 1, 2, or 3: ";
-            cin >> choice;
-        }
-
+        int choice = printTurnMenu(pp);
         if (choice == 1) {
-            if (usedTowers >= 3) {
-                cout << "You cannot use more than 3 towers per turn. Resign or Stop turn" << endl;
-                continue;
-            }
-
-            const int* pairs = dice->roll();
-            int pair1 = pairs[0];
-            int pair2 = pairs[1];
-
-            bool move1Success = false;
-            bool move2Success = false;
-            Column* col1 = board.getColumn(pair1);
-            Column* col2 = (pair1 != pair2) ? board.getColumn(pair2) : nullptr;
-
-            //checking existing towers
-            bool hadTower1 = col1 && col1->getState() == EColStatus::pending;
-            bool hadTower2 = col2 && col2->getState() == EColStatus::pending;
-
-            if (pair1 == pair2) {
-                if (hadTower1) {
-                    move1Success = col1->move();
-                    move2Success = move1Success && col1->move();
-                } else {
-                    move1Success = col1->startTower(pp);
-                    if (move1Success) {
-                        usedTowers++;
-                        move2Success = col1->move();
-                    }
-                }
-            } else {
-                move1Success = board.move(pair1);
-                move2Success = board.move(pair2);
-            }
-
-            if (move1Success && !hadTower1) usedTowers++;
-            if (move2Success && !hadTower2 && pair1 != pair2) usedTowers++;
-
-            board.print(cout);
-
-            if (!move1Success && !move2Success) {
-                cout << "Both moves failed! You busted." << endl;
-                board.bust();
-                //end turn
-                break;
-            }
-
-            if (move1Success && board.getColumn(pair1)->getState() == EColStatus::captured) {
-                cout << "Column " << pair1 << " captured!" << endl;
-                pp->wonColumn(pair1);
-            }
-
-            if (move2Success && board.getColumn(pair2)->getState() == EColStatus::captured) {
-                cout << "Column " << pair2 << " captured!" << endl;
-                pp->wonColumn(pair2);
-            }
-
-            if (pp->getScore() >= 3) {
-                cout << "Player " << pp->getName() << " has won the game!" << endl;
-                return;
-            }
-        }
-        else if (choice == 2) {
+            if (!handleRoll(pp, usedTowers)) break;
+        } else if (choice == 2) {
             board.stop();
             players.next();
             break;
-        }
-        else if (choice == 3) {
-            cout << "\n" << pp->getName() << " resigns." << endl;
-            string resignName = pp->getName();
-            board.bust();
-            players.init();
-            players.remove();
-
-            cout << "Number of players left: " << players.getCount() << "\n\n";
-
-            if (players.getCount() == 1) {
-                Player* winner = players.next();
-                cout << "Default win for " << winner->getName() << endl;
-                bye();
-                exit(0);
-            }
-
-            if (players.getCount() >= 2) {
-                Player* nextPlayer = players.next();
-                if (nextPlayer) {
-                    oneTurn(nextPlayer);
-                }
-            }
+        } else if (choice == 3) {
+            handleResign(pp);
             return;
         }
     }
+
     players.next();
 }
 
