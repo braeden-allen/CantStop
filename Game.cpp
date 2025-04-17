@@ -7,14 +7,14 @@
 #include "exceptions.hpp"
 //----------------------------------------
 
-//Game::Game(){
-//    dice = new CSDice();
-//}
+Game::Game(){
+    dice = new CSDice();
+}
 
 //for testing for fake_dice.txt
-Game::Game(){
-     dice = new FakeDice();
-}
+//Game::Game(){
+//     dice = new FakeDice();
+//}
 
 void Game::checkPlayerData(const string& newName, char newColor) {
     bool nameExists = false;
@@ -49,41 +49,56 @@ void Game::checkPlayerData(const string& newName, char newColor) {
     }
 }
 
-Player Game::getNewPlayer() {
-    while (true) {
-        string name;
-        char colorChoice;
-        ECcolor color;
+string getPlayerName() {
+    string name;
+    cout << "\nEnter player's name: ";
+    cin >> name;
+    return name;
+}
 
-        cout << "\nEnter player's name: ";
-        cin >> name;
+// Helper function to get and validate color choice
+char getColorChoice(const std::string& playerName) {
+    char colorChoice;
+    cout << "Choose color for " << playerName << ":\n"
+              << "(O)range, (Y)ellow, (G)reen, (B)lue: ";
+    cin >> colorChoice;
+    colorChoice = toupper(colorChoice);
 
-        cout << "Choose color for " << name << ":\n"
-             << "(O)range, (Y)ellow, (G)reen, (B)lue: ";
+    // Validate input
+    while (colorChoice != 'O' && colorChoice != 'Y' &&
+           colorChoice != 'G' && colorChoice != 'B') {
+        cout << "Invalid color. Please choose O, Y, G, or B: ";
         cin >> colorChoice;
         colorChoice = toupper(colorChoice);
+    }
+    return colorChoice;
+}
 
-        // Validate color input
-        while (colorChoice != 'O' && colorChoice != 'Y' &&
-               colorChoice != 'G' && colorChoice != 'B') {
-            cout << "Invalid color. Please choose O, Y, G, or B: ";
-            cin >> colorChoice;
-            colorChoice = toupper(colorChoice);
-        }
+// Converts char color choice to ECcolor enum
+ECcolor convertColorChoice(char choice) {
+    switch(choice) {
+        case 'O': return ECcolor::Orange;
+        case 'Y': return ECcolor::Yellow;
+        case 'G': return ECcolor::Green;
+        case 'B': return ECcolor::Blue;
+        default: throw std::invalid_argument("Invalid color choice");
+    }
+}
 
+// Main function (cleaner and more readable)
+Player Game::getNewPlayer() {
+    while (true) {
         try {
-            checkPlayerData(name, colorChoice);
-            switch(colorChoice) {// Convert to ECcolor
-                case 'O': color = ECcolor::Orange; break;
-                case 'Y': color = ECcolor::Yellow; break;
-                case 'G': color = ECcolor::Green; break;
-                case 'B': color = ECcolor::Blue; break;
-            }
+            string name = getPlayerName();
+            char colorChoice = getColorChoice(name);
+            ECcolor color = convertColorChoice(colorChoice);
+
+            checkPlayerData(name, colorChoice); // Validation (assuming this throws BadPlayer)
             return Player(name, color);
         }
         catch (const BadPlayer& e) {
             e.print();
-            cout << "Please try again.\n";
+            std::cout << "Please try again.\n";
         }
     }
 }
