@@ -57,7 +57,7 @@ string getPlayerName() {
 }
 
 // Helper function to get and validate color choice
-char getColorChoice(const std::string& playerName) {
+char getColorChoice(const string& playerName) {
     char colorChoice;
     cout << "Choose color for " << playerName << ":\n"
               << "(O)range, (Y)ellow, (G)reen, (B)lue: ";
@@ -81,7 +81,7 @@ ECcolor convertColorChoice(char choice) {
         case 'Y': return ECcolor::Yellow;
         case 'G': return ECcolor::Green;
         case 'B': return ECcolor::Blue;
-        default: throw std::invalid_argument("Invalid color choice");
+        default: throw invalid_argument("Invalid color choice");
     }
 }
 
@@ -98,7 +98,7 @@ Player Game::getNewPlayer() {
         }
         catch (const BadPlayer& e) {
             e.print();
-            std::cout << "Please try again.\n";
+            cout << "Please try again.\n";
         }
     }
 }
@@ -111,9 +111,9 @@ void Game::oneTurn(Player* pp) {
     while (true) {
 
         int choice;
-        cout << "It is " << players.getCurrent()->getName() << "'s turn" << std::endl;
-        cout << "Enter a Menu Option From Below:" << std::endl;
-        cout << "\t1. Roll Dice\n\t2. Stop Turn\n\t3. Resign" << std::endl;
+        cout << "It is " << players.getCurrent()->getName() << "'s turn" << endl;
+        cout << "Enter a Menu Option From Below:" << endl;
+        cout << "\t1. Roll Dice\n\t2. Stop Turn\n\t3. Resign" << endl;
         cout << "Enter Choice: ";
         cin >> choice;
 
@@ -124,7 +124,7 @@ void Game::oneTurn(Player* pp) {
 
         if (choice == 1) {
             if (usedTowers >= 3) {
-                cout << "You cannot use more than 3 towers per turn. Resign or Stop turn" << std::endl;
+                cout << "You cannot use more than 3 towers per turn. Resign or Stop turn" << endl;
                 continue;
             }
 
@@ -160,27 +160,27 @@ void Game::oneTurn(Player* pp) {
             if (move1Success && !hadTower1) usedTowers++;
             if (move2Success && !hadTower2 && pair1 != pair2) usedTowers++;
 
-            board.print(std::cout);
+            board.print(cout);
 
             if (!move1Success && !move2Success) {
-                cout << "Both moves failed! You busted." << std::endl;
+                cout << "Both moves failed! You busted." << endl;
                 board.bust();
                 //end turn
                 break;
             }
 
             if (move1Success && board.getColumn(pair1)->getState() == EColStatus::captured) {
-                cout << "Column " << pair1 << " captured!" << std::endl;
+                cout << "Column " << pair1 << " captured!" << endl;
                 pp->wonColumn(pair1);
             }
 
             if (move2Success && board.getColumn(pair2)->getState() == EColStatus::captured) {
-                cout << "Column " << pair2 << " captured!" << std::endl;
+                cout << "Column " << pair2 << " captured!" << endl;
                 pp->wonColumn(pair2);
             }
 
             if (pp->getScore() >= 3) {
-                cout << "Player " << pp->getName() << " has won the game!" << std::endl;
+                cout << "Player " << pp->getName() << " has won the game!" << endl;
                 return;
             }
         }
@@ -190,8 +190,8 @@ void Game::oneTurn(Player* pp) {
             break;
         }
         else if (choice == 3) {
-            cout << "\n" << pp->getName() << " resigns." << std::endl;
-            std::string resignName = pp->getName();
+            cout << "\n" << pp->getName() << " resigns." << endl;
+            string resignName = pp->getName();
             board.bust();
             players.init();
             players.remove();
@@ -200,7 +200,7 @@ void Game::oneTurn(Player* pp) {
 
             if (players.getCount() == 1) {
                 Player* winner = players.next();
-                cout << "Default win for " << winner->getName() << std::endl;
+                cout << "Default win for " << winner->getName() << endl;
                 bye();
                 exit(0);
             }
@@ -219,13 +219,13 @@ void Game::oneTurn(Player* pp) {
 
 bool Game::addPlayer() {
     if (players.getCount() >= 4) {
-        cout << "Maximum players reached (4)" << std::endl;
+        cout << "Maximum players reached (4)" << endl;
         return false;
     }
 
     try {
         Player p = getNewPlayer();
-        players.add(std::make_unique<Player>(p));
+        players.add(make_unique<Player>(p));
     }
     catch (const BadPlayer& bp) {
         bp.print();
@@ -240,7 +240,7 @@ bool Game::addPlayer() {
 
 void Game::playGame() {
     if (players.getCount() < 2) {
-        cout << "Need at least 2 players to start!" << std::endl;
+        cout << "Need at least 2 players to start!" << endl;
         return;
     }
 

@@ -91,7 +91,6 @@ void Column::bust() {
 
 void Column::printColors(ostream& os, int k) const {
     char square[6] = "-----";
-
     //print permanent markers first
     for (int colorIdx = 1; colorIdx < 5; ++colorIdx) { //skip White (index 0)
         if (markerPositions[colorIdx] == k) {

@@ -94,10 +94,7 @@ const int* FakeDice::roll() {
         fatal("Failed to read from fake dice file or end of file reached");
     }
 
-    // Copy to dieValues for printing
-    for (int k = 0; k < 4; ++k) {
-        dieValues[k] = rollValues[k];
-    }
+    for (int k = 0; k < 4; ++k) {dieValues[k] = rollValues[k];}
 
     // Calculate pairs (first two and last two)
     pairSum[0] = rollValues[0] + rollValues[1];
@@ -107,12 +104,9 @@ const int* FakeDice::roll() {
     cout << "Fake dice roll: " << *this << endl;
     cout << "Action: " << lastAction << endl;
 
-    if (lastAction == "BADSLOT"){
-        throw BadSlot('a');
-    }else if (lastAction == "DUPSLOT"){
-        throw DuplicateSlot('a');
-    }else if (lastAction == "BADCHOICE"){
-        throw BadSlot('x');
+    if (lastAction == "BADSLOT"){throw BadSlot('a');
+    }else if (lastAction == "DUPSLOT"){throw DuplicateSlot('a');
+    }else if (lastAction == "BADCHOICE"){throw BadSlot('x');
     }else if (lastAction != ROLL_ACTION && lastAction != STOP_ACTION){
         fatal("invalid command in fake_dice.txt");
     }
@@ -123,12 +117,8 @@ bool FakeDice::readNextRoll(int* values, string& action) {
     string line;
     if (!getline(file, line)) return false;
         istringstream iss(line);
-        for (int k = 0; k < 4; ++k) {
-            if (!(iss >> values[k])) return false;
-        }
+        for (int k = 0; k < 4; ++k) {if (!(iss >> values[k])) return false;}
         iss >> action;
-        if (action != ROLL_ACTION && action != STOP_ACTION) {
-            return false;
-        }
+        if (action != ROLL_ACTION && action != STOP_ACTION) return false;
         return true;
 }
