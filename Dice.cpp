@@ -27,53 +27,45 @@ ostream& Dice::print(ostream& outfile) {
 //------------------------------------------------------
 CSDice::CSDice() : Dice(4){} //CS uses 4 dice
 
-const int* CSDice::roll() {
-    Dice::roll(); // Roll random values
+bool CSDice::validateDiceChars(char d1, char d2) const {
+    const char* valid = "abcd";
+    d1 = tolower(d1); d2 = tolower(d2);
+    if (d1 == d2) throw DuplicateSlot(d1);
+    if (!strchr(valid, d1)) throw BadSlot(d1);
+    if (!strchr(valid, d2)) throw BadSlot(d2);
+    return true;
+}
 
-    cout << "\nDice values:\n";
-    print(cout);
-    cout << endl;
+void CSDice::calculatePairs(char d1, char d2) { //helper function to modularize
+    pairTotals[0] = dieValues[d1-'a'] + dieValues[d2-'a'];
+    pairTotals[1] = 0;
+    for (int k = 0; k < 4; ++k) {
+        if (k != (d1-'a') && k != (d2-'a')) pairTotals[1] += dieValues[k];
+    }
+}
+
+const int* CSDice::roll() {
+    Dice::roll();
+    cout << "\nDice values:\n" << *this << endl;
 
     while (true) {
-        cout << "Choose two different dice (e.g., ab): ";
         try {
-            char die1, die2;
-            cin >> die1;
+            cout << "Choose two dice (e.g., ab): ";
+            char d1, d2;
+            cin >> d1;
+            if (cin.peek() == '\n') d2 = d1; else cin >> d2;
 
-            if (cin.peek() == '\n') {
-                die2 = die1; // Will trigger duplicate check
-            } else {
-                cin >> die2;
-            }
+            validateDiceChars(d1, d2);
+            calculatePairs(d1, d2);
 
-            die1 = tolower(die1);
-            die2 = tolower(die2);
-
-            const char* validOptions = "abcd";
-
-            if (die1 == die2) throw DuplicateSlot(die1);
-            if (!strchr(validOptions, die1)) throw BadSlot(die1);
-            if (!strchr(validOptions, die2)) throw BadSlot(die2);
-
-            // Calculate pairs
-            pairTotals[0] = dieValues[die1-'a'] + dieValues[die2-'a'];
-            pairTotals[1] = 0;
-            for (int k = 0; k < nDice; ++k) {
-                if (k != (die1-'a') && k != (die2-'a')) {
-                    pairTotals[1] += dieValues[k];
-                }
-            }
-
-            cout << "\nFirst pair total: " << pairTotals[0]
-                 << "\nSecond pair total: " << pairTotals[1] << "\n" << endl;
+            cout << "\nPairs: " << pairTotals[0]
+                 << " & " << pairTotals[1] << "\n" << endl;
             return pairTotals;
         }
         catch (const BadChoice& e) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "\n";
             e.print();
-            cout << endl;
         }
     }
 }

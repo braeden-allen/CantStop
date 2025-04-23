@@ -20,9 +20,8 @@ void Game::checkPlayerData(const string& newName, char newColor) {
     bool nameExists = false;
     bool colorExists = false;
     int count = players.getCount();
-
-    // Convert color choice to ECcolor for proper comparison
     ECcolor color;
+
     switch(toupper(newColor)) {
         case 'O': color = ECcolor::Orange; break;
         case 'Y': color = ECcolor::Yellow; break;
@@ -118,10 +117,6 @@ int Game::printTurnMenu(Player* pp) {
 }
 
 bool Game::handleRoll(Player* pp, int& usedTowers) {
-    if (usedTowers >= 3) {
-        cout << "You cannot use more than 3 towers per turn. Resign or Stop turn\n";
-        return true;
-    }
 
     const int* pairs = dice->roll();
     int pair1 = pairs[0], pair2 = pairs[1];
@@ -144,13 +139,10 @@ bool Game::handleRoll(Player* pp, int& usedTowers) {
 }
 
 bool Game::handleDoubleRoll(Column* col, Player* pp, int& usedTowers, bool hadTower) {
-    if (hadTower) return col->move();
-    bool started = col->startTower(pp);
-    if (started) {
-        usedTowers++;
-        return col->move();
-    }
-    return false;
+    if (hadTower) return true;  // Tower exists, allow moves
+    bool started = col->startTower(pp);  // Start tower at position 1
+    if (started) usedTowers++;
+    return started;
 }
 
 bool Game::handlePostRoll(int pair1, int pair2, bool move1, bool move2, Player* pp) {
@@ -209,15 +201,12 @@ void Game::oneTurn(Player* pp) {
             if (!handleRoll(pp, usedTowers)) break;
         } else if (choice == 2) {
             board.stop();
-            players.next();
             break;
         } else if (choice == 3) {
             handleResign(pp);
             return;
         }
     }
-
-    players.next();
 }
 
 bool Game::addPlayer() {
@@ -225,7 +214,6 @@ bool Game::addPlayer() {
         cout << "Maximum players reached (4)" << endl;
         return false;
     }
-
     try {
         Player p = getNewPlayer();
         players.add(make_unique<Player>(p));
@@ -242,8 +230,10 @@ bool Game::addPlayer() {
 }
 
 void Game::playGame() {
+    setupPlayers(); // Handles all player initialization
+
     if (players.getCount() < 2) {
-        cout << "Need at least 2 players to start!" << endl;
+        cout << "Insufficient players to start.\n";
         return;
     }
 
@@ -251,6 +241,23 @@ void Game::playGame() {
     while (players.getCount() >= 2) {
         Player* current = players.getCurrent();
         oneTurn(current);
+        if (current->getScore() >= 3) {
+            cout << current->getName() << " wins!\n";
+            return;
+        }
         players.next();
     }
+    cout << "Game ended - not enough players remaining.\n";
+}
+
+void Game::setupPlayers(int minPlayers, int maxPlayers) {
+    cout << "=== PLAYER SETUP ===\n";
+    char choice = 'Y';
+    while (players.getCount() < maxPlayers &&
+           (players.getCount() < minPlayers || ((cout << "Add more? (Y/N): ") &&
+                                        cin >> choice && (choice = toupper(choice)) == 'Y'))) {
+        try { addPlayer(); }
+        catch (...) { if (players.getCount() < minPlayers) continue; else break; }
+    }
+    players.init();
 }

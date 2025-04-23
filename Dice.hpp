@@ -33,6 +33,10 @@ public:
     CSDice();
     virtual ~CSDice() = default;
     const int* roll() override;
+
+    bool validateDiceChars(char d1, char d2) const;
+
+    void calculatePairs(char d1, char d2);
 };
 
 class FakeDice : public CSDice {

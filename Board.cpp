@@ -37,7 +37,7 @@ bool Board::move(int column) {
     for (int k = 0; k < towerCounter; k++) {
         if (towerColumns[k] == column) {
             bool moved = col->move();
-            if (!moved) bust(); //if move failed, treat it as a bust
+            if (!moved) bust(); //if the move fails, treat it as a bust
             return moved;
         }
     }

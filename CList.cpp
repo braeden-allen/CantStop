@@ -5,7 +5,7 @@
 #include "CList.hpp"
 //----------------------------------------
 
-CList::~CList() { //destructor deletes all cells in list
+CList::~CList() { //destructor deletes all cells in CList
     if (empty()) return;
 
     Cell* curr = head;
@@ -16,54 +16,41 @@ CList::~CList() { //destructor deletes all cells in list
     } while (curr != head);
 }
 
-void CList::add(unique_ptr<Player>&& p) { //adds new player to the list with move constructor
+void CList::add(unique_ptr<Player>&& p) {
     Cell* newCell = new Cell(std::move(p));
 
     if (empty()) {
-        head = tail = current = newCell;
-        newCell->next = head;  //points to itself
+        head = tail = newCell;
+        newCell->next = head;
     } else {
         tail->next = newCell;
-        newCell->next = head;  //close the circle
+        newCell->next = head;
         tail = newCell;
     }
     count++;
 }
 
 void CList::remove() {
-    if (empty()) {cout << "List is empty" << endl;return;}
-
-    Cell* temp = current;
-
-    if (current == head) {
-        if (head == tail) { //only one node in list
-            head = nullptr;
-            tail = nullptr;
-        } else {
-            head = head->next;
-            tail->next = head; //keep circularity
-        }
-    } else if (current == tail) { //remove tail
-        Cell* temp = head;
-        while (temp->next != tail) {temp = temp->next;} //walk the list
-        tail = temp;
-        tail->next = head; // Update tail's next to point to the head
-    } else { //remove middle node (most common)
+    if (empty()) {cout << "List is empty\n"; return;}
+    Cell* toDelete = current;
+    if (head == tail) {// Handle a single-node case
+        head = tail = current = nullptr;
+    }
+    else {// Find previous node
         Cell* prev = head;
-        while (prev->next != current) {prev = prev->next;} //walk the list
-        prev->next = current->next; //skip current node
+        while (prev->next != current && prev->next != head) {
+            prev = prev->next;
+        }
+
+        // Update links
+        if (current == head) head = head->next;
+        if (current == tail) tail = prev;
+        prev->next = current->next;
+        current = current->next;  //walk CList
+        tail->next = head;        //maintain circularity
     }
-
-    current = current->next; //rearrange list to close any gaps
-
-    delete temp; //delete current
-    count--; //update count
-
-    if (empty()) {
-        head = nullptr;
-        tail = nullptr;
-        current = nullptr;
-    }
+    delete toDelete;
+    count--;
 }
 
 void CList::print(ostream& os) const {
@@ -76,13 +63,13 @@ void CList::print(ostream& os) const {
     } while (curr != head);
 }
 
-Player* CList::next() { //advances to the next cell and returns the Player*
+Player* CList::next() {
     if (empty()) return nullptr;
-    if (!current) current = head;  //initialize if needed
+    if (!current) current = head;
 
-    Player* player = current->upp.get();
+    Player* p = current->upp.get();
     current = current->next;
-    return player;
+    return p;
 }
 
 Player* CList::getCurrent() const {
