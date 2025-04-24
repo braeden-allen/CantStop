@@ -14,20 +14,10 @@ class Game {
 private:
         Board board;
         CList players;
-        CSDice* dice;
-        Dice* FakeDice;
+        //CSDice* dice;
+        Dice* dice;
         EGameStatus gameState;
-        const int* currentPairs; //last rolled dice pairs
-        bool alreadyRolled = false; //determining if Bust
-        void setupPlayers(int minPlayers = 2, int maxPlayers = 4);
-
-public:
-        Game();
-        ~Game() {delete [] dice;};
-        Player getNewPlayer();
-        void oneTurn(Player* pp);
-        bool addPlayer();
-        void playGame();
+        const int* currentPairs{}; //last rolled dice pairs
 
         static int printTurnMenu(Player* pp);
         bool handleRoll(Player* pp, int& usedTowers);
@@ -35,4 +25,15 @@ public:
         bool handlePostRoll(int pair1, int pair2, bool move1, bool move2, Player* pp);
         void handleResign(Player* pp);
         void checkPlayerData(const string &newName, char newColor);
+        Player getNewPlayer();
+        EGameStatus oneTurn(Player* pp);
+//        void oneTurn(Player* pp);
+        bool addPlayer();
+        void setupPlayers(int minPlayers = 2, int maxPlayers = 4);
+
+public:
+        Game();
+        Game(Dice* testDice);
+        ~Game() {delete dice;};
+        void playGame();
 };

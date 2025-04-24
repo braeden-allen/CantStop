@@ -16,16 +16,17 @@ bool Player::wonColumn(int colNum){
     if (score < 3) {
         scoreboard[score] = colNum;
         ++score;
-        return score == 3;//check if player has 3 columns
+        return score == 3; //check if player has 3 columns
     }
     return false;
 }
 
 ostream& Player::print(ostream& os) const {
+    os << "\n=== SCORECARD ===" << endl;
     os << "Player: " << playerName << endl;
     os << "Color: " << colorNames[(int)playerColor] << endl;
-    os << "Score: " << score << endl;
-
+    os << "Score: " << score <<endl;
+    os << "===================\n" << endl;
     for (int k = 0; k < score; ++k) {
         os << scoreboard[k] << " ";
     }

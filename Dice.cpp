@@ -96,10 +96,13 @@ const int* FakeDice::roll() {
     cout << "Fake dice roll: " << *this << endl;
     cout << "Action: " << lastAction << endl;
 
-    if (lastAction == "BADSLOT"){throw BadSlot('a');
-    }else if (lastAction == "DUPSLOT"){throw DuplicateSlot('a');
-    }else if (lastAction == "BADCHOICE"){throw BadSlot('x');
-    }else if (lastAction != ROLL_ACTION && lastAction != STOP_ACTION){
+    if (lastAction == "BADSLOT") {
+        throw BadSlot('a');
+    } else if (lastAction == "DUPSLOT") {
+        throw DuplicateSlot('a');
+    } else if (lastAction == "BADCHOICE") {
+        throw BadSlot('x');
+    } else if (lastAction != ROLL_ACTION && lastAction != STOP_ACTION && lastAction != QUIT_ACTION) {
         fatal("invalid command in fake_dice.txt");
     }
     return pairSum;
@@ -111,6 +114,7 @@ bool FakeDice::readNextRoll(int* values, string& action) {
         istringstream iss(line);
         for (int k = 0; k < 4; ++k) {if (!(iss >> values[k])) return false;}
         iss >> action;
-        if (action != ROLL_ACTION && action != STOP_ACTION) return false;
+    if (action != ROLL_ACTION && action != STOP_ACTION && action != QUIT_ACTION
+        && action != "BADSLOT" && action != "DUPSLOT" && action != "BADCHOICE"){return false;}
         return true;
 }

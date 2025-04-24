@@ -12,4 +12,3 @@ enum class EGameStatus{Begun, Done, Quit};
 
 extern const string colorNames[];
 extern const string colState[];
-extern const string gameState[];

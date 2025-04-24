@@ -15,10 +15,11 @@ using std::toupper;
 
 int main() {
     srand((time(nullptr)));
-    banner();  
+    banner();
 
-    Game game;
-    game.playGame();
+    FakeDice* fd = new FakeDice();   // reads from file
+    Game game(fd);                   // uses test constructor
+    game.playGame();                 // auto-runs based on file
 
     bye();  
     return 0;

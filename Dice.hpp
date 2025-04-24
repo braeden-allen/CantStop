@@ -8,8 +8,8 @@
 #define FAKE_DICE_FILE "/home/braeden/CSCI 4526/CantStop/fake_dice.txt"
 #define ROLL_ACTION "ROLL"
 #define STOP_ACTION "STOP"
+#define QUIT_ACTION "QUIT"
 //----------------------------------------
-
 
 using namespace std;
 
@@ -19,8 +19,8 @@ protected:
     int* dieValues;
 public:
     Dice() : Dice(6){} //default constructor
-    Dice(int n);
-    //using virtual to ensure proper clean up after the derived class
+    explicit Dice(int n);
+    //using virtual to ensure proper cleanup after the derived class
     virtual ~Dice();
     virtual const int* roll();
     ostream& print(ostream& outfile);
@@ -31,10 +31,10 @@ protected:
     int pairTotals[2]{};
 public:
     CSDice();
-    virtual ~CSDice() = default;
+    ~CSDice() override = default;
     const int* roll() override;
 
-    bool validateDiceChars(char d1, char d2) const;
+    [[nodiscard]] bool validateDiceChars(char d1, char d2) const;
 
     void calculatePairs(char d1, char d2);
 };

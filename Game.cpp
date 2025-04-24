@@ -7,21 +7,22 @@
 #include "exceptions.hpp"
 //----------------------------------------
 
-Game::Game(){
-    dice = new CSDice();
-}
+//Game::Game() : dice(new CSDice()), gameState(EGameStatus::Begun) {
+//    setupPlayers(2, 4);  // Replaces getPlayers()
+//}
 
 //for testing for fake_dice.txt
-//Game::Game(){
-//     dice = new FakeDice();
-//}
+Game::Game(Dice* testDice)
+        : dice(testDice), gameState(EGameStatus::Begun) {
+    cout << "=== TEST MODE: USING FAKE DICE ===\n";
+    setupPlayers(2, 4);  //prompts user for player names/colors
+}
 
 void Game::checkPlayerData(const string& newName, char newColor) {
     bool nameExists = false;
     bool colorExists = false;
     int count = players.getCount();
     ECcolor color;
-
     switch(toupper(newColor)) {
         case 'O': color = ECcolor::Orange; break;
         case 'Y': color = ECcolor::Yellow; break;
@@ -29,14 +30,12 @@ void Game::checkPlayerData(const string& newName, char newColor) {
         case 'B': color = ECcolor::Blue; break;
         default: color = ECcolor::Blue; // default case
     }
-
     for (int k = 0; k < count; k++) {
         Player* p = players.getCurrent();
         if (p->getName() == newName) nameExists = true;
         if (p->getColor() == color) colorExists = true; // Compare ECcolor directly
         players.next();
     }
-
     if (nameExists && colorExists) {
         throw BadPlayer(newName.c_str(), string(1, newColor).c_str());
     }
@@ -84,14 +83,12 @@ ECcolor convertColorChoice(char choice) {
     }
 }
 
-// Main function (cleaner and more readable)
 Player Game::getNewPlayer() {
     while (true) {
         try {
             string name = getPlayerName();
             char colorChoice = getColorChoice(name);
             ECcolor color = convertColorChoice(colorChoice);
-
             checkPlayerData(name, colorChoice); // Validation (assuming this throws BadPlayer)
             return Player(name, color);
         }
@@ -103,7 +100,19 @@ Player Game::getNewPlayer() {
 }
 
 int Game::printTurnMenu(Player* pp) {
-    cout << "It is " << pp->getName() << "'s turn\n";
+
+    if (auto* fd = new FakeDice()) {//for automated gameplay/testing ONLY
+        string action = fd->lastAction;
+        cout << "(Test) Auto-action from file: " << action << "\n";
+
+        if (action == "ROLL") return 1;
+        if (action == "STOP") return 2;
+        if (action == "QUIT") return 3;
+        if (action == "DUPSLOT" || action == "BADSLOT" || action == "BADCHOICE") return 1;
+        return 1;  // default to roll
+    }
+
+    cout << "It is " << pp->getName() << "'s turn\n"; //for manual gameplay
     cout << "Enter a Menu Option From Below:\n";
     cout << "\t1. Roll Dice\n\t2. Stop Turn\n\t3. Resign\n";
     int choice;
@@ -164,47 +173,56 @@ bool Game::handlePostRoll(int pair1, int pair2, bool move1, bool move2, Player* 
 
     if (pp->getScore() >= 3) {
         cout << "Player " << pp->getName() << " has won the game!\n";
-        exit(0);
+        gameState = EGameStatus::Done;
+        return false; //end the turn
     }
-
     return true;
 }
 
 void Game::handleResign(Player* pp) {
     cout << "\n" << pp->getName() << " resigns.\n";
     board.bust();
-    players.init();
-    players.remove();
+
+    string resignedName = pp->getName();
+    players.remove();  //delete resigning player
 
     cout << "Number of players left: " << players.getCount() << "\n\n";
 
     if (players.getCount() == 1) {
-        Player* winner = players.next();
+        players.init(); //now only one player, safe to reset
+        Player* winner = players.getCurrent();
         cout << "Default win for " << winner->getName() << "\n";
-        bye();
-        exit(0);
+        gameState = EGameStatus::Done;
+        return;
     }
 
-    if (players.getCount() >= 2) {
-        Player* nextPlayer = players.next();
-        if (nextPlayer) oneTurn(nextPlayer);
+    if (players.getCount() == 0) {
+        gameState = EGameStatus::Quit;
+        cout << "All players have resigned. Game over.\n";
+        return;
     }
+
+    players.init();  // safe reset to next valid player
 }
 
-void Game::oneTurn(Player* pp) {
+EGameStatus Game::oneTurn(Player* pp) {
     board.startTurn(pp);
     int usedTowers = 0;
 
     while (true) {
         int choice = printTurnMenu(pp);
         if (choice == 1) {
-            if (!handleRoll(pp, usedTowers)) break;
+            if (!handleRoll(pp, usedTowers)) { //check for win condition
+                if (gameState == EGameStatus::Done) return EGameStatus::Done;
+                return EGameStatus::Begun;
+            }
         } else if (choice == 2) {
             board.stop();
-            break;
+            board.print(cout);
+            return EGameStatus::Begun;
         } else if (choice == 3) {
             handleResign(pp);
-            return;
+            return gameState;  //Quit or Done, dependent on # players
         }
     }
 }
@@ -216,7 +234,7 @@ bool Game::addPlayer() {
     }
     try {
         Player p = getNewPlayer();
-        players.add(make_unique<Player>(p));
+        players.add(make_unique<Player>(std::move(p)));
     }
     catch (const BadPlayer& bp) {
         bp.print();
@@ -230,7 +248,6 @@ bool Game::addPlayer() {
 }
 
 void Game::playGame() {
-    setupPlayers(); // Handles all player initialization
 
     if (players.getCount() < 2) {
         cout << "Insufficient players to start.\n";
@@ -238,8 +255,9 @@ void Game::playGame() {
     }
 
     cout << "\n=== GAME START ===\n";
-    while (players.getCount() >= 2) {
+    while (players.getCount() >= 2 && gameState == EGameStatus::Begun) {
         Player* current = players.getCurrent();
+        current->print(cout);
         oneTurn(current);
         if (current->getScore() >= 3) {
             cout << current->getName() << " wins!\n";
@@ -247,7 +265,9 @@ void Game::playGame() {
         }
         players.next();
     }
-    cout << "Game ended - not enough players remaining.\n";
+    if (gameState == EGameStatus::Done) cout << "Game over — a player has won.\n";
+    else if (gameState == EGameStatus::Quit) cout << "Game over — all players resigned.\n";
+    else cout << "Game ended — not enough players remaining.\n";
 }
 
 void Game::setupPlayers(int minPlayers, int maxPlayers) {
