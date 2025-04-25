@@ -6,8 +6,6 @@
 #include "Game.hpp"
 #include <cstdlib>
 #include <ctime>
-#include <cctype>
-#include <iostream>
 
 int main() {
     srand((time(nullptr)));

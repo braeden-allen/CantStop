@@ -33,7 +33,7 @@ public:
     ~CSDice() override = default;
     const int* roll() override;
 
-    [[nodiscard]] bool validateDiceChars(char d1, char d2) const;
+    bool validateDiceChars(char d1, char d2) const;
 
     void calculatePairs(char d1, char d2);
 };
