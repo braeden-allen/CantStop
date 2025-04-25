@@ -49,5 +49,7 @@ public:
     ~FakeDice() override { if (file.is_open()) fatal("File Can't Be Opened");}
     const int* roll() override;
     string lastAction;
+    void logRollResults() const;
+    bool isValidAction(const string &action) const;
 };
 inline ostream& operator << ( ostream& outfile, Dice& dice){return dice.print(outfile);}

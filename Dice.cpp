@@ -83,38 +83,51 @@ const int* FakeDice::roll() {
     string action;
 
     if (!readNextRoll(rollValues, action)) {
-        fatal("Failed to read from fake dice file or end of file reached");
+        throw runtime_error("End of test file reached or invalid format");
     }
 
+    //store values
     for (int k = 0; k < 4; ++k) {dieValues[k] = rollValues[k];}
-
-    // Calculate pairs (first two and last two)
-    pairSum[0] = rollValues[0] + rollValues[1];
-    pairSum[1] = rollValues[2] + rollValues[3];
+    pairSum[0] = dieValues[0] + dieValues[1];  // ab pair
+    pairSum[1] = dieValues[2] + dieValues[3];  // cd pair
     lastAction = action;
 
-    cout << "Fake dice roll: " << *this << endl;
-    cout << "Action: " << lastAction << endl;
+    if (lastAction == "BADSLOT") throw BadSlot('a');
+    if (lastAction == "DUPSLOT") throw DuplicateSlot('a');
+    if (lastAction == "BADCHOICE") throw BadChoice('a');
 
-    if (lastAction == "BADSLOT") {
-        throw BadSlot('a');
-    } else if (lastAction == "DUPSLOT") {
-        throw DuplicateSlot('a');
-    } else if (lastAction == "BADCHOICE") {
-        throw BadSlot('x');
-    } else if (lastAction != ROLL_ACTION && lastAction != STOP_ACTION && lastAction != QUIT_ACTION) {
-        fatal("invalid command in fake_dice.txt");
+    // Validate normal actions (without std::set)
+    if (!isValidAction(lastAction)) {
+        throw runtime_error("Invalid action in test file: " + lastAction);
     }
+    logRollResults();
     return pairSum;
+}
+
+bool FakeDice::isValidAction(const string& action) const {
+    return action == ROLL_ACTION || action == STOP_ACTION || action == QUIT_ACTION ||
+           action == "BADSLOT" || action == "DUPSLOT" || action == "BADCHOICE";
+}
+
+void FakeDice::logRollResults() const {
+    cout << "=== TEST MODE ===" << endl;
+    cout << "Dice: ";
+    for (int k = 0; k < 4; ++k) {
+        cout << char('a' + k) << ":" << dieValues[k] << " ";
+    }
+    cout << "\nPairs: " << pairSum[0] << " & " << pairSum[1] << endl;
+    cout << "Action: " << lastAction << endl << endl;
 }
 
 bool FakeDice::readNextRoll(int* values, string& action) {
     string line;
     if (!getline(file, line)) return false;
-        istringstream iss(line);
-        for (int k = 0; k < 4; ++k) {if (!(iss >> values[k])) return false;}
-        iss >> action;
-    if (action != ROLL_ACTION && action != STOP_ACTION && action != QUIT_ACTION
-        && action != "BADSLOT" && action != "DUPSLOT" && action != "BADCHOICE"){return false;}
-        return true;
+
+    istringstream iss(line);
+    for (int k = 0; k < 4; ++k) {
+        if (!(iss >> values[k]) || values[k] < 1 || values[k] > 6) {
+            return false;  // Validate die values
+        }
+    }
+    return !!(iss >> action);  // Extract action
 }

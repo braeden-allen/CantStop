@@ -7,15 +7,25 @@
 #include "exceptions.hpp"
 //----------------------------------------
 
-//Game::Game() : dice(new CSDice()), gameState(EGameStatus::Begun) {
-//    setupPlayers(2, 4);  // Replaces getPlayers()
-//}
+Game::Game() : gameState(EGameStatus::Begun) {
+    cout << "Select game mode:\n1. Manual Gameplay\n2. Automated Testing\n";
+    int choice;
+    cout << "Enter choice (1 or 2): ";
+    cin >> choice;
 
-//for testing for fake_dice.txt
-Game::Game(Dice* testDice)
-        : dice(testDice), gameState(EGameStatus::Begun) {
-    cout << "=== TEST MODE: USING FAKE DICE ===\n";
-    setupPlayers(2, 4);  //prompts user for player names/colors
+    while (choice != 1 && choice != 2) {
+        cout << "Invalid choice. Please enter 1 or 2: ";
+        cin >> choice;
+    }
+
+    if (choice == 1) {
+        dice = new CSDice();  // Manual gameplay
+        cout << "=== MANUAL GAMEPLAY MODE ===\n";
+    } else {
+        dice = new FakeDice();  // Automated testing
+        cout << "=== TEST MODE: USING FAKE DICE ===\n";
+    }
+    setupPlayers(2, 4);
 }
 
 void Game::checkPlayerData(const string& newName, char newColor) {
@@ -100,19 +110,23 @@ Player Game::getNewPlayer() {
 }
 
 int Game::printTurnMenu(Player* pp) {
-
-    if (auto* fd = new FakeDice()) {//for automated gameplay/testing ONLY
+    if (auto* fd = dynamic_cast<FakeDice*>(dice)) {
+        // Automated testing mode - get action from file
         string action = fd->lastAction;
         cout << "(Test) Auto-action from file: " << action << "\n";
 
-        if (action == "ROLL") return 1;
-        if (action == "STOP") return 2;
-        if (action == "QUIT") return 3;
-        if (action == "DUPSLOT" || action == "BADSLOT" || action == "BADCHOICE") return 1;
-        return 1;  // default to roll
+        // Clear the action after reading
+        fd->lastAction.clear();
+
+        if (action == ROLL_ACTION) return 1;
+        if (action == STOP_ACTION) return 2;
+        if (action == QUIT_ACTION) return 3;
+
+        return 1;  // Default to roll
     }
 
-    cout << "It is " << pp->getName() << "'s turn\n"; //for manual gameplay
+    // Manual gameplay mode
+    cout << "It is " << pp->getName() << "'s turn\n";
     cout << "Enter a Menu Option From Below:\n";
     cout << "\t1. Roll Dice\n\t2. Stop Turn\n\t3. Resign\n";
     int choice;
@@ -142,7 +156,6 @@ bool Game::handleRoll(Player* pp, int& usedTowers) {
 
     if (move1 && !hadTower1) usedTowers++;
     if (move2 && !hadTower2 && pair1 != pair2) usedTowers++;
-
     board.print(cout);
     return handlePostRoll(pair1, pair2, move1, move2, pp);
 }
@@ -201,7 +214,6 @@ void Game::handleResign(Player* pp) {
         cout << "All players have resigned. Game over.\n";
         return;
     }
-
     players.init();  // safe reset to next valid player
 }
 
@@ -224,6 +236,7 @@ EGameStatus Game::oneTurn(Player* pp) {
             handleResign(pp);
             return gameState;  //Quit or Done, dependent on # players
         }
+
     }
 }
 

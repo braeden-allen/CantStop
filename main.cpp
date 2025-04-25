@@ -9,17 +9,15 @@
 #include <cctype>
 #include <iostream>
 
-using std::cout;
-using std::cin;
-using std::toupper;
-
 int main() {
     srand((time(nullptr)));
     banner();
 
-    FakeDice* fd = new FakeDice();   // reads from file
-    Game game(fd);                   // uses test constructor
+    //FakeDice* fd = new FakeDice();   // reads from file
+    Game game;                   // uses test constructor
     game.playGame();                 // auto-runs based on file
+
+    //delete fd;
 
     bye();  
     return 0;
