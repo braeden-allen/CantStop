@@ -20,7 +20,6 @@ protected:
 public:
     Dice() : Dice(6){} //default constructor
     explicit Dice(int n);
-    //using virtual to ensure proper cleanup after the derived class
     virtual ~Dice();
     virtual const int* roll();
     ostream& print(ostream& outfile);
@@ -46,7 +45,7 @@ private:
     bool readNextRoll(int* values, string& action);
 public:
     FakeDice();
-    ~FakeDice() override { if (file.is_open()) fatal("File Can't Be Opened");}
+    ~FakeDice() override { if (file.is_open()) file.close();}
     const int* roll() override;
     string lastAction;
     void logRollResults() const;

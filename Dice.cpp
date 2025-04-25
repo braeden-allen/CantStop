@@ -96,7 +96,6 @@ const int* FakeDice::roll() {
     if (lastAction == "DUPSLOT") throw DuplicateSlot('a');
     if (lastAction == "BADCHOICE") throw BadChoice('a');
 
-    // Validate normal actions (without std::set)
     if (!isValidAction(lastAction)) {
         throw runtime_error("Invalid action in test file: " + lastAction);
     }
@@ -126,7 +125,7 @@ bool FakeDice::readNextRoll(int* values, string& action) {
     istringstream iss(line);
     for (int k = 0; k < 4; ++k) {
         if (!(iss >> values[k]) || values[k] < 1 || values[k] > 6) {
-            return false;  // Validate die values
+            return false;  //validate die values
         }
     }
     return !!(iss >> action);  // Extract action

@@ -14,7 +14,6 @@ class Game {
 private:
         Board board;
         CList players;
-        //CSDice* dice;
         Dice* dice;
         EGameStatus gameState;
         const int* currentPairs{}; //last rolled dice pairs
@@ -32,7 +31,7 @@ private:
 
 public:
         Game();
-        Game(Dice* testDice);
         ~Game() {delete dice;};
         void playGame();
+        void handleStop(Player *pp);
 };

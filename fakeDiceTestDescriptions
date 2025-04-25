@@ -1,0 +1,26 @@
+1 2 3 4 ROLL → Player rolls dice: pairs (1+2)=3 and (3+4)=7. Action: ROLL. Towers attempt to move or commit on columns 3 and 7.
+1 2 3 4 QUIT → Player rolls dice: pairs (1+2)=3 and (3+4)=7. Action: QUIT. Player resigns from the game.
+1 1 1 1 ROLL → Player rolls dice: pairs (1+1)=2 and (1+1)=2. Action: ROLL. Towers attempt to move or commit on column 2 (double roll).
+1 1 1 1 ROLL → Player rolls dice: pairs (1+1)=2 and (1+1)=2. Action: ROLL. Towers attempt to move or commit on column 2 (double roll).
+3 4 3 4 ROLL → Player rolls dice: pairs (3+4)=7 and (3+4)=7. Action: ROLL. Towers attempt to move or commit on column 7 (double roll).
+3 4 4 3 ROLL → Player rolls dice: pairs (3+4)=7 and (4+3)=7. Action: ROLL. Towers attempt to move or commit on column 7 (double roll).
+3 4 4 3 ROLL → Player rolls dice: pairs (3+4)=7 and (4+3)=7. Action: ROLL. Towers attempt to move or commit on column 7 (double roll).
+3 4 3 4 ROLL → Player rolls dice: pairs (3+4)=7 and (3+4)=7. Action: ROLL. Towers attempt to move or commit on column 7 (double roll).
+1 2 3 4 STOP → Player rolls dice: pairs (1+2)=3 and (3+4)=7. Action: STOP. Towers on columns 3 and 7 are committed.
+4 4 4 4 ROLL → Player rolls dice: pairs (4+4)=8 and (4+4)=8. Action: ROLL. Towers attempt to move or commit on column 8 (double roll).
+3 3 2 2 ROLL → Player rolls dice: pairs (3+3)=6 and (2+2)=4. Action: ROLL. Towers attempt to move or commit on columns 6 and 4.
+5 5 1 1 STOP → Player rolls dice: pairs (5+5)=10 and (1+1)=2. Action: STOP. Towers on columns 10 and 2 are committed.
+2 2 2 2 ROLL → Player rolls dice: pairs (2+2)=4 and (2+2)=4. Action: ROLL. Towers attempt to move or commit on column 4 (double roll).
+2 2 2 2 STOP → Player rolls dice: pairs (2+2)=4 and (2+2)=4. Action: STOP. Tower on column 4 is committed.
+6 6 6 6 ROLL → Player rolls dice: pairs (6+6)=12 and (6+6)=12. Action: ROLL. Towers attempt to move or commit on column 12 (double roll).
+5 5 4 4 ROLL → Player rolls dice: pairs (5+5)=10 and (4+4)=8. Action: ROLL. Towers attempt to move or commit on columns 10 and 8.
+6 6 1 1 STOP → Player rolls dice: pairs (6+6)=12 and (1+1)=2. Action: STOP. Towers on columns 12 and 2 are committed.
+3 3 3 3 ROLL → Player rolls dice: pairs (3+3)=6 and (3+3)=6. Action: ROLL. Towers attempt to move or commit on column 6 (double roll).
+2 2 2 2 ROLL → Player rolls dice: pairs (2+2)=4 and (2+2)=4. Action: ROLL. Towers attempt to move or commit on column 4 (double roll).
+3 4 5 6 STOP → Player rolls dice: pairs (3+4)=7 and (5+6)=11. Action: STOP. Towers on columns 7 and 11 are committed.
+1 1 1 1 STOP → Player rolls dice: pairs (1+1)=2 and (1+1)=2. Action: STOP. Tower on column 2 is committed.
+6 6 6 6 ROLL → Player rolls dice: pairs (6+6)=12 and (6+6)=12. Action: ROLL. Towers attempt to move or commit on column 12 (double roll).
+1 2 1 2 ROLL → Player rolls dice: pairs (1+2)=3 and (1+2)=3. Action: ROLL. Towers attempt to move or commit on column 3 (double roll).
+1 2 2 1 ROLL → Player rolls dice: pairs (1+2)=3 and (2+1)=3. Action: ROLL. Towers attempt to move or commit on column 3 (double roll).
+2 1 2 1 ROLL → Player rolls dice: pairs (2+1)=3 and (2+1)=3. Action: ROLL. Towers attempt to move or commit on column 3 (double roll).
+1 2 1 2 STOP → Player rolls dice: pairs (1+2)=3 and (1+2)=3. Action: STOP. Tower on column 3 is committed.

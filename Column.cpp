@@ -23,7 +23,7 @@ string Column::colStateToString(EColStatus status) {
     return "unknown";
 }
 
-// Helper function for printing (add before Column::print)
+// Helper function for printing
 string Column::colorToString(ECcolor color) {
     switch(color) {
         case ECcolor::Orange: return "Orange";
@@ -72,7 +72,7 @@ void Column::stop(Player* player) {
     markerPositions[colorIdx] = markerPositions[towerIdx];
     markerPositions[towerIdx] = 0; //clear temporary tower
 
-    if (markerPositions[colorIdx] == maxPos) { //is column captured
+    if (markerPositions[colorIdx] >= maxPos) { //is a column in capturable state
         colState = EColStatus::captured;
         capturedColor = playerColor;
         player->wonColumn(colNumber);
@@ -80,9 +80,13 @@ void Column::stop(Player* player) {
     else {colState = EColStatus::available;}
 }
 
+bool Column::hasTower(Player* player) const { //checks column for tower
+    return colState == EColStatus::pending && markerPositions[(int)ECcolor::White] > 0;
+}
+
 void Column::bust() {
     if (colState == EColStatus::pending) {
-        // Only clear the temporary tower (White marker)
+        // Only clear the towers
         int towerIdx = (int)ECcolor::White;
         markerPositions[towerIdx] = 0;
         colState = EColStatus::available;
@@ -108,15 +112,16 @@ void Column::printColors(ostream& os, int k) const {
 }
 
 ostream& Column::print(ostream& os) const {
-    if (colState == EColStatus::captured) {os << " by " << colorToString(capturedColor);}
-    os << endl;
+    if (colState == EColStatus::captured) {
+        os << "Column "<< colNumber << " captured by " << colorToString(capturedColor);
+    }
 
+    os << endl;
     os << "Column " << colNumber << ": ";
     os << "State: " << colStateToString(colState);
     os << " | ";
 
     for (int k = 1; k <= maxPos; ++k) {printColors(os, k);os << " | ";}
     os << endl;
-
     return os;
 }

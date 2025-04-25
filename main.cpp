@@ -13,11 +13,8 @@ int main() {
     srand((time(nullptr)));
     banner();
 
-    //FakeDice* fd = new FakeDice();   // reads from file
-    Game game;                   // uses test constructor
-    game.playGame();                 // auto-runs based on file
-
-    //delete fd;
+    Game game;
+    game.playGame();
 
     bye();  
     return 0;

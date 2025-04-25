@@ -110,18 +110,14 @@ Player Game::getNewPlayer() {
 }
 
 int Game::printTurnMenu(Player* pp) {
-    if (auto* fd = dynamic_cast<FakeDice*>(dice)) {
-        // Automated testing mode - get action from file
+    if (auto* fd = dynamic_cast<FakeDice*>(dice)) {// Automated testing mode
         string action = fd->lastAction;
-        cout << "(Test) Auto-action from file: " << action << "\n";
-
-        // Clear the action after reading
-        fd->lastAction.clear();
+        cout << "\n(Test) Auto-action from file: " << action << "\n\n";
+        fd->lastAction.clear(); // Clear the action after reading
 
         if (action == ROLL_ACTION) return 1;
         if (action == STOP_ACTION) return 2;
         if (action == QUIT_ACTION) return 3;
-
         return 1;  // Default to roll
     }
 
@@ -192,6 +188,15 @@ bool Game::handlePostRoll(int pair1, int pair2, bool move1, bool move2, Player* 
     return true;
 }
 
+void Game::handleStop(Player* pp) {
+    for (int col = 2; col <= 12; ++col) {
+        Column* c = board.getColumn(col);
+        if (c->hasTower(pp)) {
+            c->commitTower(pp);  // This calls Column::stop internally
+        }
+    }
+}
+
 void Game::handleResign(Player* pp) {
     cout << "\n" << pp->getName() << " resigns.\n";
     board.bust();
@@ -229,14 +234,13 @@ EGameStatus Game::oneTurn(Player* pp) {
                 return EGameStatus::Begun;
             }
         } else if (choice == 2) {
-            board.stop();
+            handleStop(pp);
             board.print(cout);
             return EGameStatus::Begun;
         } else if (choice == 3) {
             handleResign(pp);
             return gameState;  //Quit or Done, dependent on # players
         }
-
     }
 }
 
