@@ -5,15 +5,18 @@
 #include "CList.hpp"
 //----------------------------------------
 
-CList::~CList() { //destructor deletes all cells in CList
+CList::~CList() {
     if (empty()) return;
 
+    // Break the circular link to avoid infinite loop
+    tail->next = nullptr;
+
     Cell* curr = head;
-    do {
+    while (curr != nullptr) {
         Cell* temp = curr;
         curr = curr->next;
-        delete temp;  //auto deletes the unique_ptr<Player>
-    } while (curr != head);
+        delete temp;  // deletes Cell and Player (via unique_ptr)
+    }
 }
 
 void CList::add(unique_ptr<Player>&& p) {

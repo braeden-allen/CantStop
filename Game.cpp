@@ -197,9 +197,9 @@ void Game::handleStop(Player* pp) {
 void Game::handleResign(Player* pp) {
     cout << "\n" << pp->getName() << " resigns.\n";
     board.bust();
-
     string resignedName = pp->getName();
-    players.remove();  //delete resigning player
+    players.remove();
+    if (!players.empty()) {players.init();pp = players.getCurrent();}
 
     cout << "Number of players left: " << players.getCount() << "\n\n";
 
@@ -273,6 +273,9 @@ void Game::playGame() {
         Player* current = players.getCurrent();
         current->print(cout);
         oneTurn(current);
+        if (players.getCount() == 0) break;  // all players gone → quit
+        current = players.getCurrent();
+        if (!current) continue;  //defensive: skip if current is null
         if (current->getScore() >= 3) {
             cout << current->getName() << " wins!\n";
             return;
