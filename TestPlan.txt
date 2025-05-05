@@ -106,26 +106,18 @@ To meet the expectations of this module, we extend the functionality of our dice
 
 ----------------------------------------------------------------------------------------------------------------------
 
-TEST PLAN - MODULE 9 (EXCEPTIONS)
+TEST PLAN - MODULE 9 (POLYMORPHIC EXCEPTIONS)
 
-To meet the expectations of this module, we intend to add exceptions to our game for full functionality
-1. We will implement cases for bad colors/names and bad players if both are re-used or unavailable
-2. We will implement bad rolls, duplicate slots (of die), and out of scope die (letters e and forth)
-3. To test these exceptions, we will incorrectly input names and re-use colors
-4. To test die exceptions, we will select combinations like (aa) for duplicate, or (ae) for a bad choice
+To meet the expectations of this module, we add exception handling to CantStop
+1. When the payers enters duplicate information, (name/color) already in use, the system throws the corresponding exceptions
+	BadColor, BadName, or BadPlayer
+2. Each exception prints a detailed error message using its override print and basePrint functions before the player can input again
+3. When a player makes an illegal turn choice (ROLL, STOP, QUIT), which th systems throws a BadChoice exception and which forces the player
+	to try again
+4. If an invalid selection is made for the dice-pair slots or if duplicate slots are chosen, the system throws a BadSlot or DuplicateSlot exception
+5. The getPlayers() method catches any BadPlayers exceptions and oneTurn(0 method handles in-turn exceptions which allow CantStop for flow normally
 
-----------------------------------------------------------------------------------------------------------------------
-
-TEST PLAN - MODULE 10 (WORKING GAME)
-
-To meet the expectations of this module, we extend the functionality of our game using fakeDice from Module 8
-1. We will implement a menu option for manual gameplay or testing gameplay (1,2).
-    1.a. If manual gameplay, add up to 4 players and play according to the rules of Can't Stop
-    1.b. If testing, add 3 players and assign each their own color, the game plays itself to demonstarte full functionality
-2. To use a Dice* to create a set of CSDice or FakeDice dependent on what the user selects from the menu
-3. To test FakeDice by ensuring full automatic gameplay from the read in file
-4. To ensure fake_dice.txt reads four dice values per line then computes and returns the correct par totals.
-5. Verify the polymorphic behavior using the Dice* pointer referencing the CantStopDice and Fake Dice instances
-6. To enjoy the virtual version of Can't Stop
 
 ----------------------------------------------------------------------------------------------------------------------
+
+

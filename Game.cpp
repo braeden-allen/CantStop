@@ -3,7 +3,6 @@
 //Authors: Braeden & Mateusz
 //----------------------------------------
 #include "Game.hpp"
-//need to add the new exceptions
 #include "exceptions.hpp"
 //----------------------------------------
 
@@ -40,21 +39,19 @@ void Game::checkPlayerData(const string& newName, char newColor) {
         case 'B': color = ECcolor::Blue; break;
         default: color = ECcolor::Blue; // default case
     }
+    Player newPlayer(newName, color);
     for (int k = 0; k < count; k++) {
         Player* p = players.getCurrent();
+        if (*p == newPlayer) {
+            throw BadPlayer(newName.c_str(), string(1, newColor).c_str());}
         if (p->getName() == newName) nameExists = true;
-        if (p->getColor() == color) colorExists = true; // Compare ECcolor directly
+        if (p->getColor() == color) colorExists = true;
         players.next();
     }
-    if (nameExists && colorExists) {
-        throw BadPlayer(newName.c_str(), string(1, newColor).c_str());
-    }
-    else if (nameExists) {
-        throw BadName(newName.c_str(), string(1, newColor).c_str());
-    }
+    if (nameExists) {
+        throw BadName(newName.c_str(), string(1, newColor).c_str());}
     else if (colorExists) {
-        throw BadColor(newName.c_str(), string(1, newColor).c_str());
-    }
+        throw BadColor(newName.c_str(), string(1, newColor).c_str());}
 }
 
 string getPlayerName() {
@@ -287,14 +284,14 @@ void Game::playGame() {
     else cout << "Game ended — not enough players remaining.\n";
 }
 
-void Game::setupPlayers(int minPlayers, int maxPlayers) {
+void Game::setupPlayers(int minPlayers , int maxPlayers) {
     cout << "=== PLAYER SETUP ===\n";
     char choice = 'Y';
     while (players.getCount() < maxPlayers &&
-           (players.getCount() < minPlayers || ((cout << "Add more? (Y/N): ") &&
+           (players.getCount() < 2 || ((cout << "Add more? (Y/N): ") &&
                                         cin >> choice && (choice = toupper(choice)) == 'Y'))) {
         try { addPlayer(); }
-        catch (...) { if (players.getCount() < minPlayers) continue; else break; }
+        catch (...) { if (players.getCount() < 2) continue; else break; }
     }
     players.init();
 }

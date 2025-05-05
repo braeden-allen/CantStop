@@ -32,8 +32,8 @@ public:
     CList() = default;
     ~CList();
 
-    bool empty() const { return count == 0; }
-    int size() const { return count; }
+    [[nodiscard]] bool empty() const { return count == 0; }
+    [[nodiscard]] int size() const { return count; }
 
     void add(unique_ptr<Player>&& p);
     void remove();

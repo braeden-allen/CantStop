@@ -3,20 +3,21 @@
 //Authors: Braeden and Mateusz
 //----------------------------------------
 #include "Player.hpp"
+#include <utility>
 //----------------------------------------
 
-Player::Player(const string Name, ECcolor color)
-        : playerName(Name), playerColor(color), scoreboard(), score(0) {}
+Player::Player(string  Name, ECcolor color)
+        : playerName(std::move(Name)), playerColor(color), scoreboard(), score(0) {}
 
-ECcolor Player::getColor() const {return playerColor;}
-int Player::getScore() const {return score;}
-string Player::getName() const {return playerName;}
+bool Player::operator == (const Player& other) const {
+    return playerName == other.playerName && playerColor == other.playerColor;
+}
 
 bool Player::wonColumn(int colNum){
     if (score < 3) {
         scoreboard[score] = colNum;
         ++score;
-        return score == 3; //check if player has 3 columns
+        return score == 3; //check if the player has 3 columns
     }
     return false;
 }
