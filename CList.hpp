@@ -32,17 +32,18 @@ public:
     CList() = default;
     ~CList();
 
-    bool empty() const { return count == 0; }
-    int size() const { return count; }
+    [[nodiscard]] bool empty() const { return count == 0; }
+    [[nodiscard]] int size() const { return count; }
 
     void add(unique_ptr<Player>&& p);
     void remove();
     void print(ostream& os) const;
     Player* next();
-    inline void init() { current = head; }
+
     [[nodiscard]] int getCount() const {return count;}
     [[nodiscard]] Player* getCurrent() const;
     void clear() {while (!empty()) {remove();}} //used to clear the list
+    inline void init() {current = head;}
     friend class Cell;
 
 }; ostream& operator << (ostream& os, const CList& clist);

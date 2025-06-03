@@ -1,7 +1,7 @@
 # Makefile
 
 # compiler
-CXX = g++
+CXX = clang++
 CXXFLAGS = -std=c++17 -Wall -Wextra -I.
 
 SRC = $(wildcard *.cpp)

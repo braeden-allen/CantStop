@@ -32,22 +32,24 @@ void Board::startTurn(Player* player) {
 bool Board::move(int column) {
     Column* col = getColumn(column);
 
-    // First check if this column already has a tower
+    // Check if column already has a tower (no new tower needed)
     for (int k = 0; k < towerCounter; k++) {
         if (towerColumns[k] == column) {
-            bool moved = col->move();
-            if (!moved) bust(); //if move failed, treat it as a bust
-            return moved;
+            return col->move(); // Just advance, no new tower
         }
     }
 
-    if (towerCounter >= 3) return false; //new tower case
+    // Enforce 3-tower limit for NEW towers
+    if (towerCounter >= 3) {
+        return false; // Cannot add a 4th tower
+    }
 
+    // Attempt to start a new tower
     if (col->startTower(currentPlayer)) {
         towerColumns[towerCounter++] = column;
         return true;
     }
-    return false;
+    return false; // Failed to start tower (column may be captured)
 }
 
 void Board::stop() {

@@ -1,40 +1,19 @@
 //----------------------------------------
-//Project: Can't Stop Board Game
-//File: Main.cpp
-//Authors: Braeden
+// Project: Can't Stop Board Game
+// File: Main.cpp
+// Authors: Braeden & Mateusz
 //----------------------------------------
 #include "Game.hpp"
-//----------------------------------------
+#include <cstdlib>
+#include <ctime>
 
 int main() {
-
-    srand(time(nullptr));
+    srand((time(nullptr)));
     banner();
 
-    Game game; //starts with 0 players
-
-    //add mandatory 2 players
-    cout << "=== PLAYER SETUP ===\n";
-    for (int i = 0; i < 2; i++) {
-        cout << "Player " << i+1 << ":\n";
-        game.addPlayer();
-    }
-
-    //optional additional players
-    char choice;
-    do {
-        cout << "\nAdd another player? (Y/N): ";
-        cin >> choice;
-        choice = toupper(choice);
-
-        if (choice == 'Y') {
-            if (!game.addPlayer()) {break;} //stop if max players reached
-        }
-        else if (choice != 'N') {cout << "Invalid choice. Please enter Y or N.\n";}
-    } while (choice != 'N');
-
+    Game game;
     game.playGame();
 
-    bye();
+    bye();  
     return 0;
 }

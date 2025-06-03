@@ -16,15 +16,16 @@ class Player{
 
     public:
         //constructor
-        Player(string Name, ECcolor color);
+        Player(string  Name, ECcolor color);
 
         //better spot for defaulting for player
         ~Player() = default;
 
         //special functions
-        [[nodiscard]] ECcolor getColor() const;
-        [[nodiscard]] int getScore() const;
-        [[nodiscard]] string getName() const;
+        [[nodiscard]] ECcolor getColor() const { return playerColor; }
+        [[nodiscard]] int getScore() const {return score;};
+        const string& getName(){return playerName;};
+        bool operator == (const Player& other) const;
 
         //store column num in next available spot
         bool wonColumn(int colNum);

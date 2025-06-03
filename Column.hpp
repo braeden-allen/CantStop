@@ -28,5 +28,7 @@ class Column {
         void printColors(ostream& os, int k) const;
         ostream& print(ostream& os) const;
         [[nodiscard]] EColStatus getState() const{return colState;}
+        void commitTower(Player *player){stop(player);}
+        bool hasTower(Player *player) const;
 };
 ostream& operator << (ostream&, const Column&);

@@ -2,9 +2,7 @@
 //File: Dice.cpp
 //Authors: Braeden and Mateusz
 //----------------------------------------
-
 #include "Dice.hpp"
-
 //------------------------------------------------------
 // Dice Base Class Implementation
 //------------------------------------------------------
@@ -29,51 +27,47 @@ ostream& Dice::print(ostream& outfile) {
 //------------------------------------------------------
 CSDice::CSDice() : Dice(4){} //CS uses 4 dice
 
-const int* CSDice::roll(){
+bool CSDice::validateDiceChars(char d1, char d2) const {
+    const char* valid = "abcd";
+    d1 = tolower(d1); d2 = tolower(d2);
+    if (d1 == d2) throw DuplicateSlot(d1);
+    if (!strchr(valid, d1)) throw BadSlot(d1);
+    if (!strchr(valid, d2)) throw BadSlot(d2);
+    return true;
+}
 
-    Dice::roll(); //Roll random values
-
-    cout << "Dice values:" << endl;
-    cout << "a: " << dieValues[0] << "  "
-         << "b: " << dieValues[1] << "  "
-         << "c: " << dieValues[2] << "  "
-         << "d: " << dieValues[3] << endl;
-
-    char die1 , die2;
-    bool validInput = false;
-    do {
-        cout << "Choose first pair (e.g., ab): ";
-        cin >> die1 >> die2;
-
-        // Validate input
-        die1 = tolower(die1);
-        die2 = tolower(die2);
-
-        if (die1 < 'a' || die1 > 'd' ||
-            die2 < 'a' || die2 > 'd' ||
-            die1 == die2) {
-            cin.clear();
-            cin.ignore(1000, '\n');
-            cout << "Invalid input. Please choose two different letters a-d.\n";
-        } else {
-            validInput = true;
-        }
-    } while (!validInput);
-
-    int index1 = die1 - 'a';
-    int index2 = die2 - 'a';
-    pairTotals[0] = dieValues[index1] + dieValues[index2];
-
-    //second pair is sum of remaining two
+void CSDice::calculatePairs(char d1, char d2) { //helper function to modularize
+    pairTotals[0] = dieValues[d1-'a'] + dieValues[d2-'a'];
     pairTotals[1] = 0;
-    for (int k = 0; k < nDice; ++k) {
-        if (k != index1 && k != index2) {pairTotals[1] += dieValues[k];}
+    for (int k = 0; k < 4; ++k) {
+        if (k != (d1-'a') && k != (d2-'a')) pairTotals[1] += dieValues[k];
     }
+}
 
-    cout << "First pair total: " << pairTotals[0] << endl;
-    cout << "Second pair total: " << pairTotals[1] << endl;
+const int* CSDice::roll() {
+    Dice::roll();
+    cout << "\nDice values:\n" << *this << endl;
 
-    return pairTotals;
+    while (true) {
+        try {
+            cout << "Choose two dice (e.g., ab): ";
+            char d1, d2;
+            cin >> d1;
+            if (cin.peek() == '\n') d2 = d1; else cin >> d2;
+
+            validateDiceChars(d1, d2);
+            calculatePairs(d1, d2);
+
+            cout << "\nPairs: " << pairTotals[0]
+                 << " & " << pairTotals[1] << "\n" << endl;
+            return pairTotals;
+        }
+        catch (const BadChoice& e) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            e.print();
+        }
+    }
 }
 
 //------------------------------------------------------
@@ -86,27 +80,53 @@ FakeDice::FakeDice(){
 
 const int* FakeDice::roll() {
     int rollValues[4];
-    if (!readNextRoll(rollValues)) {fatal("Failed to read from fake dice file");}
+    string action;
 
-    //copy to dieValues for print
+    if (!readNextRoll(rollValues, action)) {
+        throw runtime_error("End of test file reached or invalid format");
+    }
+
+    //store values
     for (int k = 0; k < 4; ++k) {dieValues[k] = rollValues[k];}
+    pairSum[0] = dieValues[0] + dieValues[1];  // ab pair
+    pairSum[1] = dieValues[2] + dieValues[3];  // cd pair
+    lastAction = action;
 
-    //Pair Calculation
-    pairSum[0] = rollValues[0] + rollValues[1];
-    pairSum[1] = rollValues[2] + rollValues[3];
+    if (lastAction == "BADSLOT") throw BadSlot('a');
+    if (lastAction == "DUPSLOT") throw DuplicateSlot('a');
+    if (lastAction == "BADCHOICE") throw BadChoice('a');
 
-    cout << "Fake dice: " << *this << endl;
-    cout << "First pair total: " << pairSum[0] << endl;
-    cout << "Second pair total: " << pairSum[1] << endl;
-
+    if (!isValidAction(lastAction)) {
+        throw runtime_error("Invalid action in test file: " + lastAction);
+    }
+    logRollResults();
     return pairSum;
 }
 
-bool FakeDice::readNextRoll(int *values) {
+bool FakeDice::isValidAction(const string& action) const {
+    return action == ROLL_ACTION || action == STOP_ACTION || action == QUIT_ACTION ||
+           action == "BADSLOT" || action == "DUPSLOT" || action == "BADCHOICE";
+}
+
+void FakeDice::logRollResults() const {
+    cout << "=== TEST MODE ===" << endl;
+    cout << "Dice: ";
+    for (int k = 0; k < 4; ++k) {
+        cout << char('a' + k) << ":" << dieValues[k] << " ";
+    }
+    cout << "\nPairs: " << pairSum[0] << " & " << pairSum[1] << endl;
+    cout << "Action: " << lastAction << endl << endl;
+}
+
+bool FakeDice::readNextRoll(int* values, string& action) {
     string line;
-    if (!getline(file, line)) {return false;}
+    if (!getline(file, line)) return false;
 
     istringstream iss(line);
-    for (int k = 0; k < 4; ++k) {if (!(iss >> values[k])) return false;}
-    return true;
-};
+    for (int k = 0; k < 4; ++k) {
+        if (!(iss >> values[k]) || values[k] < 1 || values[k] > 6) {
+            return false;  //validate die values
+        }
+    }
+    return !!(iss >> action);  // Extract action
+}

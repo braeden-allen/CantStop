@@ -4,9 +4,12 @@
 //----------------------------------------
 #pragma once
 #include "tools.hpp"
-#define FAKE_DICE_FILE "fake_dice.txt"
+#include "exceptions.hpp"
+#define FAKE_DICE_FILE "/home/braeden/CSCI 4526/CantStop/fake_dice.txt"
+#define ROLL_ACTION "ROLL"
+#define STOP_ACTION "STOP"
+#define QUIT_ACTION "QUIT"
 //----------------------------------------
-
 
 using namespace std;
 
@@ -16,8 +19,7 @@ protected:
     int* dieValues;
 public:
     Dice() : Dice(6){} //default constructor
-    Dice(int n);
-    //using virtual to ensure proper clean up after the derived class
+    explicit Dice(int n);
     virtual ~Dice();
     virtual const int* roll();
     ostream& print(ostream& outfile);
@@ -28,10 +30,10 @@ protected:
     int pairTotals[2]{};
 public:
     CSDice();
-    virtual ~CSDice() = default;
+    ~CSDice() override = default;
     const int* roll() override;
 
-    bool validateDiceChars(char d1, char d2) const;
+    [[nodiscard]] bool validateDiceChars(char d1, char d2) const;
 
     void calculatePairs(char d1, char d2);
 };
@@ -40,10 +42,13 @@ class FakeDice : public CSDice {
 private:
     ifstream file;
     int pairSum[2]{};
-    bool readNextRoll(int* values);
+    bool readNextRoll(int* values, string& action);
 public:
     FakeDice();
-    ~FakeDice() override { if (file.is_open()) fatal("File Can't Be Opened");}
+    ~FakeDice() override { if (file.is_open()) file.close();}
     const int* roll() override;
+    string lastAction;
+    void logRollResults() const;
+    bool isValidAction(const string &action) const;
 };
 inline ostream& operator << ( ostream& outfile, Dice& dice){return dice.print(outfile);}
