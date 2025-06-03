@@ -16,7 +16,7 @@ private:
         CList players;
         Dice* dice;
         EGameStatus gameState;
-        const int* currentPairs{}; //last rolled dice pairs
+        const int* currentPairs; //last rolled dice pairs
 
         int printTurnMenu(Player* pp);
         bool handleRoll(Player* pp, int& usedTowers);
